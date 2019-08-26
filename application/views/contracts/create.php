@@ -123,9 +123,9 @@ echo form_open('contracts/create', $attributes); ?>
         <option value='31' selected>31</option>
     </select>
 
-    <label for="default_leave_type"><?php echo lang('contract_create_default_contract_type');?></label>
-    <select name="default_leave_type" id="default_leave_type">
-    <?php foreach ($contract_types as $typeId => $TypeName): ?>
+    <label for="default_leave_type"><?php echo lang('contract_edit_default_leave_type');?></label>
+    <select class="input-xxlarge" name="default_leave_type" id="default_leave_type">
+    <?php foreach ($types as $typeId => $TypeName): ?>
         <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
     <?php endforeach ?>
     </select>

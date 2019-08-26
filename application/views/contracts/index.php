@@ -15,7 +15,7 @@
 <table cellpadding="0" cellspacing="0" border="0" class="display" id="contracts" width="100%">
     <thead>
         <tr>
-            <th style="width: 150px;"><?php echo lang('contract_index_thead_id');?></th>
+            <th><?php echo lang('contract_index_thead_id');?></th>
             <th><?php echo lang('contract_index_thead_name');?></th>
             <th><?php echo lang('contract_index_thead_start');?></th>
             <th><?php echo lang('contract_index_thead_end');?></th>

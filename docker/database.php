@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') or exit('No direct script access allowed');
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
@@ -74,11 +74,11 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost;dbname=jorani',
-	'hostname' => '',
-	'username' => 'root',
-	'password' => 'primelabo',
-	'database' => 'jorani',
+	'dsn' => 'mysql:dbname='.getEnv('MYSQL_DATABASE').';host='.getEnv('MYSQL_HOST'),
+	'hostname' => getEnv('MYSQL_HOST'),
+	'username' => getEnv('MYSQL_USER'),
+	'password' => getEnv('MYSQL_PASSWORD'),
+	'database' => getEnv('MYSQL_DATABASE'),
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

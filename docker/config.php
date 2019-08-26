@@ -1,4 +1,4 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']    = '';
+$config['base_url']	= getEnv('BASE_URL');
 
 if (($config['base_url'] == '')) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
@@ -51,7 +51,7 @@ $config['index_page'] = '';
 | 'ORIG_PATH_INFO'	Uses the ORIG_PATH_INFO
 |
 */
-$config['uri_protocol']    = 'AUTO';
+$config['uri_protocol']	= 'AUTO';
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']    = 'english';
+$config['language']	= 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -114,28 +114,6 @@ $config['enable_hooks'] = FALSE;
 |
 */
 $config['subclass_prefix'] = 'MY_';
-
-/*
-|--------------------------------------------------------------------------
-| Composer auto-loading
-|--------------------------------------------------------------------------
-|
-| Enabling this setting will tell CodeIgniter to look for a Composer
-| package auto-loader script in application/vendor/autoload.php.
-|
-|	$config['composer_autoload'] = TRUE;
-|
-| Or if you have your vendor/ directory located somewhere else, you
-| can opt to set a specific path as well:
-|
-|	$config['composer_autoload'] = '/path/to/vendor/autoload.php';
-|
-| For more information about Composer, please visit https://getcomposer.org/
-|
-| Note: This will NOT disable or override the CodeIgniter-specific
-|	autoloading (application/config/autoload.php)
-*/
-$config['composer_autoload'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -181,11 +159,11 @@ $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
 | use segment based URLs.
 |
 */
-$config['allow_get_array']    = TRUE;
+$config['allow_get_array']	= TRUE;
 $config['enable_query_strings'] = FALSE;
-$config['controller_trigger']    = 'c';
-$config['function_trigger']    = 'm';
-$config['directory_trigger']    = 'd'; // experimental not currently in use
+$config['controller_trigger']	= 'c';
+$config['function_trigger']	= 'm';
+$config['directory_trigger']	= 'd'; // experimental not currently in use
 
 /*
 |--------------------------------------------------------------------------
@@ -304,15 +282,15 @@ $config['encryption_key'] = 'YJ9FljXV4axG7QTzEzbRaUBFwi0FzIls';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_cookie_name']    = 'jorani_session';
+$config['sess_cookie_name']	= 'jorani_session';
 $config['sess_driver'] = 'database';
 $config['sess_save_path'] = NULL;
 $config['sess_regenerate_destroy'] = FALSE;
-$config['sess_expiration']    = 7200;
-$config['sess_use_database']    = FALSE;
-$config['sess_table_name']    = 'ci_sessions';
-$config['sess_match_ip']    = FALSE;
-$config['sess_time_to_update']    = 300;
+$config['sess_expiration']	= 7200;
+$config['sess_use_database']	= FALSE;
+$config['sess_table_name']	= 'ci_sessions';
+$config['sess_match_ip']	= FALSE;
+$config['sess_time_to_update']	= 300;
 
 /*
 |--------------------------------------------------------------------------
@@ -325,10 +303,10 @@ $config['sess_time_to_update']    = 300;
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 |
 */
-$config['cookie_prefix']    = "";
-$config['cookie_domain']    = "";
-$config['cookie_path']        = "/";
-$config['cookie_secure']    = FALSE;
+$config['cookie_prefix']	= "";
+$config['cookie_domain']	= "";
+$config['cookie_path']		= "/";
+$config['cookie_secure']	= FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -353,13 +331,19 @@ $config['global_xss_filtering'] = FALSE;
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-if (isset($_SERVER["REQUEST_URI"])) {
-    if (stripos($_SERVER["REQUEST_URI"], '/api/') === FALSE) {
+if (isset($_SERVER["REQUEST_URI"]))
+{
+    if(stripos($_SERVER["REQUEST_URI"],'/api/') === FALSE)
+    {
         $config['csrf_protection'] = TRUE;
-    } else {
+    }
+    else
+    {
         $config['csrf_protection'] = FALSE;
     }
-} else {
+}
+else
+{
     $config['csrf_protection'] = TRUE;
 }
 $config['csrf_token_name'] = 'csrf_test_jorani';
@@ -437,7 +421,7 @@ $config['proxy_ips'] = '';
 
 //____________________________________________________________________________
 //default email from
-$config['from_mail'] = 'do.not@reply.me';
+$config['from_mail'] = getEnv('FROM_MAIL') ?: 'do.not@reply.me';
 $config['from_name'] = 'Jorani';
 $config['subject_prefix'] = '[Jorani] ';
 
@@ -477,17 +461,17 @@ $config['disallow_requests_without_credit'] = TRUE;
 //____________________________________________________________________________
 //List of available languages. If you limit this list to one language, the list of available languages will be hidden from the login form
 //Beware that regional variant is case sensitivie (e.g. "en-GB" and not "en-gb")
-$config['languages'] = 'en,en-GB,fr,es,nl,de,it,ru,cs,uk,km,fa,vi,tr,zh,el,pt,ar,hu,ca,ro,sk';
+$config['languages'] = 'en,en-GB,fr,es,nl,de,it,ru,cs,uk,km,fa,vi,tr,zh,el,pt,ar,hu,ca,ro';
 
 //If you want to use another font for a specific language, put the font into assets/fonts folder and map as in this example
 //Extra fonts are coming from Google noto font project: https://www.google.com/get/noto/
 $config['fonts'] =
-    array(
-        'km' => array(
+    Array (
+        'km' => Array (
             'name' => 'Noto Sans Khmer',
             'asset' => 'NotoSansKhmer-Regular.ttf',
         ),
-        'fa' => array(
+        'fa' => Array (
             'name' => 'Noto Naskh Arabic',
             'asset' => 'NotoNaskhArabic-Regular.ttf',
         ),
@@ -529,10 +513,10 @@ $config['ldap_search_pattern'] = 'cn=%s';   //Change the pattern, but let %s tha
 
 //____________________________________________________________________________
 //Oauth2 configuration
-$config['oauth2_enabled'] = FALSE;
+$config['oauth2_enabled'] = !!getEnv('OAUTH2_CLIENT_ID');
 $config['oauth2_provider'] = 'google';   //Supported providers: google
-$config['oauth2_client_id'] = '';
-$config['oauth2_client_secret'] = '';
+$config['oauth2_client_id'] = getEnv('OAUTH2_CLIENT_ID');
+$config['oauth2_client_secret'] = getEnv('OAUTH2_CLIENT_SECRET');
 
 //____________________________________________________________________________
 //SAML configuration
