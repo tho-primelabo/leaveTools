@@ -124,8 +124,8 @@ class Contracts extends CI_Controller
             $this->load->model('types_model');
             $data['types'] = $this->types_model->getTypesAsArray();
 
-            $this->load->model('contract_types_model');
-            $data['contract_types'] = $this->contract_types_model->getTypesAsArray();
+            $this->load->model('Contracttypes_model', 'contract_types');
+            $data['contract_types'] = $this->contract_types->getTypesAsArray();
 
             $defaultType = $this->config->item('default_leave_type');
             $defaultType = ($defaultType == FALSE) ? 0 : $defaultType;
