@@ -1,40 +1,29 @@
 <?php
-/**
- * This controller allows to manage the list of leave types
- * @copyright  Copyright (c) 2014-2019 Benjamin BALET
- * @license      http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
- * @link            https://github.com/bbalet/jorani
- * @since         0.1.0
- */
 
-if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /**
  * This class allows to manage the list of leave types
  */
-class Contracttypes extends CI_Controller {
+class Contracttypes extends CI_Controller
+{
 
-    /**
-     * Default constructor
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         setUserContext($this);
-        $this->load->model('contract_types_model');
+        $this->load->model('Contracttypes_model', 'contract_types');
         $this->lang->load('contracttypes', $this->language);
     }
 
-    /**
-     * Display the list of leave types
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function index() {
-		
+    public function index()
+    {
         $this->auth->checkIfOperationIsAllowed('leavetypes_list');
         $data = getUserContext($this);
-        $data['contracttypes'] = $this->contract_types_model->getTypes();
-        $data['title'] = lang('leavetypes_type_title');
+        $data['contracttypes'] = $this->contract_types->getContractTypes();
+        $data['title'] = lang('contracttypes_type_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_edit_leave_type');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -47,7 +36,8 @@ class Contracttypes extends CI_Controller {
      * Display a form that allows adding a leave type
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function create() {
+    public function create()
+    {
         $this->auth->checkIfOperationIsAllowed('leavetypes_create');
         $data = getUserContext($this);
         $this->load->helper('form');
@@ -66,32 +56,30 @@ class Contracttypes extends CI_Controller {
         }
     }
 
-    /**
-     * Display a form that allows editing a leave type
-     * @param int $id Identitier of the leave type
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
-     */
-    public function edit($id) {
-        $this->auth->checkIfOperationIsAllowed('leavetypes_edit');
+    public function edit($id)
+    {
+        $this->auth->checkIfOperationIsAllowed('contracttypes_edit');
         $data = getUserContext($this);
         $this->load->helper('form');
         $this->load->library('form_validation');
-        $data['title'] = lang('leavetypes_popup_update_title');
+        $data['title'] = lang('contracttypes_popup_update_title');
         $data['id'] = $id;
-        $data['leavetypes'] = $this->types_model->getTypes();
-        $data['leavetype'] = $this->types_model->getTypes($id);
+        $data['contracttypes'] = $this->contract_types->getContractTypes();
+        $data['contracttypes'] = $this->contract_types->getContractTypes($id);
 
-        $this->form_validation->set_rules('name', lang('leavetypes_popup_update_field_name'), 'required|strip_tags');
+        $this->form_validation->set_rules('name', lang('contracttypes_popup_update_field_name'), 'required|strip_tags');
 
         if ($this->form_validation->run() === FALSE) {
-            $this->load->view('leavetypes/edit', $data);
+            $this->load->view('contracttypes/edit', $data);
         } else {
-            $this->types_model->updateTypes($id,
-                    $this->input->post('name'),
-                    $this->input->post('deduct_days_off'),
-                    $this->input->post('acronym'));
-            $this->session->set_flashdata('msg', lang('leavetypes_popup_update_flash_msg'));
-            redirect('leavetypes');
+            $this->contract_types->updateContractTypes(
+                $id,
+                $this->input->post('name'),
+                $this->input->post('alias'),
+                $this->input->post('description')
+            );
+            $this->session->set_flashdata('msg', lang('contracttypes_popup_update_flash_msg'));
+            redirect('contracttypes');
         }
     }
 
@@ -100,7 +88,8 @@ class Contracttypes extends CI_Controller {
      * @param int $id leave type identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         $this->auth->checkIfOperationIsAllowed('leavetypes_delete');
         if ($id != 0) {
             if ($this->types_model->usage($id) > 0) {
@@ -119,7 +108,8 @@ class Contracttypes extends CI_Controller {
      * Action: export the list of all leave types into an Excel file
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function export() {
+    public function export()
+    {
         $this->auth->checkIfOperationIsAllowed('leavetypes_export');
         $this->load->view('leavetypes/export');
     }

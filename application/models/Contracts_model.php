@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This class contains the business logic and manages the persistence of contracts
  * @copyright  Copyright (c) 2014-2019 Benjamin BALET
@@ -7,20 +8,22 @@
  * @since         0.1.0
  */
 
-if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /**
  * This class contains the business logic and manages the persistence of contracts.
  */
-class Contracts_model extends CI_Model {
+class Contracts_model extends CI_Model
+{
 
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function __construct() {
-
-    }
+    public function __construct()
+    { }
 
     /**
      * Get the list of contracts or one contract
@@ -28,7 +31,8 @@ class Contracts_model extends CI_Model {
      * @return array records of contracts
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getContracts($id = 0) {
+    public function getContracts($id = 0)
+    {
         if ($id === 0) {
             $this->db->order_by("name", "asc");
             $query = $this->db->get('contracts');
@@ -44,7 +48,8 @@ class Contracts_model extends CI_Model {
      * @return string name of the contract
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getName($id) {
+    public function getName($id)
+    {
         $record = $this->getContracts($id);
         if (!empty($record)) {
             return $record['name'];
@@ -58,11 +63,12 @@ class Contracts_model extends CI_Model {
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function setContracts() {
+    public function setContracts()
+    {
         $startentdate = str_pad($this->input->post('startentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
+            "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
         $endentdate = str_pad($this->input->post('endentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
+            "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
             'name' => $this->input->post('name'),
             'startentdate' => $startentdate,
@@ -77,7 +83,8 @@ class Contracts_model extends CI_Model {
      * @param int $id identifier of the contract
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function deleteContract($id) {
+    public function deleteContract($id)
+    {
         $this->db->delete('contracts', array('id' => $id));
         $this->load->model('users_model');
         $this->load->model('entitleddays_model');
@@ -92,11 +99,12 @@ class Contracts_model extends CI_Model {
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function updateContract() {
+    public function updateContract()
+    {
         $startentdate = str_pad($this->input->post('startentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
+            "/" . str_pad($this->input->post('startentdateday'), 2, "0", STR_PAD_LEFT);
         $endentdate = str_pad($this->input->post('endentdatemonth'), 2, "0", STR_PAD_LEFT) .
-                "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
+            "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
             'name' => $this->input->post('name'),
             'startentdate' => $startentdate,
@@ -117,7 +125,8 @@ class Contracts_model extends CI_Model {
      * @return bool TRUE means that the user has a contract, FALSE otherwise
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getBoundaries($userId, &$startentdate, &$endentdate, $refDate = NULL) {
+    public function getBoundaries($userId, &$startentdate, &$endentdate, $refDate = NULL)
+    {
         $this->db->select('startentdate, endentdate');
         $this->db->from('contracts');
         $this->db->join('users', 'users.contract = contracts.id');
@@ -134,7 +143,7 @@ class Contracts_model extends CI_Model {
 
         if (count($boundaries) != 0) {
             $startmonth = intval(substr($boundaries[0]['startentdate'], 0, 2));
-            if ($startmonth == 1 ) {
+            if ($startmonth == 1) {
                 $startentdate = $refYear . "-" . str_replace("/", "-", $boundaries[0]['startentdate']);
                 $endentdate =  $refYear . "-" . str_replace("/", "-", $boundaries[0]['endentdate']);
             } else {
@@ -157,7 +166,8 @@ class Contracts_model extends CI_Model {
      * @return array list of unused contracts
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function notUsedContracts() {
+    public function notUsedContracts()
+    {
         //SELECT contracts.* FROM `contracts` LEFT OUTER JOIN users ON contracts.id = users.contract
         // WHERE users.contract IS NULL
         $this->db->select('contracts.*');
@@ -172,13 +182,16 @@ class Contracts_model extends CI_Model {
      * @return array Associative array of types (id, name)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getListOfIncludedTypes($id) {
+    public function getListOfIncludedTypes($id)
+    {
         $listOfTypes = array();
         $this->db->select('types.id as id, types.name as name');
         $this->db->from('types');
-        $this->db->join('excluded_types',
-                'excluded_types.type_id = types.id AND excluded_types.contract_id = ' . $this->db->escape($id),
-                'left');
+        $this->db->join(
+            'excluded_types',
+            'excluded_types.type_id = types.id AND excluded_types.contract_id = ' . $this->db->escape($id),
+            'left'
+        );
         $this->db->where('excluded_types.type_id IS NULL');
         $this->db->order_by("types.name", "asc");
         $rows = $this->db->get()->result_array();
@@ -194,7 +207,8 @@ class Contracts_model extends CI_Model {
      * @return array Associative array of types (id, name)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getListOfExcludedTypes($id) {
+    public function getListOfExcludedTypes($id)
+    {
         $listOfTypes = array();
         $this->db->select('types.id as id, types.name as name');
         $this->db->from('excluded_types');
@@ -213,7 +227,8 @@ class Contracts_model extends CI_Model {
      * @param int $id identifier of the contract
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getTypeUsageForContract($id) {
+    public function getTypeUsageForContract($id)
+    {
         //Intit the list usage with zero values
         $usageArray = array();
         $this->load->model('types_model');
@@ -250,7 +265,8 @@ class Contracts_model extends CI_Model {
      * @param int $leaveType identifier of the selected leave type or NULL
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function getLeaveTypesDetailsOTypesForUser($userId, $leaveType = NULL) {
+    public function getLeaveTypesDetailsOTypesForUser($userId, $leaveType = NULL)
+    {
         $this->load->model('users_model');
         $this->load->model('types_model');
         $this->load->model('leaves_model');
@@ -298,7 +314,8 @@ class Contracts_model extends CI_Model {
      * @return string OK: possible or OK impossible to perform the operation
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function excludeLeaveTypeForContract($contractId, $typeId) {
+    public function excludeLeaveTypeForContract($contractId, $typeId)
+    {
         //TODO we should check what is the default type and if it is used by any leave request
         $data = array(
             'contract_id' => $contractId,
@@ -314,7 +331,8 @@ class Contracts_model extends CI_Model {
      * @param int $typeId identifier of the leave type
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function includeLeaveTypeInContract($contractId, $typeId) {
+    public function includeLeaveTypeInContract($contractId, $typeId)
+    {
         $this->db->delete('excluded_types', array('contract_id' => $contractId, 'type_id' => $typeId));
     }
 }
