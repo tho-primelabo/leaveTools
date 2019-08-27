@@ -77,7 +77,7 @@ $db['default'] = array(
 	'dsn'	=> 'mysql:host=localhost;dbname=jorani',
 	'hostname' => '',
 	'username' => 'root',
-	'password' => 'primelabo',
+	'password' => '',
 	'database' => 'jorani',
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
