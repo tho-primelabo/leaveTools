@@ -50,3 +50,5 @@ $lang['contracttypes_type_export_thead_id'] = 'ID';
 $lang['contracttypes_type_export_thead_name'] = 'Name';
 $lang['contracttypes_type_export_thead_acronym'] = 'Acronym';
 $lang['contracttypes_type_export_thead_deduct'] = 'Deduct non working days';
+
+$lang['contract_edit_default_contract_type'] = 'Default contract type';

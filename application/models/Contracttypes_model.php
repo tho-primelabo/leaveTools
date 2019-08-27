@@ -50,7 +50,7 @@ class Contracttypes_model extends CI_Model
         $this->db->order_by('name');
         $rows = $this->db->get()->result_array();
         foreach ($rows as $row) {
-            $listOfTypes[$row['id']] = $row['description'];
+            $listOfTypes[$row['id']] = $row['name'];
         }
         return $listOfTypes;
     }

@@ -31,6 +31,7 @@ class Contracts extends CI_Controller
         parent::__construct();
         setUserContext($this);
         $this->lang->load('contract', $this->language);
+        $this->lang->load('contracttypes', $this->language);
         $this->load->model('contracts_model');
     }
 
