@@ -112,7 +112,8 @@ request a leave even if your credit is negative and because leave balance report
 - [] user thông thường ko có chức năng accepted, rejected và Cancelation
 - [] thêm chu'c năng book phòng hợp
 - [] kiểm tra requested và plan bị duplicated 
-- [] error khi run http://leavetool//requests/createleave/3
+- [] error vì giá trị leave type ko thay đổi sau khi listbox http://leavetool//requests/createleave/2
+- [] phân quyền bi sai khi login bằng admin
 # Impacts
 
 ## Fullcalendar
