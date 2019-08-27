@@ -37,7 +37,7 @@ $this->lang->load('menu', $language);
         <ul class="nav">
           <li><a href="<?php echo base_url(); ?>leaves" title="<?php echo lang('menu_leaves_list_requests'); ?>"><i class="mdi mdi-format-list-bulleted"></i></a></li>
 
-          <?php if (($is_hr == TRUE) || ($is_admin == TRUE)) { ?>
+          <?php if ($is_admin == TRUE) { ?>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_admin_title'); ?> <b class="caret"></b></a>
             <ul class="dropdown-menu">
