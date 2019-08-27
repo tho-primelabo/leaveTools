@@ -152,6 +152,13 @@ class Auth {
             case 'leavetypes_export' :
             case 'leavetypes_create' :
             case 'leavetypes_edit' :
+            //+1
+            case 'contracttypes_delete' :
+            case 'contracttypes_list' :
+            case 'contracttypes_export' :
+            case 'contracttypes_create' :
+            case 'contracttypes_edit' :
+
             case 'entitleddays_user' :
             case 'entitleddays_user_delete' :
             case 'entitleddays_contract' :

@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /*
 | -------------------------------------------------------------------------
 | URI ROUTING
@@ -37,7 +37,8 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-
+$route['migrate'] = 'migrate/index';
+$route['migrate/version/(:num)'] = 'migrate/version/$1';
 //_______________________________________________
 //Admin : global features
 $route['admin/qrcode'] = 'admin/qrCode';
