@@ -108,12 +108,19 @@ request a leave even if your credit is negative and because leave balance report
 
 ## Mở rộng
 
-- [] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
-- [] user thông thường ko có chức năng accepted, rejected và Cancelation
-- [] thêm chu'c năng book phòng hợp
-- [] kiểm tra requested và plan bị duplicated 
-- [] error vì giá trị leave type ko thay đổi sau khi listbox http://leavetool//requests/createleave/2
-- [] phân quyền bi sai khi login bằng admin
+- [ ] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
+- [ ] user thông thường ko có chức năng accepted, rejected và Cancelation
+- [ ] thêm chu'c năng book phòng hợp
+- [ ] kiểm tra requested và plan bị duplicated time
+- [ ] error vì giá trị leave type ko thay đổi sau khi listbox http://leavetool//requests/createleave/2
+- [ ] phân quyền bi sai khi login bằng admin
+- [ ] validate tren form không dùng popup để báo lỗi
+- [ ] edit field type contract giong' như tạo contract moi'
+- [ ] dùng calendar thay cho ngày thang' bắt đầu và kết thức contract
+- [ ] remove icon trong login form
+- [ ] thay dổi icon trang web url
+- [ ] user ko thể thay dổi requested khi đã dc accepted
+
 # Impacts
 
 ## Fullcalendar
