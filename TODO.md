@@ -106,7 +106,7 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] PDF Export (no serious OSS PDF lib dealing correctly with Unicode / Modern browsers can print as PDF).
 - [ ] Migration to CI 3.0.0 (we don't rely too much on the library, so it has no interrest and it is slower than v2).
 
-## Mở rộng
+## Thole
 
 - [ ] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
 - [ ] user thông thường ko có chức năng accepted, rejected và Cancelation
@@ -120,6 +120,10 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] remove icon trong login form
 - [ ] thay dổi icon trang web url
 - [ ] user ko thể thay dổi requested khi đã dc accepted
+
+## TBinh
+
+- [ ] Thêm chức năng quản lý Role
 
 # Impacts
 
