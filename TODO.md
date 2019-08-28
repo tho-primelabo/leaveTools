@@ -108,7 +108,7 @@ request a leave even if your credit is negative and because leave balance report
 
 ## Mở rộng
 
-- [ ] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
+- [X] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
 - [ ] user thông thường ko có chức năng accepted, rejected và Cancelation
 - [ ] thêm chu'c năng book phòng hợp
 - [ ] kiểm tra requested và plan bị duplicated time
