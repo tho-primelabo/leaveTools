@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This helper contains a list of functions used throughout the application
  * @copyright  Copyright (c) 2014-2019 Benjamin BALET
@@ -6,8 +7,9 @@
  * @link            https://github.com/bbalet/jorani
  * @since         0.2.0
  */
-
-if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
+if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
 /**
  * Check if user is connected, redirect to login form otherwise
@@ -46,15 +48,14 @@ function setUserContext(CI_Controller $controller) {
  * @return array data to be passed to the view
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function getUserContext(CI_Controller $controller)
-{
+function getUserContext(CI_Controller $controller) {
     $data['fullname'] = $controller->fullname;
     $data['is_manager'] = $controller->is_manager;
     $data['is_admin'] = $controller->is_admin;
     $data['is_hr'] = $controller->is_hr;
-    $data['user_id'] =  $controller->user_id;
+    $data['user_id'] = $controller->user_id;
     $data['language'] = $controller->session->userdata('language');
-    $data['language_code'] =  $controller->session->userdata('language_code');
+    $data['language_code'] = $controller->session->userdata('language_code');
     if ($controller->is_manager === TRUE) {
         $controller->load->model('leaves_model');
         $data['requested_leaves_count'] = $controller->leaves_model->countLeavesRequestedToManager($controller->user_id);
@@ -88,11 +89,10 @@ function getCIUserContext() {
  * @return string value where problematic characters have been removed
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function sanitize($value)
-{
+function sanitize($value) {
     $value = trim($value);
-    $value = str_replace('\\','',$value);
-    $value = strtr($value,array_flip(get_html_translation_table(HTML_ENTITIES)));
+    $value = str_replace('\\', '', $value);
+    $value = strtr($value, array_flip(get_html_translation_table(HTML_ENTITIES)));
     $value = strip_tags($value);
     $value = htmlspecialchars($value);
     return $value;
@@ -107,19 +107,18 @@ function sanitize($value)
  * @param string $cc (optional) Copied to recipients
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function sendMailByWrapper(CI_Controller $controller, $subject, $message, $to, $cc = NULL)
-{
+function sendMailByWrapper(CI_Controller $controller, $subject, $message, $to, $cc = NULL) {
     $controller->load->library('email');
     if ($controller->config->item('subject_prefix') !== NULL) {
         $controller->email->subject($controller->config->item('subject_prefix') . ' ' . $subject);
     } else {
-       $controller->email->subject('[Jorani] ' . $subject);
+        $controller->email->subject('[Jorani] ' . $subject);
     }
     $controller->email->set_encoding('quoted-printable');
     if (($controller->config->item('from_mail') !== NULL) && ($controller->config->item('from_name') !== NULL)) {
         $controller->email->from($controller->config->item('from_mail'), $controller->config->item('from_name'));
     } else {
-       $controller->email->from('do.not@reply.me', 'LMS');
+        $controller->email->from('do.not@reply.me', 'LMS');
     }
     $controller->email->to($to);
     if (!is_null($cc)) {
@@ -134,9 +133,8 @@ function sendMailByWrapper(CI_Controller $controller, $subject, $message, $to, $
  * @param $spreadsheet reference to the spreadsheet to be exported
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function writeSpreadsheet(&$spreadsheet)
-{
-    $CI =& get_instance();
+function writeSpreadsheet(&$spreadsheet) {
+    $CI = & get_instance();
     $format = 'xlsx';
     $objWriter = NULL;
     if (in_array($CI->config->item('spreadsheet_format'), array('ods', 'xlsx'))) {
@@ -174,13 +172,13 @@ function columnName($number) {
     if ($number < 27) {
         return substr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", $number - 1, 1);
     } else {
-        return substr("AAABACADAEAFAGAHAIAJAKALAMANAOAPAQARASATAUAVAWAXAYAZ", (($number -27) * 2), 2);
+        return substr("AAABACADAEAFAGAHAIAJAKALAMANAOAPAQARASATAUAVAWAXAYAZ", (($number - 27) * 2), 2);
     }
 }
 
 //Function cal_days_in_month might not exist with HHVM and FreeBSD without proper config
-if (!function_exists('cal_days_in_month'))
-{
+if (!function_exists('cal_days_in_month')) {
+
     /**
      * Alternative implementation of cal_days_in_month function
      * @param int $calendar calendar number
@@ -199,6 +197,7 @@ if (!function_exists('cal_days_in_month'))
             return 28;
         return 0; // error
     }
+
 }
 
 if (!defined('CAL_GREGORIAN'))

@@ -15,12 +15,11 @@ application/temp/*
 /application/language/extract.php
 /application/language/test.txt
 /.sonar/
-
 /.vscode/
-
 /vendor/
-
 /node_modules/
 /assets/js/app.js
 /assets/css/app.css
-/config/database.php
+/application/config/database.php
+/application/config/email.php
+/nbproject/*

@@ -106,9 +106,9 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] PDF Export (no serious OSS PDF lib dealing correctly with Unicode / Modern browsers can print as PDF).
 - [ ] Migration to CI 3.0.0 (we don't rely too much on the library, so it has no interrest and it is slower than v2).
 
-## Mở rộng
+## Thole
 
-- [ ] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
+- [X] không cho chọn t/g trong quá khứ de submit cho chức năng Plan và Request 
 - [ ] user thông thường ko có chức năng accepted, rejected và Cancelation
 - [ ] thêm chu'c năng book phòng hợp
 - [ ] kiểm tra requested và plan bị duplicated time
@@ -124,6 +124,10 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] gom 2 button plan và requested thành 1 button submit khi tạo và edit request ( http://leavetool//leaves/create or http://leavetool//leaves/edit/1)
 - [ ] them page để user update info
 - [ ] thêm field tồng số phép còn lại trong năm tren page user Info 
+
+## TBinh
+
+- [ ] Thêm chức năng quản lý Role
 
 # Impacts
 
