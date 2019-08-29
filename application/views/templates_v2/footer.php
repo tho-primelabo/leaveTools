@@ -1,35 +1,10 @@
-<?php
-
-/**
- * This view is included into all desktop full views. It contains the footer of the application.
- * @copyright  Copyright (c) 2014-2019 Benjamin BALET
- * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
- * @link       https://github.com/bbalet/jorani
- * @since      0.1.0
- */
-?>
-
-</div><!-- /container -->
-<div id="push"></div>
-</div><!-- /wrap -->
-<!-- FOOTER -->
-<div class="row" id="footer">
-    <div class="span8 pull-left" id="rum_info">
-        &nbsp;
-    </div>
-    <div class="span4 pull-right">
-        <?php switch ($language_code) {
-            case 'fr':
-                echo '<a class="anchor" href="http://primelabo.com.vn/" target="_blank">PrimeLabo</a>';
-                break;
-            default:
-                echo '<a class="anchor" href="http://primelabo.com.vn/" target="_blank">PrimeLabo</a>';
-                break;
-        } ?>
-        &nbsp;Copy Right 2019
-    </div>
-</div>
-</div>
+<footer class="logo-sfdc">
+    <ul class="legal">
+        <li><a href="">Terms of Service</a></li>
+        <li><a href="">Privacy</a></li>
+        <li>© 2019 PrimeLabo</li>
+    </ul>
+</footer>
 <!--Minimal profiling info //-->
 <?php
 if ($this->config->item("enable_apm_rum")) {
