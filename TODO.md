@@ -120,6 +120,10 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] remove icon trong login form
 - [ ] thay dổi icon trang web url
 - [ ] user ko thể thay dổi requested khi đã dc accepted
+- [ ] format đơn vị cho field "duration" http://leavetool//leaves và history popup ( khi click popup icon trong table)
+- [ ] gom 2 button plan và requested thành 1 button submit khi tạo và edit request ( http://leavetool//leaves/create or http://leavetool//leaves/edit/1)
+- [ ] them page để user update info
+- [ ] thêm field tồng số phép còn lại trong năm tren page user Info 
 
 # Impacts
 
