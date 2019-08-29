@@ -124,6 +124,9 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] gom 2 button plan và requested thành 1 button submit khi tạo và edit request ( http://leavetool//leaves/create or http://leavetool//leaves/edit/1)
 - [ ] them page để user update info
 - [ ] thêm field tồng số phép còn lại trong năm tren page user Info 
+- [ ] khi request of user được approval thi so' phép trong năm bị trừ đi
+- [ ] thêm form cho tạo mới contract type
+- [ ] trong sub-menu HR (list of employees) show hết các user ngoại trừ role admin
 
 ## TBinh
 
