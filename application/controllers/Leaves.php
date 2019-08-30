@@ -19,15 +19,13 @@ require_once FCPATH . "local/triggers/leave.php";
  * Since 0.4.3 a trigger is called at the creation, if the function triggerCreateLeaveRequest is defined
  * see content of /local/triggers/leave.php
  */
-class Leaves extends CI_Controller
-{
+class Leaves extends CI_Controller {
 
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
         setUserContext($this);
         $this->load->model('leaves_model');
@@ -40,16 +38,15 @@ class Leaves extends CI_Controller
      * Display the list of the leave requests of the connected user
      * @author Lee Peace <songviytuong@gmail.com>
      */
-    public function index()
-    {
+    public function index() {
         $this->auth->checkIfOperationIsAllowed('list_leaves');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
         if ($this->config->item('enable_history') == TRUE) {
             $leaves = $this->leaves_model->getLeavesOfEmployeeWithHistory($this->session->userdata('id'));
-            foreach($leaves as $k=> $leave){
-                $leaves[$k]['duration'] = number_format($leave['duration'],1);
-            }
+//            foreach ($leaves as $k => $leave) {
+//                $leaves[$k]['duration'] = number_format($leave['duration'], 1);
+//            }
             $data['leaves'] = $leaves;
         } else {
             $data['leaves'] = $this->leaves_model->getLeavesOfEmployee($this->session->userdata('id'));
@@ -69,8 +66,7 @@ class Leaves extends CI_Controller
      * @param int $id Identifier of the leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function history($id)
-    {
+    public function history($id) {
         $this->auth->checkIfOperationIsAllowed('list_leaves');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
@@ -85,8 +81,7 @@ class Leaves extends CI_Controller
      * @param string $refDate Date (e.g. 2011-10-05)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function counters($refDate = NULL)
-    {
+    public function counters($refDate = NULL) {
         $this->auth->checkIfOperationIsAllowed('counters_leaves');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
@@ -118,8 +113,7 @@ class Leaves extends CI_Controller
      * @param int $id identifier of the leave request
      * @author Lee Peace <songviytuong@gmail.com>
      */
-    public function view($source, $id)
-    {
+    public function view($source, $id) {
         $this->auth->checkIfOperationIsAllowed('view_leaves');
         $this->load->model('users_model');
         $this->load->model('status_model');
@@ -162,7 +156,8 @@ class Leaves extends CI_Controller
             $data['name'] = '';
         }
         if (isset($data["leave"]["comments"])) {
-            $last_comment = new stdClass();;
+            $last_comment = new stdClass();
+            ;
             foreach ($data["leave"]["comments"]->comments as $comments_item) {
                 if ($comments_item->type == "comment") {
                     $comments_item->author = $this->users_model->getName($comments_item->author);
@@ -187,8 +182,7 @@ class Leaves extends CI_Controller
      * @param string $source Page where we redirect after posting
      * @author Emilien NICOLAS <milihhard1996@gmail.com>
      */
-    public function createComment($id, $source = "leaves/leaves")
-    {
+    public function createComment($id, $source = "leaves/leaves") {
         $this->auth->checkIfOperationIsAllowed('view_leaves');
         $data = getUserContext($this);
         $oldComment = $this->leaves_model->getCommentsLeave($id);
@@ -215,8 +209,7 @@ class Leaves extends CI_Controller
      * Create a leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function create()
-    {
+    public function create() {
         $this->auth->checkIfOperationIsAllowed('create_leaves');
         $data = getUserContext($this);
         $this->load->helper('form');
@@ -248,7 +241,7 @@ class Leaves extends CI_Controller
             if (!$this->is_hr && !$this->is_admin) {
                 if ($this->input->post('status') > LMS_REQUESTED) {
                     log_message('error', 'User #' . $this->session->userdata('id') .
-                        ' tried to submit a LR with an wrong status = ' . $this->input->post('status'));
+                            ' tried to submit a LR with an wrong status = ' . $this->input->post('status'));
                     $_POST['status'] = LMS_REQUESTED;
                 }
             }
@@ -259,7 +252,7 @@ class Leaves extends CI_Controller
             $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->userdata('id'));
             if (!array_key_exists($this->input->post('type'), $leaveTypesDetails->types)) {
                 log_message('error', 'User #' . $this->session->userdata('id') . ' tried to submit an wrong LR type = ' .
-                    $this->input->post('type'));
+                        $this->input->post('type'));
                 $_POST['type'] = $leaveTypesDetails->defaultType;
                 log_message('debug', 'LR type forced to ' . $leaveTypesDetails->defaultType);
             }
@@ -287,8 +280,7 @@ class Leaves extends CI_Controller
      * @param int $id Identifier of the leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function edit($id)
-    {
+    public function edit($id) {
         $this->auth->checkIfOperationIsAllowed('edit_leaves');
         $this->load->model('users_model');
         $this->load->model('status_model');
@@ -302,11 +294,11 @@ class Leaves extends CI_Controller
         //already requested, the employee can't modify it
         if (!$this->is_hr) {
             if (($this->session->userdata('manager') != $this->user_id) &&
-                $data['leave']['status'] != LMS_PLANNED
+                    $data['leave']['status'] != LMS_PLANNED
             ) {
                 if (
-                    $this->config->item('edit_rejected_requests') == FALSE ||
-                    $data['leave']['status'] != LMS_REJECTED
+                        $this->config->item('edit_rejected_requests') == FALSE ||
+                        $data['leave']['status'] != LMS_REJECTED
                 ) { //Configuration switch that allows editing the rejected leave requests
                     log_message('error', 'User #' . $this->user_id . ' illegally tried to edit leave #' . $id);
                     $this->session->set_flashdata('msg', lang('leaves_edit_flash_msg_error'));
@@ -359,12 +351,12 @@ class Leaves extends CI_Controller
             if (!$this->is_hr && !$this->is_admin) {
                 if ($this->input->post('status') == LMS_ACCEPTED) {
                     log_message('error', 'User #' . $this->session->userdata('id') .
-                        ' tried to submit a LR with an wrong status = ' . $this->input->post('status'));
+                            ' tried to submit a LR with an wrong status = ' . $this->input->post('status'));
                     $_POST['status'] = LMS_REQUESTED;
                 }
                 if ($this->input->post('status') == LMS_CANCELED) {
                     log_message('error', 'User #' . $this->session->userdata('id') .
-                        ' tried to submit a LR with an wrong status = ' . $this->input->post('status'));
+                            ' tried to submit a LR with an wrong status = ' . $this->input->post('status'));
                     $_POST['status'] = LMS_CANCELLATION;
                 }
             }
@@ -375,7 +367,7 @@ class Leaves extends CI_Controller
             $leaveTypesDetails = $this->contracts_model->getLeaveTypesDetailsOTypesForUser($this->session->userdata('id'));
             if (!array_key_exists($this->input->post('type'), $leaveTypesDetails->types)) {
                 log_message('error', 'User #' . $this->session->userdata('id') . ' tried to submit an wrong LR type = ' .
-                    $this->input->post('type'));
+                        $this->input->post('type'));
                 $_POST['type'] = $leaveTypesDetails->defaultType;
                 log_message('debug', 'LR type forced to ' . $leaveTypesDetails->defaultType);
             }
@@ -402,8 +394,7 @@ class Leaves extends CI_Controller
      * @param int $id id of the leave
      * @author Emilien NICOLAS <milihhard1996@gmail.com>
      */
-    public function requestLeave($id)
-    {
+    public function requestLeave($id) {
         $leave = $this->leaves_model->getLeaves($id);
         if (empty($leave)) {
             redirect('notfound');
@@ -432,8 +423,7 @@ class Leaves extends CI_Controller
      * @param int $id Identifier of the leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function reminder($id)
-    {
+    public function reminder($id) {
         $this->auth->checkIfOperationIsAllowed('create_leaves');
         $data = getUserContext($this);
         $leave = $this->leaves_model->getLeaves($id);
@@ -459,8 +449,7 @@ class Leaves extends CI_Controller
      * @param int $reminder In case where the employee wants to send a reminder
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    private function sendMailOnLeaveRequestCreation($id, $reminder = FALSE)
-    {
+    private function sendMailOnLeaveRequestCreation($id, $reminder = FALSE) {
         $this->load->model('users_model');
         $this->load->model('types_model');
         $this->load->model('delegations_model');
@@ -483,8 +472,8 @@ class Leaves extends CI_Controller
 
             if ($reminder) {
                 $this->sendGenericMail($leave, $user, $manager, $lang_mail, $lang_mail->line('email_leave_request_reminder') . ' ' .
-                    $lang_mail->line('email_leave_request_creation_title'), $lang_mail->line('email_leave_request_reminder') . ' ' .
-                    $lang_mail->line('email_leave_request_creation_subject'), 'request');
+                        $lang_mail->line('email_leave_request_creation_title'), $lang_mail->line('email_leave_request_reminder') . ' ' .
+                        $lang_mail->line('email_leave_request_creation_subject'), 'request');
             } else {
                 $this->sendGenericMail($leave, $user, $manager, $lang_mail, $lang_mail->line('email_leave_request_creation_title'), $lang_mail->line('email_leave_request_creation_subject'), 'request');
             }
@@ -497,8 +486,7 @@ class Leaves extends CI_Controller
      * @param int $id Leave request identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    private function sendMailOnLeaveRequestCanceled($id)
-    {
+    private function sendMailOnLeaveRequestCanceled($id) {
         $this->load->model('users_model');
         $this->load->model('types_model');
         $this->load->model('delegations_model');
@@ -530,8 +518,7 @@ class Leaves extends CI_Controller
      * @param int $reminder In case where the employee wants to send a reminder
      * @author Guillaume Blaquiere <guillaume.blaquiere@gmail.com>
      */
-    private function sendMailOnLeaveRequestCancellation($id, $reminder = FALSE)
-    {
+    private function sendMailOnLeaveRequestCancellation($id, $reminder = FALSE) {
         $this->load->model('users_model');
         $this->load->model('types_model');
         $this->load->model('delegations_model');
@@ -554,8 +541,8 @@ class Leaves extends CI_Controller
 
             if ($reminder) {
                 $this->sendGenericMail($leave, $user, $manager, $lang_mail, $lang_mail->line('email_leave_request_reminder') . ' ' .
-                    $lang_mail->line('email_leave_request_cancellation_title'), $lang_mail->line('email_leave_request_reminder') . ' ' .
-                    $lang_mail->line('email_leave_request_cancellation_subject'), 'request');
+                        $lang_mail->line('email_leave_request_cancellation_title'), $lang_mail->line('email_leave_request_reminder') . ' ' .
+                        $lang_mail->line('email_leave_request_cancellation_subject'), 'request');
             } else {
                 $this->sendGenericMail($leave, $user, $manager, $lang_mail, $lang_mail->line('email_leave_request_cancellation_title'), $lang_mail->line('email_leave_request_cancellation_subject'), 'cancel');
             }
@@ -574,8 +561,7 @@ class Leaves extends CI_Controller
      * @author Guillaume Blaquiere <guillaume.blaquiere@gmail.com>
      *
      */
-    private function sendGenericMail($leave, $user, $manager, $lang_mail, $title, $detailledSubject, $emailModel)
-    {
+    private function sendGenericMail($leave, $user, $manager, $lang_mail, $title, $detailledSubject, $emailModel) {
 
         $date = new DateTime($leave['startdate']);
         $startdate = $date->format($lang_mail->line('global_date_format'));
@@ -630,8 +616,7 @@ class Leaves extends CI_Controller
      * @param int $id identifier of the leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function delete($id)
-    {
+    public function delete($id) {
         $can_delete = FALSE;
         //Test if the leave request exists
         $leaves = $this->leaves_model->getLeaves($id);
@@ -642,13 +627,13 @@ class Leaves extends CI_Controller
                 $can_delete = TRUE;
             } else {
                 if (($leaves['status'] == LMS_PLANNED) &&
-                    $leaves['employee'] == $this->user_id
+                        $leaves['employee'] == $this->user_id
                 ) {
                     $can_delete = TRUE;
                 }
                 if (
-                    $this->config->item('delete_rejected_requests') == TRUE ||
-                    $leaves['status'] == LMS_REJECTED
+                        $this->config->item('delete_rejected_requests') == TRUE ||
+                        $leaves['status'] == LMS_REJECTED
                 ) {
                     $can_delete = TRUE;
                 }
@@ -682,8 +667,7 @@ class Leaves extends CI_Controller
      * @param int $id identifier of the leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function cancellation($id)
-    {
+    public function cancellation($id) {
         //Test if the leave request exists
         $leave = $this->leaves_model->getLeaves($id);
         if (empty($leave)) {
@@ -715,8 +699,7 @@ class Leaves extends CI_Controller
      * @param int $id identifier of the leave request
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function cancel($id)
-    {
+    public function cancel($id) {
         //Test if the leave request exists
         $leave = $this->leaves_model->getLeaves($id);
         if (empty($leave)) {
@@ -744,8 +727,7 @@ class Leaves extends CI_Controller
      * Export the list of all leaves into an Excel file
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function export()
-    {
+    public function export() {
         $this->load->view('leaves/export');
     }
 
@@ -754,8 +736,7 @@ class Leaves extends CI_Controller
      * @param int $id employee id or connected user (from session)
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function individual($id = 0)
-    {
+    public function individual($id = 0) {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
@@ -768,8 +749,7 @@ class Leaves extends CI_Controller
      * Ajax endpoint : Send a list of fullcalendar events
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function workmates()
-    {
+    public function workmates() {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
@@ -780,8 +760,7 @@ class Leaves extends CI_Controller
      * Ajax endpoint : Send a list of fullcalendar events
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function collaborators()
-    {
+    public function collaborators() {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
@@ -793,8 +772,7 @@ class Leaves extends CI_Controller
      * @param int $entity_id Entity identifier
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function organization($entity_id)
-    {
+    public function organization($entity_id) {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
@@ -808,8 +786,7 @@ class Leaves extends CI_Controller
      * @param int $list_id List identifier
      * @author Emilien NICOLAS <milihhard1996@gmail.com>
      */
-    public function listEvents($list_id)
-    {
+    public function listEvents($list_id) {
         header("Content-Type: application/json");
         $start = $this->input->get('start', TRUE);
         $end = $this->input->get('end', TRUE);
@@ -821,8 +798,7 @@ class Leaves extends CI_Controller
      * Ajax endpoint : Send a list of fullcalendar events
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function department()
-    {
+    public function department() {
         header("Content-Type: application/json");
         $this->load->model('organization_model');
         $department = $this->organization_model->getDepartment($this->user_id);
@@ -839,8 +815,7 @@ class Leaves extends CI_Controller
      *  If the user is linked to a contract, returns end date of the yearly leave period or NULL
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function validate()
-    {
+    public function validate() {
         header("Content-Type: application/json");
         $id = $this->input->post('id', TRUE);
         $type = $this->input->post('type', TRUE);
@@ -904,4 +879,5 @@ class Leaves extends CI_Controller
 
         echo json_encode($leaveValidator);
     }
+
 }
