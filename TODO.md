@@ -126,6 +126,7 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] khi request of user được approval thi so' phép trong năm bị trừ đi
 - [ ] thêm form cho tạo mới contract type
 - [ ] add field department trong page dăng ky' user moi'
+- [ ] check chức năng send mail "send a reminder": gửi mail toi' người quản ly' of user tương ung'
 
 ## TBinh
 
