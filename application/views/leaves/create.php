@@ -24,7 +24,7 @@
             <?php echo lang('leaves_create_field_type'); ?>
             &nbsp;<span class="muted" id="lblCredit"><?php if (!is_null($credit)) { ?>(<?php echo $credit; ?>)<?php } ?></span>
         </label>
-        <select class="input-xxlarge" name="type" id="type">
+        <select class="input-large" name="type" id="type">
             <?php foreach ($types as $typeId => $TypeName): ?>
                 <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
             <?php endforeach ?>
@@ -73,12 +73,13 @@
         <label for="cause"><?php echo lang('leaves_create_field_cause'); ?></label>
         <textarea name="cause"><?php echo set_value('cause'); ?></textarea>
 
+        <label for="status" required><?php echo lang('extra_create_field_status');?></label>
+        <select name="status">
+            <option value="1"><?php echo lang('Planned');?></option>
+            <option value="2"><?php echo lang('Requested');?></option>
+        </select>
         <br/><br/>
-        <button name="status" value="1" type="submit" class="btn btn-primary"><i class="mdi mdi-calendar-question" aria-hidden="true"></i>&nbsp; <?php echo lang('Planned'); ?></button>
-        &nbsp;&nbsp;
-        <button name="status" value="2" type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('Requested'); ?></button>
-        <br/><br/>
-        <a href="<?php echo base_url(); ?>leaves" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('leaves_create_button_cancel'); ?></a>
+        <button type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; Create</button> <a href="<?php echo base_url(); ?>leaves" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('leaves_create_button_cancel'); ?></a>
         </form>
 
     </div>

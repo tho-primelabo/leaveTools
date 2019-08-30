@@ -53,7 +53,7 @@ switch ($leave['status']) {
       <a href="<?php echo base_url();?>leaves/request/<?php echo $leave['id'] ?>/" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('Requested');?></a>
       <br/><br/>
     <?php } ?>
-    <?php if ($leave['status'] == LMS_ACCEPTED) { ?>
+    <?php if ($leave['status'] != LMS_ACCEPTED) { ?>
       <a href="<?php echo base_url();?>leaves/cancellation/<?php echo $leave['id'] ?>" class="btn btn-primary"><i class="mdi mdi-undo"></i>&nbsp;<?php echo lang('Cancellation');?></a>
       <br/><br/>
     <?php } ?>

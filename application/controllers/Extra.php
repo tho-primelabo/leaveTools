@@ -99,7 +99,7 @@ class Extra extends CI_Controller {
 
     /**
      * Create an overtime request
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     * @author Lee Peace <songviytuong@gmail.com>
      */
     public function create() {
         $this->auth->checkIfOperationIsAllowed('create_extra');
