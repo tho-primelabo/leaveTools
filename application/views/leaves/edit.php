@@ -28,7 +28,7 @@ if (isset($_GET['source'])) {
         <?php echo lang('leaves_edit_field_type');?>
         &nbsp;<span class="muted" id="lblCredit"><?php if (!is_null($credit)) { ?>(<?php echo $credit; ?>)<?php } ?></span>
     </label>
-    <select class="input-xxlarge" name="type" id="type">
+    <select class="input-" name="type" id="type">
     <?php foreach ($types as $typeId => $TypeName): ?>
         <option value="<?php echo $typeId; ?>" <?php if ($typeId == $leave['type']) echo "selected"; ?>><?php echo $TypeName; ?></option>
     <?php endforeach ?>
@@ -96,22 +96,19 @@ if (isset($_GET['source'])) {
     </select>
     <?php } else { ?>
     <label for="status"><?php echo lang('leaves_edit_field_status');?></label>
-    <select name="status" class="<?php echo $style; ?>">
+    <select name="status">
         <option value="1" <?php if ($leave['status'] == LMS_PLANNED) echo 'selected'; ?>><?php echo lang('Planned');?></option>
-        <option value="2" <?php if (($leave['status'] == LMS_REQUESTED) || $this->config->item('leave_status_requested')) echo 'selected'; ?>><?php echo lang('Requested');?></option>
+        <option value="2" <?php if ($leave['status'] == LMS_REQUESTED) echo 'selected'; ?>><?php echo lang('Requested');?></option>
     </select>
     <br/>
+    <!--
     <button name="status" value="1" type="submit" class="btn btn-primary"><i class="mdi mdi-calendar-question" aria-hidden="true"></i>&nbsp; <?php echo lang('Planned');?></button>
     &nbsp;&nbsp;
     <button name="status" value="2" type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('Requested');?></button>
-    <br/>
+    <br/-->
     <?php } ?>
     <br />
-
-    <?php if ($is_hr) {?>
-    <button type="submit" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('leaves_edit_button_update');?></button>&nbsp;
-    <?php } ?>
-
+    <button type="submit" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('update');?></button>&nbsp;
     <?php if (isset($_GET['source'])) {?>
         <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('leaves_edit_button_cancel');?></a>
     <?php } else {?>
