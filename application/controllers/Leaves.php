@@ -38,7 +38,7 @@ class Leaves extends CI_Controller
 
     /**
      * Display the list of the leave requests of the connected user
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     * @author Lee Peace <songviytuong@gmail.com>
      */
     public function index()
     {
@@ -112,7 +112,7 @@ class Leaves extends CI_Controller
      * Display a leave request
      * @param string $source Page source (leaves, requests) (self, manager)
      * @param int $id identifier of the leave request
-     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     * @author Lee Peace <songviytuong@gmail.com>
      */
     public function view($source, $id)
     {
