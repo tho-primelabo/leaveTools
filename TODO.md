@@ -125,7 +125,7 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] thêm field tồng số phép còn lại trong năm tren page user Info 
 - [ ] khi request of user được approval thi so' phép trong năm bị trừ đi
 - [ ] thêm form cho tạo mới contract type
-- [ ] trong sub-menu HR (list of employees) show hết các user ngoại trừ role admin
+- [ ] add field department trong page dăng ky' user moi'
 
 ## TBinh
 

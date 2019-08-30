@@ -437,9 +437,9 @@ $config['proxy_ips'] = '';
 
 //____________________________________________________________________________
 //default email from
-$config['from_mail'] = 'do.not@reply.me';
-$config['from_name'] = 'Jorani';
-$config['subject_prefix'] = '[Jorani] ';
+$config['from_mail'] = 'thole419@gmail.com';
+$config['from_name'] = 'admin';
+$config['subject_prefix'] = '[admin] ';
 
 //____________________________________________________________________________
 //User management
