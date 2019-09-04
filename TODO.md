@@ -127,6 +127,7 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] thêm form cho tạo mới contract type
 - [ ] add field department trong page dăng ky' user moi'
 - [ ] check chức năng send mail "send a reminder": gửi mail toi' người quản ly' of user tương ung'
+- [ ] login bằng user general và bỏ bot' cai' status list box  khi tạo new submit request http://leavetool//requests/createleave/7
 
 ## TBinh
 

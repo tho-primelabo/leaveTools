@@ -108,7 +108,7 @@ if (isset($_GET['source'])) {
     <br/-->
     <?php } ?>
     <br />
-    <button type="submit" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('update');?></button>&nbsp;
+    <button type="submit" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('leaves_edit_button_update');?></button>&nbsp;
     <?php if (isset($_GET['source'])) {?>
         <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('leaves_edit_button_cancel');?></a>
     <?php } else {?>
@@ -255,6 +255,24 @@ function keyAllowed(key) {
 }
 
 $(function () {
+	$("#viz_startdate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: '<?php echo lang('global_date_js_format');?>',
+            altFormat: "yy-mm-dd",
+            altField: "#date",
+			minDate: 0
+			
+        }, $.datepicker.regional['<?php echo $language_code;?>']);
+	$("#viz_enddate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: '<?php echo lang('global_date_js_format');?>',
+            altFormat: "yy-mm-dd",
+            altField: "#date",
+			minDate: 0
+			
+        }, $.datepicker.regional['<?php echo $language_code;?>']);
     //Selectize the leave type combo
     $('#type').select2();
 
