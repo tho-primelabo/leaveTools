@@ -250,6 +250,7 @@ $(function () {
         dateFormat: dateJsFormat,
         altFormat: "yy-mm-dd",
         altField: "#startdate",
+		minDate: 0,
         numberOfMonths: 1,
               onClose: function( selectedDate ) {
                 $( "#viz_enddate" ).datepicker( "option", "minDate", selectedDate );
@@ -261,6 +262,7 @@ $(function () {
         dateFormat: dateJsFormat,
         altFormat: "yy-mm-dd",
         altField: "#enddate",
+		minDate: +1,
         numberOfMonths: 1,
               onClose: function( selectedDate ) {
                 $( "#viz_startdate" ).datepicker( "option", "maxDate", selectedDate );

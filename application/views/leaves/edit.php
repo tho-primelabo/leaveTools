@@ -255,29 +255,12 @@ function keyAllowed(key) {
 }
 
 $(function () {
-	$("#viz_startdate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: '<?php echo lang('global_date_js_format');?>',
-            altFormat: "yy-mm-dd",
-            altField: "#date",
-			minDate: 0
-			
-        }, $.datepicker.regional['<?php echo $language_code;?>']);
-	$("#viz_enddate").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            dateFormat: '<?php echo lang('global_date_js_format');?>',
-            altFormat: "yy-mm-dd",
-            altField: "#date",
-			minDate: 0
-			
-        }, $.datepicker.regional['<?php echo $language_code;?>']);
+	
     //Selectize the leave type combo
     $('#type').select2();
 
     //On opening, refresh leave request information
-    refreshLeaveInfo();
+    //refreshLeaveInfo();
 
 <?php if ($this->config->item('disallow_requests_without_credit') == TRUE) {?>
     var durationField = document.getElementById("duration");
