@@ -26,6 +26,15 @@ class Contracttypes_model extends CI_Model
         return $query->row_array();
     }
 
+	public function setContractTypes() {
+        //$deduct = ($this->input->post('deduct_days_off') == 'on')?TRUE:FALSE;
+        $data = array(
+            'alias' => $this->input->post('alias'),
+            'name' => $this->input->post('name'),
+            'description' => $this->input->post('description')
+        );
+        return $this->db->insert($this->table, $data);
+    }
     public function updateContractTypes($id, $name, $alias, $description)
     {
         $data = array(

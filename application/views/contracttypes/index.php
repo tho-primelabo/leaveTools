@@ -15,7 +15,7 @@
         <tr>
             <td scope="row"><?php echo $type['id'] ?></td>
             <td><?php echo $type['name']; ?></td>
-            <td><a href="<?php echo base_url(); ?>contracttypes/edit/<?php echo $type['id'] ?>" data-target="#frmEditLeaveType" data-toggle="modal" title="<?php echo lang('leavetypes_type_thead_tip_edit'); ?>"><i class="mdi mdi-pencil nolink"></i></a></td>
+            <td><a href="<?php echo base_url(); ?>contracttypes/edit/<?php echo $type['id'] ?>" data-target="#frmEditContractType" data-toggle="modal" title="<?php echo lang('leavetypes_type_thead_tip_edit'); ?>"><i class="mdi mdi-pencil nolink"></i></a></td>
             <td><a href="#" class="confirm-delete" data-id="<?php echo $type['id']; ?>" title="<?php echo lang('leavetypes_type_thead_tip_delete'); ?>"><i class="mdi mdi-delete nolink"></i></a></td>
         </tr>
         <?php } ?>
@@ -35,7 +35,7 @@
     <div class="span12">
         <a href="<?php echo base_url(); ?>contracttypes/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp; <?php echo lang('contracttypes_type_button_export'); ?></a>
         &nbsp;
-        <a href="<?php echo base_url(); ?>contracttypes/create" class="btn btn-primary" data-target="#frmAddLeaveType" data-toggle="modal"><i class="mdi mdi-plus-circle"></i>&nbsp; <?php echo lang('contracttypes_type_button_create'); ?></a>
+        <a href="<?php echo base_url(); ?>contracttypes/create" class="btn btn-primary" data-target="#frmAddContractType" data-toggle="modal"><i class="mdi mdi-plus-circle"></i>&nbsp; <?php echo lang('contracttypes_type_button_create'); ?></a>
     </div>
 </div>
 
@@ -43,35 +43,35 @@
     <div class="span12">&nbsp;</div>
 </div>
 
-<div id="frmAddLeaveType" class="modal hide fade">
+<div id="frmAddContractType" class="modal hide fade">
     <div class="modal-header">
-        <a href="#" onclick="$('#frmAddLeaveType').modal('hide');" class="close">&times;</a>
+        <a href="#" onclick="$('#frmAddContractType').modal('hide');" class="close">&times;</a>
         <h3><?php echo lang('contracttypes_popup_create_title'); ?></h3>
     </div>
     <div class="modal-body">
         <img src="<?php echo base_url(); ?>assets/images/loading.gif">
     </div>
     <div class="modal-footer">
-        <a href="#" onclick="$('#frmAddLeaveType').modal('hide');" class="btn btn-danger"><?php echo lang('contracttypes_popup_create_button_cancel'); ?></a>
+        <a href="#" onclick="$('#frmAddContractType').modal('hide');" class="btn btn-danger"><?php echo lang('contracttypes_popup_create_button_cancel'); ?></a>
     </div>
 </div>
 
-<div id="frmEditLeaveType" class="modal hide fade">
+<div id="frmEditContractType" class="modal hide fade">
     <div class="modal-header">
-        <a href="#" onclick="$('#frmEditLeaveType').modal('hide');" class="close">&times;</a>
+        <a href="#" onclick="$('#frmEditContractType').modal('hide');" class="close">&times;</a>
         <h3><?php echo lang('contracttypes_popup_update_title'); ?></h3>
     </div>
     <div class="modal-body">
         <img src="<?php echo base_url(); ?>assets/images/loading.gif">
     </div>
     <div class="modal-footer">
-        <a href="#" onclick="$('#frmEditLeaveType').modal('hide');" class="btn"><?php echo lang('contracttypes_popup_update_button_cancel'); ?></a>
+        <a href="#" onclick="$('#frmEditContractType').modal('hide');" class="btn"><?php echo lang('contracttypes_popup_update_button_cancel'); ?></a>
     </div>
 </div>
 
-<div id="frmDeleteLeaveType" class="modal hide fade">
+<div id="frmDeleteContractType" class="modal hide fade">
     <div class="modal-header">
-        <a href="#" onclick="$('#frmDeleteLeaveType').modal('hide');" class="close">&times;</a>
+        <a href="#" onclick="$('#frmDeleteContractType').modal('hide');" class="close">&times;</a>
         <h3><?php echo lang('lcontracttypes_popup_delete_title'); ?></h3>
     </div>
     <div class="modal-body">
@@ -80,18 +80,18 @@
     </div>
     <div class="modal-footer">
         <a href="#" id="lnkDeleteLeaveType" class="btn btn-danger"><?php echo lang('contracttypes_popup_delete_button_yes'); ?></a>
-        <a href="#" onclick="$('#frmDeleteLeaveType').modal('hide');" class="btn"><?php echo lang('contracttypes_popup_delete_button_no'); ?></a>
+        <a href="#" onclick="$('#frmDeleteContractType').modal('hide');" class="btn"><?php echo lang('contracttypes_popup_delete_button_no'); ?></a>
     </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#frmAddLeaveType").alert();
-        $("#frmEditLeaveType").alert();
-        $("#frmDeleteLeaveType").alert();
+        $("#frmAddContractType").alert();
+        $("#frmEditContractType").alert();
+        $("#frmDeleteContractType").alert();
 
         //On showing the confirmation pop-up, add the type id at the end of the delete url action
-        $('#frmDeleteLeaveType').on('show', function() {
+        $('#frmDeleteContractType').on('show', function() {
             var link = "<?php echo base_url(); ?>contracttypes/delete/" + $(this).data('id');
             $("#lnkDeleteLeaveType").attr('href', link);
         })
@@ -100,25 +100,25 @@
         $('.confirm-delete').on('click', function(e) {
             e.preventDefault();
             var id = $(this).data('id');
-            $('#frmDeleteLeaveType').data('id', id).modal('show');
+            $('#frmDeleteContractType').data('id', id).modal('show');
         });
 
         //Prevent to load always the same content (refreshed each time)
-        $('#frmAddLeaveType').on('hidden', function() {
+        $('#frmAddContractType').on('hidden', function() {
             $(this).removeData('modal');
         });
-        $('#frmEditLeaveType').on('hidden', function() {
+        $('#frmEditContractType').on('hidden', function() {
             $(this).removeData('modal');
         });
-        $('#frmDeleteLeaveType').on('hidden', function() {
+        $('#frmDeleteContractType').on('hidden', function() {
             $(this).removeData('modal');
         });
 
         //Give focus on first field on opening modal forms
-        $('#frmAddLeaveType').on('shown', function() {
+        $('#frmAddContractType').on('shown', function() {
             $('input:text:visible:first', this).focus();
         });
-        $('#frmEditLeaveType').on('shown', function() {
+        $('#frmEditContractType').on('shown', function() {
             $('input:text:visible:first', this).focus();
         });
     });

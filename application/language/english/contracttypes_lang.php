@@ -32,6 +32,7 @@ $lang['contracttypes_popup_update_button_suggest'] = 'Suggest an acronym';
 $lang['contracttypes_popup_update_field_name'] = 'Name';
 $lang['contracttypes_popup_update_field_alias'] = 'Alias';
 $lang['contracttypes_popup_update_field_description'] = 'Description';
+$lang['contracttypes_popup_create_button_create'] = 'Create';
 $lang['contracttypes_popup_update_field_acronym'] = 'Acronym';
 $lang['contracttypes_popup_update_field_deduct'] = 'Deduct non working days';
 $lang['contracttypes_popup_update_flash_msg'] = 'The Contract type has been succesfully updated.';

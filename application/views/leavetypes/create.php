@@ -24,19 +24,22 @@ echo form_open('leavetypes/create', $attributes); ?>
         <?php echo lang('leavetypes_popup_create_field_deduct');?>
     </label>
     <br />
+	<button id="cmdCreateLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_create_button_create');?></button>
 </form>
-<button id="cmdCreateLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_create_button_create');?></button>
+
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+ <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 <script type="text/javascript">
     $(function () {
+		
         //Check if the leave type is unique
         $('#cmdCreateLeaveType').click(function() {
             var typeNames = [<?php echo implode(', ', array_map(function ($entry) { return '"' . $entry['name'] . '"'; }, $leavetypes)); ?>];
             if (typeNames.indexOf($('#name').val()) > -1) {
                 bootbox.alert("<?php echo lang('leavetypes_js_unique_error_msg');?>");
             } else {
-                $('#formCreateLeaveType').submit();
+                //$('#formCreateLeaveType').submit();
             }
         });
         

@@ -12,7 +12,8 @@
 echo form_open('leavetypes/edit/' . $id, $attributes); ?>
     <input type="hidden" name="id" value="<?php echo $id; ?>" />
     <label for="name"><?php echo lang('leavetypes_popup_update_field_name');?></label>
-    <input type="text" name="name" id="name" value="<?php echo $leavetype['name']; ?>" />
+    <input type="text" name="name" id="name" value="<?php echo $leavetype['name']; ?>"  required/>
+	
     <label for="acronym"><?php echo lang('leavetypes_popup_update_field_acronym');?></label>
     <div class="input-append">
         <input type="text" name="acronym" id="acronym"  value="<?php echo $leavetype['acronym']; ?>" />
@@ -25,8 +26,9 @@ echo form_open('leavetypes/edit/' . $id, $attributes); ?>
         <?php echo lang('leavetypes_popup_update_field_deduct');?>
     </label>
     <br />
+	<button id="cmdEditLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_update_button_update');?></button>
 </form>
-<button id="cmdEditLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_update_button_update');?></button>
+
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
@@ -47,7 +49,7 @@ echo form_open('leavetypes/edit/' . $id, $attributes); ?>
             if (found == true) {
                 bootbox.alert("<?php echo lang('leavetypes_js_unique_error_msg');?>");
             } else {
-                $('#formEditLeaveType').submit();
+               // $('#formEditLeaveType').submit();
             }
         });
         

@@ -114,7 +114,7 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] error vì giá trị leave type ko thay đổi sau khi listbox http://leavetool//requests/createleave/2
 - [ ] phân quyền bi sai khi login bằng admin
 - [ ] validate tren form không dùng popup để báo lỗi
-- [ ] edit field type contract giong' như tạo contract moi'
+- [X] edit field type contract giong' như tạo contract moi'
 - [ ] dùng calendar thay cho ngày thang' bắt đầu và kết thức contract
 - [X] remove icon trong login form
 - [X] thay dổi icon trang web url
@@ -124,7 +124,7 @@ request a leave even if your credit is negative and because leave balance report
 - [ ] them page để user update info
 - [ ] thêm field tồng số phép còn lại trong năm tren page user Info 
 - [ ] khi request of user được approval thi so' phép trong năm bị trừ đi
-- [ ] thêm form cho tạo mới contract type
+- [X] thêm form cho tạo mới contract type
 - [ ] add field department trong page dăng ky' user moi'
 - [ ] check chức năng send mail "send a reminder": gửi mail toi' người quản ly' of user tương ung'
 - [ ] login bằng user general và bỏ bot' cai' status list box  khi tạo new submit request http://leavetool//requests/createleave/7

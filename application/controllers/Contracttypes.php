@@ -43,16 +43,16 @@ class Contracttypes extends CI_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('leavetypes_popup_create_title');
-        $data['leavetypes'] = $this->types_model->getTypes();
+        $data['leavetypes'] = $this->contract_types->getContractTypes();
 
         $this->form_validation->set_rules('name', lang('leavetypes_popup_create_field_name'), 'required|strip_tags');
 
         if ($this->form_validation->run() === FALSE) {
-            $this->load->view('leavetypes/create', $data);
+            $this->load->view('contracttypes/create', $data);
         } else {
-            $this->types_model->setTypes();
+            $this->contract_types->setContractTypes();
             $this->session->set_flashdata('msg', lang('leavetypes_popup_create_flash_msg'));
-            redirect('leavetypes');
+            redirect('contracttypes');
         }
     }
 
