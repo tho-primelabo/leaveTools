@@ -75,4 +75,21 @@ class Contracttypes_model extends CI_Model
         $query = $this->db->get_where($this->table, array('id' => $id));
         return $query['description'];
     }
+	
+	 public function deleteType($id) {
+        $this->db->delete($this->table, array('id' => $id));
+    }
+	/**
+     * Count the number of time a leave type is used into the database
+     * @param int $id identifier of the leave type record
+     * @author Benjamin BALET <benjamin.balet@gmail.com>
+     */
+    public function usage($id) {
+        $this->db->select('COUNT(*)');
+        $this->db->from($this->table);
+        $this->db->where('name', $id);
+        $query = $this->db->get();
+        $result = $query->row_array();
+        return $result['COUNT(*)'];
+    }
 }

@@ -92,16 +92,16 @@ class Contracttypes extends CI_Controller
     {
         $this->auth->checkIfOperationIsAllowed('leavetypes_delete');
         if ($id != 0) {
-            if ($this->types_model->usage($id) > 0) {
+            if ($this->contract_types->usage($id) > 0) {
                 $this->session->set_flashdata('msg', lang('leavetypes_popup_delete_flash_forbidden'));
             } else {
-                $this->types_model->deleteType($id);
+                $this->contract_types->deleteType($id);
                 $this->session->set_flashdata('msg', lang('leavetypes_popup_delete_flash_msg'));
             }
         } else {
             $this->session->set_flashdata('msg', lang('leavetypes_popup_delete_flash_error'));
         }
-        redirect('leavetypes');
+        redirect('contracttypes');
     }
 
     /**
