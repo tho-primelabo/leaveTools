@@ -21,13 +21,25 @@ class Booking extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
-        //setUserContext($this);
 		$this->load->model('booking_model');
     }
 
     public function index() { 
+		setUserContext($this);
+		$data = getUserContext($this);
+        $data['title'] = 'Booking';
 		$this->auth->checkIfOperationIsAllowed('booking');
-		$this->load->view('booking/index'); 
+		$this->load->view('templates/header', $data);
+		$this->load->view('booking/index', $data);
+		$this->load->view('templates/footer');
       } 
+	  
+	  public function loadData(){
+		 $events = $this->booking_model->loadData();
+		 foreach($events as $key=>$event){
+			$res[] = $event;
+		 }
+		 echo json_encode($res);
+	  }
 
 }

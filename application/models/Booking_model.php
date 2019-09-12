@@ -22,5 +22,8 @@ class Booking_model extends CI_Model {
 		parent::__construct(); 
     }
 
-    
+    public function loadData(){
+		$query = $this->db->get_where('events');
+        return $query->result_array();
+	}
 }

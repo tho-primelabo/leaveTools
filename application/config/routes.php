@@ -398,7 +398,8 @@ $route['api/rest/admin/logs']['GET'] = 'RestAdmin/logs';
 //_______________________________________________
 //booking room requests
 $route['booking/export'] = 'booking/export';
-$route['booking/index'] = 'booking/index';
+$route['booking'] = 'booking/index';
+$route['booking/loadData'] = 'booking/loadData';
 
 
 //_______________________________________________
