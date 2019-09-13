@@ -37,7 +37,7 @@ $(document).ready(function(){
            },
            eventDrop: function(event, delta){
                $.ajax({
-                   url: 'index.php',
+                   url: '/booking/update',
                    data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
                    type: "POST",
                    success: function(json) {
@@ -48,7 +48,7 @@ $(document).ready(function(){
            eventResize: function(event) {
 			   console.log(event);
                $.ajax({
-                   url: 'index.php',
+                   url: '/booking/update',
                    data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id,
                    type: "POST",
                    success: function(json) {
@@ -74,7 +74,7 @@ $(document).ready(function(){
            $("#calendarModal").modal('hide');
            var eventID = $('#eventID').val();
            $.ajax({
-               url: 'index.php',
+               url: 'booking/delete',
                data: 'action=delete&id='+eventID,
                type: "POST",
                success: function(json) {
@@ -94,7 +94,7 @@ $(document).ready(function(){
            var endTime = $('#endTime').val();
            
            $.ajax({
-               url: 'index.php',
+               url: 'booking/insert',
                data: 'action=add&title='+title+'&start='+startTime+'&end='+endTime,
                type: "POST",
                success: function(json) {

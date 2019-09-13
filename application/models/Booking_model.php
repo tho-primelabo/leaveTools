@@ -26,4 +26,27 @@ class Booking_model extends CI_Model {
 		$query = $this->db->get_where('events');
         return $query->result_array();
 	}
+	public function insert(){
+		$title = $this->input->post('title');
+		$start = $this->input->post('start');
+		$end = $this->input->post('end');
+		$data = array(
+            'title' => $title,
+            'start' => $start,
+            'end'   => $end);
+			
+		return $this->db->insert('events', $data);
+	}
+	 public function update($id){
+		$data = array(
+            'title' => $this->input->post('title'),
+            'start' => $this->input->post('start'),
+            'end' => $this->input->post('end')
+        );
+		$this->db->where('id', $this->input->post('id'));
+        return $this->db->update('contracts', $data);
+	}
+	 public function delete($id){
+		$this->db->delete('events', array('id' => $id));
+	}
 }
