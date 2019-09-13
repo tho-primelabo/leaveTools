@@ -21,6 +21,7 @@ class Booking extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
+		setUserContext($this);
 		$this->load->model('booking_model');
     }
 
@@ -30,7 +31,8 @@ class Booking extends CI_Controller {
         $data['title'] = 'Booking';
 		$this->auth->checkIfOperationIsAllowed('booking');
 		$this->load->view('templates/header', $data);
-		$this->load->view('booking/index', $data);
+		$this->load->view('menu/index', $data);
+		$this->load->view('booking/index');
 		$this->load->view('templates/footer');
       } 
 	  

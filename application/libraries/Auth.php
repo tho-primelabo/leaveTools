@@ -206,6 +206,7 @@ class Auth {
             case 'list_overtime' :
             case 'accept_overtime' :
             case 'reject_overtime' :
+			case 'booking' :
                 return true;
                 break;
 
@@ -219,8 +220,8 @@ class Auth {
                 break;
             //Access logic is in the controller : if the connected user manages nobody, the list will be empty
             //Calendar
-			case 'booking' :
-			return true;
+			//case 'booking' :
+			//return true;
             case 'individual_calendar' :
               return true;
             case 'workmates_calendar' :
