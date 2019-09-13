@@ -396,6 +396,13 @@ $route['api/rest/admin/logs']['OPTIONS'] = 'RestAdmin/options';
 $route['api/rest/admin/logs']['GET'] = 'RestAdmin/logs';
 
 //_______________________________________________
+//booking room requests
+$route['booking/export'] = 'booking/export';
+$route['booking'] = 'booking/index';
+$route['booking/loadData'] = 'booking/loadData';
+
+
+//_______________________________________________
 //Default controllers
 $route['default_controller'] = 'leaves';
 $route['404_override'] = 'pages/notfound';

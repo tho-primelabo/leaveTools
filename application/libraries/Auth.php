@@ -219,6 +219,8 @@ class Auth {
                 break;
             //Access logic is in the controller : if the connected user manages nobody, the list will be empty
             //Calendar
+			case 'booking' :
+			return true;
             case 'individual_calendar' :
               return true;
             case 'workmates_calendar' :

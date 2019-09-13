@@ -104,7 +104,8 @@ if ($language_code != 'en') { ?>
             changeYear: true,
             dateFormat: '<?php echo lang('global_date_js_format');?>',
             altFormat: "yy-mm-dd",
-            altField: "#date"
+            altField: "#date",
+			minDate: 0
         }, $.datepicker.regional['<?php echo $language_code;?>']);
         
         //Force decimal separator whatever the locale is

@@ -800,6 +800,7 @@ $(function () {
                 dateFormat: '<?php echo lang('global_date_js_format');?>',
                 altFormat: "yy-mm-dd",
                 altField: "#leaveStartdate",
+				minDate: 0,
                 numberOfMonths: 1,
                       onClose: function( selectedDate ) {
                         $( "#viz_leaveEnddate" ).datepicker( "option", "minDate", selectedDate );
@@ -811,6 +812,7 @@ $(function () {
                 dateFormat: '<?php echo lang('global_date_js_format');?>',
                 altFormat: "yy-mm-dd",
                 altField: "#leaveEnddate",
+				minDate: 0,
                 numberOfMonths: 1,
                       onClose: function( selectedDate ) {
                         $( "#viz_leaveStartdate" ).datepicker( "option", "maxDate", selectedDate );

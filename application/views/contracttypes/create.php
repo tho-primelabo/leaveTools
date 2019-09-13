@@ -9,23 +9,17 @@
 ?>
 
 <?php $attributes = array('id' => 'formCreateLeaveType');
-echo form_open('leavetypes/create', $attributes); ?>
+echo form_open('contracttypes/create', $attributes); ?>
     <label for="name"><?php echo lang('leavetypes_popup_create_field_name');?></label>
     <input type="text" name="name" id="name" pattern=".{1,}" required />
-    <label for="acronym"><?php echo lang('leavetypes_popup_create_field_acronym');?></label>
-    <div class="input-append">
-        <input type="text" name="acronym" id="acronym" />
-        <a id="cmdSuggestAcronym" class="btn btn-primary" title="<?php echo lang('leavetypes_popup_create_button_suggest');?>">
-            <i class="mdi mdi-auto-fix" aria-hidden="true"></i>
-        </a>
-    </div>
-    <label for="deduct_days_off">
-        <input type="checkbox" name="deduct_days_off" id="deduct_days_off" />
-        <?php echo lang('leavetypes_popup_create_field_deduct');?>
-    </label>
+   <label for="alias"><?php echo lang('contracttypes_popup_update_field_alias');?></label>
+   <input type="text" name="alias" id="alias"  />
+    <label for="description"><?php echo lang('contracttypes_popup_update_field_description');?></label>
+    <textarea name="description" id="description"></textarea>
     <br />
+	<button id="cmdCreateLeaveType" class="btn btn-primary"><?php echo lang('contracttypes_popup_create_button_create');?></button>
 </form>
-<button id="cmdCreateLeaveType" class="btn btn-primary"><?php echo lang('leavetypes_popup_create_button_create');?></button>
+
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
@@ -36,7 +30,7 @@ echo form_open('leavetypes/create', $attributes); ?>
             if (typeNames.indexOf($('#name').val()) > -1) {
                 bootbox.alert("<?php echo lang('leavetypes_js_unique_error_msg');?>");
             } else {
-                $('#formCreateLeaveType').submit();
+                //$('#formCreateLeaveType').submit();
             }
         });
         

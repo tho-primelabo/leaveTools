@@ -15,7 +15,7 @@
 
 <?php echo $flash_partial_view;?>
 
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="users" width="100%">
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
         <tr>
             <th><?php echo lang('users_index_thead_id');?></th>
@@ -118,6 +118,7 @@
 </div>
 
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
+
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">

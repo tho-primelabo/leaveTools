@@ -155,6 +155,24 @@ function validate_form() {
 }
 
 $(function () {
+	$("#viz_startdate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: '<?php echo lang('global_date_js_format');?>',
+            altFormat: "yy-mm-dd",
+            altField: "#date",
+			minDate: 0
+			
+        }, $.datepicker.regional['<?php echo $language_code;?>']);
+	$("#viz_enddate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: '<?php echo lang('global_date_js_format');?>',
+            altFormat: "yy-mm-dd",
+            altField: "#date",
+			minDate: 0
+			
+        }, $.datepicker.regional['<?php echo $language_code;?>']);
     //Selectize the leave type combo
     $('#type').select2();
 });

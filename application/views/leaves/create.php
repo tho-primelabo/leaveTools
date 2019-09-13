@@ -31,7 +31,7 @@
         </select>
 
         <label for="viz_startdate"><?php echo lang('leaves_create_field_start'); ?></label>
-        <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" />
+        <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
         <input type="hidden" name="startdate" id="startdate" />
         <select name="startdatetype" id="startdatetype">
             <option value="Morning" selected><?php echo lang('Morning'); ?></option>
@@ -39,7 +39,7 @@
         </select><br />
 
         <label for="viz_enddate"><?php echo lang('leaves_create_field_end'); ?></label>
-        <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" />
+        <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
         <input type="hidden" name="enddate" id="enddate" />
         <select name="enddatetype" id="enddatetype">
             <option value="Morning"><?php echo lang('Morning'); ?></option>
@@ -162,9 +162,11 @@ if ($language_code != 'en') {
     }
 
     $(function () {
+		
         //Selectize the leave type combo
         $('#type').select2();
 
+		
 <?php if ($this->config->item('disallow_requests_without_credit') == TRUE) { ?>
             var durationField = document.getElementById("duration");
             durationField.setAttribute("min", "0");

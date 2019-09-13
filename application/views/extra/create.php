@@ -91,12 +91,15 @@ if ($language_code != 'en') { ?>
     }
     
     $(function () {
+		var dateToday = new Date();
         $("#viz_date").datepicker({
             changeMonth: true,
             changeYear: true,
             dateFormat: '<?php echo lang('global_date_js_format');?>',
             altFormat: "yy-mm-dd",
-            altField: "#date"
+            altField: "#date",
+			minDate: dateToday
+			
         }, $.datepicker.regional['<?php echo $language_code;?>']);
         
         //Force decimal separator whatever the locale is
