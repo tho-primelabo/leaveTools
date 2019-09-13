@@ -43,5 +43,12 @@ class Booking extends CI_Controller {
 		 }
 		 echo json_encode($res);
 	  }
+	  public function insert(){
+		 $events = $this->booking_model->insert();
+		 foreach($events as $key=>$event){
+			$res[] = $event;
+		 }
+		 echo json_encode($res);
+	  }
 
 }

@@ -20,11 +20,8 @@
         <div style="margin-top:20px">
 
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<link  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" >
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>
 
 <link href="<?php echo base_url(); ?>assets/book/css/fullcalendar.css" rel="stylesheet" />
 <link href="<?php echo base_url(); ?>assets/book/css/fullcalendar.print.css" rel="stylesheet" media="print" />
