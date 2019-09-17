@@ -401,8 +401,8 @@ $route['booking/export'] = 'booking/export';
 $route['booking'] = 'booking/index';
 $route['booking/loadData'] = 'booking/loadData';
 $route['booking/insert'] = 'booking/insert';
-$route['booking/update/(:num)'] = 'booking/update/$1';
-$route['booking/delete/(:num)'] = 'booking/delete/$1';
+$route['booking/update'] = 'booking/update';
+$route['booking/delete'] = 'booking/delete';
 
 //_______________________________________________
 //Default controllers

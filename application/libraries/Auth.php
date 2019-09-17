@@ -207,6 +207,10 @@ class Auth {
             case 'accept_overtime' :
             case 'reject_overtime' :
 			case 'booking' :
+			case 'delete_booking' :
+			case 'create_booking' :
+			case 'update_booking' :
+			
                 return true;
                 break;
 

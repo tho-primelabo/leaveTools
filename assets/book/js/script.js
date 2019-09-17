@@ -1,4 +1,6 @@
 $(document).ready(function(){
+		var SITEURL = '<?php echo base_url(); ?>';
+		
         var calendar = $('#calendar').fullCalendar({
             header:{
                 left: 'prev,next today',
@@ -36,8 +38,9 @@ $(document).ready(function(){
                 $('#createEventModal').modal('toggle');
            },
            eventDrop: function(event, delta){
+			   console.log(event);
                $.ajax({
-                   url: '/booking/update',
+                   url  : "<?php echo site_url('booking/update')?>",
                    data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
                    type: "POST",
                    success: function(json) {
@@ -48,7 +51,7 @@ $(document).ready(function(){
            eventResize: function(event) {
 			   console.log(event);
                $.ajax({
-                   url: '/booking/update',
+                   url  : "<?php echo site_url('booking/update')?>",
                    data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id,
                    type: "POST",
                    success: function(json) {
@@ -74,7 +77,7 @@ $(document).ready(function(){
            $("#calendarModal").modal('hide');
            var eventID = $('#eventID').val();
            $.ajax({
-               url: 'booking/delete',
+               url  : "<?php echo site_url('booking/delete')?>",
                data: 'action=delete&id='+eventID,
                type: "POST",
                success: function(json) {
@@ -94,7 +97,7 @@ $(document).ready(function(){
            var endTime = $('#endTime').val();
            
            $.ajax({
-               url: 'booking/insert',
+               url  : "<?php echo site_url('booking/insert')?>",
                data: 'action=add&title='+title+'&start='+startTime+'&end='+endTime,
                type: "POST",
                success: function(json) {
