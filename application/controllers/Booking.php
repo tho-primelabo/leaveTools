@@ -44,30 +44,32 @@ class Booking extends CI_Controller {
 		 echo json_encode($res);
 	  }
 	  public function insert(){
-		//$this->auth->checkIfOperationIsAllowed('create_booking');
-		var_dump($events);
+		$this->auth->checkIfOperationIsAllowed('create_booking');
+		
 		 $events = $this->booking_model->insert();
 		 foreach($events as $key=>$event){
 			$res[] = $event;
 		 }
 		 echo json_encode($res);
+		 redirect('booking');
 	  }
 	public function update(){
 		$this->auth->checkIfOperationIsAllowed('update_booking');
 		$data=$this->booking_model->update();
-		var_dump($data);
+		
 		$this->session->set_flashdata('msg', lang('contract_edit_msg_success'));
 		echo json_encode($data);
 	}
 	  public function delete()
     {
+		
         $this->auth->checkIfOperationIsAllowed('delete_booking');
 		$id = $this->input->post('id');
-		//print_r($id);
-		$this->booking_model->delete();
-        //die();
+		$data = $this->booking_model->delete();
+		
         $this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
-        redirect('booking');
+		echo json_encode(1);
+    	//redirect('booking');
     }
 
 }

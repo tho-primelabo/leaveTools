@@ -18,9 +18,15 @@
   
     <div>
         <div style="margin-top:20px">
-
-
-
+<script>
+$(function() {
+    $.ajaxSetup({
+            data: {
+                <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+            }
+        });
+});
+</script>
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>
 
 <link href="<?php echo base_url(); ?>assets/book/css/fullcalendar.css" rel="stylesheet" />

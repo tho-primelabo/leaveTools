@@ -40,8 +40,9 @@ $(document).ready(function(){
            eventDrop: function(event, delta){
 			   console.log(event);
                $.ajax({
-                   url  : "<?php echo site_url('booking/update')?>",
-                   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id ,
+                   url  : "booking/update",
+                   data: {'title': event.title,'start': moment(event.start).format(),'end':moment(event.end).format(),
+                   'id':event.id },
                    type: "POST",
                    success: function(json) {
                    //alert(json);
@@ -51,8 +52,9 @@ $(document).ready(function(){
            eventResize: function(event) {
 			   console.log(event);
                $.ajax({
-                   url  : "<?php echo site_url('booking/update')?>",
-                   data: 'action=update&title='+event.title+'&start='+moment(event.start).format()+'&end='+moment(event.end).format()+'&id='+event.id,
+                   url  : "booking/update",
+                   data: {'title':event.title,'start':moment(event.start).format(),
+                   'end': moment(event.end).format(),'id':event.id},
                    type: "POST",
                    success: function(json) {
                        //alert(json);
@@ -74,18 +76,20 @@ $(document).ready(function(){
        });
        
        function doDelete(){
+           
            $("#calendarModal").modal('hide');
            var eventID = $('#eventID').val();
+           
            $.ajax({
-               url  : "<?php echo site_url('booking/delete')?>",
-               data: 'action=delete&id='+eventID,
+               url  : "/booking/delete",
+               data: { id : eventID },
                type: "POST",
                success: function(json) {
-                   if(json == 1)
+                   //console.log(json);
+                    if(json == 1)
                         $("#calendar").fullCalendar('removeEvents',eventID);
                    else
-                        return false;
-                    
+                        return false;                   
                    
                }
            });
@@ -97,8 +101,8 @@ $(document).ready(function(){
            var endTime = $('#endTime').val();
            
            $.ajax({
-               url  : "<?php echo site_url('booking/insert')?>",
-               data: 'action=add&title='+title+'&start='+startTime+'&end='+endTime,
+               url  : "booking/insert",
+               data: {'title':title, 'start':startTime, 'end':endTime},
                type: "POST",
                success: function(json) {
                    $("#calendar").fullCalendar('renderEvent',
