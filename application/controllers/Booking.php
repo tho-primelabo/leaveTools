@@ -51,24 +51,33 @@ class Booking extends CI_Controller {
 			$res[] = $event;
 		 }
 		 echo json_encode($res);
-		 redirect('booking');
+		 //print_r(json_encode($res));
+		 //redirect('booking');
 	  }
 	public function update(){
 		$this->auth->checkIfOperationIsAllowed('update_booking');
-		$data=$this->booking_model->update();
-		
-		$this->session->set_flashdata('msg', lang('contract_edit_msg_success'));
-		echo json_encode($data);
+		$uid = $this->booking_model->getUidById();
+		$uidSession = $this->session->userdata('id');
+		//print_r($uid);
+		if ($uid == $uidSession) {
+			$data=$this->booking_model->update();
+			
+			$this->session->set_flashdata('msg', lang('contract_edit_msg_success'));
+			echo json_encode($data);
+	}
 	}
 	  public function delete()
     {
 		
         $this->auth->checkIfOperationIsAllowed('delete_booking');
-		$id = $this->input->post('id');
-		$data = $this->booking_model->delete();
-		
-        $this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
-		echo json_encode(1);
+		$uid = $this->booking_model->getUidById();
+		$uidSession = $this->session->userdata('id');
+		if ($uid == $uidSession) {
+			$data = $this->booking_model->delete();
+			
+			$this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
+			echo json_encode(1);
+		}
     	//redirect('booking');
     }
 
