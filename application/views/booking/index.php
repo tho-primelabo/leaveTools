@@ -136,7 +136,7 @@ $(function () {
         selectable: true,
         allDaySlot: false,
 
-        events: "/booking/loadData",
+        events: '<?php echo base_url();?>booking/loadData',
 
 
         eventClick: function(event, jsEvent, view) {
