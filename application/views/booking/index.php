@@ -88,15 +88,114 @@
 </div>
 <!--Modal-->
 <script type="text/javascript">
-	<?php if ($this->config->item('csrf_protection') == TRUE) {?>
-	$(function () {
-		$.ajaxSetup({
-			data: {
-				<?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
-			}
-		});
-	});
-<?php }?>
+
+$(function () {
+    //Global Ajax error handling mainly used for session expiration
+    $( document ).ajaxError(function(event, jqXHR, settings, errorThrown) {
+        $('#frmModalAjaxWait').modal('hide');
+        if (jqXHR.status == 401) {
+            bootbox.alert("<?php echo lang('global_ajax_timeout'); ?>", function() {
+                //After the login page, we'll be redirected to the current page
+               location.reload();
+            });
+        } else { //Oups
+            bootbox.alert("<?php echo lang('global_ajax_error'); ?>");
+        }
+    });
+
+    var calendar = $('#calendar').fullCalendar({
+        timeFormat: ' ', /*Trick to remove the start time of the event*/
+        header: {
+            left: "",
+            center: "title",
+            right: ""
+        },
+        defaultView: 'agendaWeek',
+        editable: true,
+        selectable: true,
+        allDaySlot: false,
+
+        events: "/booking/loadData",
+
+
+        eventClick: function(event, jsEvent, view) {
+            endtime = $.fullCalendar.moment(event.end).format('h:mm');
+            starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
+            var mywhen = starttime + ' - ' + endtime;
+            $('#modalTitle').html(event.title);
+            $('#modalWhen').text(mywhen);
+            $('#eventID').val(event.id);
+            $('#calendarModal').modal();
+        },
+
+        //header and other values
+        select: function(start, end, jsEvent) {
+            endtime = $.fullCalendar.moment(end).format('h:mm');
+            starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
+            var mywhen = starttime + ' - ' + endtime;
+            start = moment(start).format();
+            end = moment(end).format();
+            $('#createEventModal #startTime').val(start);
+            $('#createEventModal #endTime').val(end);
+            $('#createEventModal #when').text(mywhen);
+            $('#createEventModal').modal('toggle');
+        },
+        eventDrop: function(event, delta) {
+            console.log(event);
+            $.ajax({
+                url: "booking/update",
+                data: {
+                    'title': event.title,
+                    'start': moment(event.start).format(),
+                    'end': moment(event.end).format(),
+                    'id': event.id
+                },
+                type: "POST",
+                success: function(json) {
+                    //alert(json);
+                }
+            });
+        },
+        eventResize: function(event) {
+            console.log(event);
+            $.ajax({
+                url: "booking/update",
+                data: {
+                    'title': event.title,
+                    'start': moment(event.start).format(),
+                    'end': moment(event.end).format(),
+                    'id': event.id
+                },
+                type: "POST",
+                success: function(json) {
+                    //alert(json);
+                }
+            });
+        }
+    });
+
+    //Manage Prev/Next buttons
+    $('#cmdNext').click(function() {
+        $('#calendar').fullCalendar('next');
+    });
+    $('#cmdPrevious').click(function() {
+        $('#calendar').fullCalendar('prev');
+    });
+
+    //On click on today, if the current month is the same than the displayed month, we refetch the events
+    $('#cmdToday').click(function() {
+        // var displayedDate = new Date($('#calendar').fullCalendar('getDate'));
+        // var currentDate = new Date();
+        // if (displayedDate.getMonth() == currentDate.getMonth()) {
+        //     $('#calendar').fullCalendar('today');
+        // } else {
+            $('#calendar').fullCalendar('today');
+        // }
+    });
+
+    
+});
+
 </script>
 <link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
