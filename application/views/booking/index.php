@@ -216,7 +216,6 @@ $(function () {
 
     
 });
-
 </script>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>
