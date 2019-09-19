@@ -87,7 +87,17 @@
 </div>
 </div>
 <!--Modal-->
-
+<script type="text/javascript">
+	<?php if ($this->config->item('csrf_protection') == TRUE) {?>
+	$(function () {
+		$.ajaxSetup({
+			data: {
+				<?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
+			}
+		});
+	});
+<?php }?>
+</script>
 <link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
