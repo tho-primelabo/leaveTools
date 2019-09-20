@@ -120,9 +120,9 @@ $(document).ready(function(){
            });
            
        }
-       function doReoald(){
+       function doReload(){
            $.ajax({
-               url  : "booking/loadData",              
+               url  : "booking/loadData",
                type: "GET",
                success: function(json) {
                   
