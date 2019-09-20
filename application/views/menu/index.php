@@ -69,6 +69,7 @@ $this->lang->load('menu', $language);
               <li class="nav-header"><?php echo lang('menu_hr_contracts_divider'); ?></li>
               <li><a href="<?php echo base_url(); ?>contracts"><?php echo lang('menu_hr_list_contracts'); ?></a></li>
               <li><a href="<?php echo base_url(); ?>positions"><?php echo lang('menu_hr_list_positions'); ?></a></li>
+               <li><a href="<?php echo base_url(); ?>rooms"><?php echo lang('menu_hr_list_rooms'); ?></a></li>
               <li class="divider"></li>
               <li class="nav-header"><?php echo lang('menu_hr_reports_divider'); ?></li>
               <li><a href="<?php echo base_url(); ?>reports/balance"><?php echo lang('menu_hr_report_leave_balance'); ?></a></li>
@@ -145,7 +146,19 @@ $this->lang->load('menu', $language);
               <?php } ?>
             </ul>
           </li>
-          <li><a href="<?php echo base_url(); ?>booking"><?php echo lang('menu_booking_department'); ?></a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_booking_department'); ?> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <?php foreach ($rooms as $room): ?>
+              <li><a href="<?php echo base_url(); ?>booking"><?php echo $room['name']; ?></a>
+              
+              <?php endforeach ?>
+
+              
+              </li>
+            </ul>
+          </li>
+          
           <li>
             <form class="navbar-form pull-left">
               <a class="btn btn-warning" href="<?php echo base_url(); ?>leaves/create"><b><?php echo lang('menu_leaves_request_button'); ?></b></a>

@@ -105,7 +105,7 @@
    
             
             eventClick:  function(event, jsEvent, view) {
-                console.log(event.id + ":" +event.start);
+                console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
                 endtime = $.fullCalendar.moment(event.end).format('h:mm');
                 starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
                 var mywhen = starttime + ' - ' + endtime;

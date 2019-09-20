@@ -32,6 +32,7 @@ class Leaves extends CI_Controller {
         $this->load->model('types_model');
         $this->lang->load('leaves', $this->language);
         $this->lang->load('global', $this->language);
+		$this->load->model('rooms_model');
     }
 
     /**
@@ -53,6 +54,7 @@ class Leaves extends CI_Controller {
         }
         $data['types'] = $this->types_model->getTypes();
         $data['title'] = lang('leaves_index_title');
+		 $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_requests_list');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
