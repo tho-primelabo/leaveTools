@@ -1,12 +1,6 @@
     <div class="row-fluid">
         <div class="span12">
 
-            <h2>Booking &nbsp;</h2>
-
-            <div class="row-fluid">
-                <div class="span12">Calendar of my Booking Room.</div>
-            </div>
-
             <!-- <div class="row-fluid">
                 <div class="span6">
                     <button id="cmdPrevious" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i></button>
@@ -87,7 +81,17 @@
 </div>
 </div>
 <!--Modal-->
-
+<script>
+$(function() {
+   <?php if ($this->config->item('csrf_protection') == TRUE) {?>
+    $.ajaxSetup({
+        data: {
+            <?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
+        }
+    });
+<?php }?>
+});
+</script>
 <link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>

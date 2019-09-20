@@ -30,23 +30,40 @@ class Booking_model extends CI_Model {
 		$title = $this->input->post('title');
 		$start = $this->input->post('start');
 		$end = $this->input->post('end');
+		$uid = $this->session->userdata('id');
+		//print_r($this->session->userdata); die();
 		$data = array(
             'title' => $title,
             'start' => $start,
+			'uid'   => $uid,
             'end'   => $end);
-			
+		
 		return $this->db->insert('events', $data);
 	}
-	 public function update($id){
+	 public function update(){
 		$data = array(
             'title' => $this->input->post('title'),
             'start' => $this->input->post('start'),
             'end' => $this->input->post('end')
         );
+		//var_dump($data);
 		$this->db->where('id', $this->input->post('id'));
-        return $this->db->update('contracts', $data);
+        return $this->db->update('events', $data);
 	}
-	 public function delete($id){
-		$this->db->delete('events', array('id' => $id));
+	 public function delete(){
+		 $id = $this->input->post('id');
+		return $this->db->delete('events', array('id' => $id));
+	}
+	public function getUidById() {
+		$id = $this->input->post('id');
+		$query = $this->db->get_where('events', array('id' => $id));
+		//print_r($query);
+		$record = $query->row_array();
+        if (!empty($record)) {
+            return $record['uid'];
+        } else {
+            return '';
+        }
+      
 	}
 }
