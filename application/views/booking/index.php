@@ -97,19 +97,19 @@
             header:{
                 left: 'prev,today next',
                 center: 'title',
-                right: 'agendaWeek,agendaDay'
+                right: 'month,agendaWeek,agendaDay'
                 
             },
             defaultView: 'agendaWeek',
             editable: true,
             selectable: true,
+			selectOverlap: false,
             allDaySlot: false,
             
             events:  "/booking/loadData?roomid="+roomid,
-   
-            
+						            
             eventClick:  function(event, jsEvent, view) {
-                console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
+                //console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
                 endtime = $.fullCalendar.moment(event.end).format('h:mm');
                 starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
                 var mywhen = starttime + ' - ' + endtime;
@@ -121,6 +121,10 @@
             
             //header and other values
             select: function(start, end, jsEvent) {
+				if(start.isBefore(moment())) {
+					$('#calendar').fullCalendar('unselect');
+					return false;
+				}
                 endtime = $.fullCalendar.moment(end).format('h:mm');
                 starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
                 var mywhen = starttime + ' - ' + endtime;

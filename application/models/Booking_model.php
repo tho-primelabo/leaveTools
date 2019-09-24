@@ -46,12 +46,12 @@ class Booking_model extends CI_Model {
 			'uid'   => $uid,
 			'roomid'=> $roomId,
             'end'   => $end);
-		foreach($data as $key => $value){
-			$this->db->set($key, $value);
+		$this->db->insert('events', $data);
+		$insert_id = $this->db->insert_id();
 
-		}
+		return  $insert_id;
 	
-		return $this->db->insert('events');
+		//return $this->db->insert('events');
 	}
 	 public function update(){
 		$data = array(
@@ -60,12 +60,13 @@ class Booking_model extends CI_Model {
             'end' => $this->input->post('end'),
 			'roomid' =>$this->input->post('roomid')
         );
-		//print_r($this->db->where('id', $this->input->post('id'))); die;
+		//	print_r($this->db->where('id', $this->input->post('id'))); die;
 		$this->db->where('id', $this->input->post('id'));
         return $this->db->update('events', $data);
 	}
 	 public function delete(){
 		 $id = $this->input->post('id');
+		 print_r($id);
 		return $this->db->delete('events', array('id' => $id));
 	}
 	public function getUidById() {

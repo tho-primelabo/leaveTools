@@ -53,9 +53,9 @@ class Booking extends CI_Controller {
 		$this->auth->checkIfOperationIsAllowed('create_booking');
 		 $events = $this->booking_model->insert();
 		 if($events){
- 			echo json_encode($events);
+ 			echo $events;
 		 }
-		
+		//return $events;
 		
 		 //print_r(json_encode($res));
 		 //redirect('booking');
@@ -82,7 +82,7 @@ class Booking extends CI_Controller {
 			$data = $this->booking_model->delete();
 			
 			$this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
-			echo json_encode(1);
+			echo json_encode($data);
 		}
     	//redirect('booking');
     }

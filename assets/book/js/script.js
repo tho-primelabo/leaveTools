@@ -19,14 +19,13 @@ $(document).ready(function() {
 
         $("#calendarModal").modal('hide');
         var eventID = $('#eventID').val();
-        alert(eventID)
         $.ajax({
             url: base_url+"/booking/delete",
             data: { id: eventID },
             type: "POST",
             success: function(json) {
                 //console.log(json);
-                if (json == 1)
+                if (json)
                     $("#calendar").fullCalendar('removeEvents', eventID);
                 else
                     return false;
@@ -45,9 +44,10 @@ $(document).ready(function() {
             url: base_url+"/booking/insert",
             data: { 'title': title, 'start': startTime, 'end': endTime, 'roomid': roomid },
             type: "POST",
-            success: function(json) {
+            success: function(id) {
+				console.log(id);
                 $("#calendar").fullCalendar('renderEvent', {
-                        id: json.id,
+                        id: id,
                         title: title,
                         start: startTime,
                         end: endTime,
