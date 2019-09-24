@@ -1,6 +1,6 @@
     <div class="row-fluid">
         <div class="span12">
-            
+
             <div id='calendar'></div>
         </div>
     </div>
@@ -66,15 +66,25 @@
 </div>
 </div>
 <!--Modal-->
+
+<link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
+<?php if ($language_code != 'en') {?>
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lang/<?php echo strtolower($language_code);?>.js"></script>
+<?php }?>
+<script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/clipboard-1.6.1.min.js"></script>
+
 <script type="text/javascript">
 	$(function() {
-   <?php if ($this->config->item('csrf_protection') == TRUE) {?>
-    $.ajaxSetup({
-        data: {
-            <?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
-        }
-    });
-	<?php }?>
+        <?php if ($this->config->item('csrf_protection') == true) {?>
+        $.ajaxSetup({
+            data: {
+                <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+            }
+        });
+        <?php }?>
 	});
 	//Global Ajax error handling mainly used for session expiration
     $( document ).ajaxError(function(event, jqXHR, settings, errorThrown) {
@@ -101,7 +111,7 @@
         selectable: true,
         allDaySlot: false,
 
-        events: '<?php echo base_url();?>booking/loadData',
+        events: '<?php echo base_url(); ?>booking/loadData',
 
 
         eventClick: function(event, jsEvent, view) {
@@ -169,13 +179,5 @@
     });
 
 </script>
-<link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
-<?php if ($language_code != 'en') {?>
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lang/<?php echo strtolower($language_code);?>.js"></script>
-<?php }?>
-<script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/clipboard-1.6.1.min.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>
