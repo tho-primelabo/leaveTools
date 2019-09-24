@@ -15,7 +15,7 @@
                 <?php echo lang('calendar_individual_description'); ?>
             </div>
         </div>
-        <div class="row-fluid">
+        <!-- <div class="row-fluid">
             <div class="span6">
                 <button id="cmdPrevious" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i></button>
                 <button id="cmdToday" class="btn btn-primary">
@@ -25,10 +25,10 @@
             </div>
             <div class="span6">
                 <div class="pull-right">
-                    <!-- <button id="cmdDisplayDayOff" class="btn btn-primary"><i class="mdi mdi-calendar"></i>&nbsp;<?php echo lang('calendar_individual_day_offs'); ?></button> -->
+                    <button id="cmdDisplayDayOff" class="btn btn-primary"><i class="mdi mdi-calendar"></i>&nbsp;<?php echo lang('calendar_individual_day_offs'); ?></button>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="row-fluid">
             <div class="span12">&nbsp;</div>
         </div>
@@ -131,7 +131,7 @@
         $('#roomid').val(roomid);
         var calendar = $('#calendar').fullCalendar({
             header: {
-                left: '',
+                left: 'prev,today,next',
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
