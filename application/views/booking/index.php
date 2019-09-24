@@ -26,7 +26,7 @@
 
             <input type="hidden" id="startTime"/>
             <input type="hidden" id="endTime"/>
-
+			<input type="hidden" id="roomid"/>
 
 
         <div class="control-group">
@@ -89,19 +89,23 @@
         }
     });
 	$(document).ready(function(){
-				
+		var url = window.location;
+        var url_array = url.toString().split('/') // Split the string into an array with / as separator
+        var roomid = url_array[url_array.length -1]
+        $('#roomid').val(roomid);
         var calendar = $('#calendar').fullCalendar({
             header:{
                 left: 'prev,today next',
                 center: 'title',
                 right: 'agendaWeek,agendaDay'
+                
             },
             defaultView: 'agendaWeek',
             editable: true,
             selectable: true,
             allDaySlot: false,
             
-            events:  "/booking/loadData",
+            events:  "/booking/loadData?roomid="+roomid,
    
             
             eventClick:  function(event, jsEvent, view) {
@@ -130,9 +134,9 @@
            eventDrop: function(event, delta){
 			   console.log(event);
                $.ajax({
-                   url  : "booking/update",
+                   url  : "update",
                    data: {'title': event.title,'start': moment(event.start).format(),'end':moment(event.end).format(),
-                   'id':event.id },
+                   'id':event.id , 'roomid': roomid},
                    type: "POST",
                    success: function(json) {
                    //alert(json);
@@ -142,9 +146,9 @@
            eventResize: function(event) {
 			   console.log(event);
                $.ajax({
-                   url  : "booking/update",
+                   url  : "update",
                    data: {'title':event.title,'start':moment(event.start).format(),
-                   'end': moment(event.end).format(),'id':event.id},
+                   'end': moment(event.end).format(),'id':event.id, 'roomid':roomid},
                    type: "POST",
                    success: function(json) {
                        //alert(json);

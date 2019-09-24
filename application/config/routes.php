@@ -409,6 +409,8 @@ $route['api/rest/admin/logs']['GET'] = 'RestAdmin/logs';
 $route['booking/export'] = 'booking/export';
 $route['booking'] = 'booking/index';
 $route['booking/loadData'] = 'booking/loadData';
+$route['booking/(:num)'] = 'booking/index';
+
 $route['booking/insert'] = 'booking/insert';
 $route['booking/update'] = 'booking/update';
 $route['booking/delete'] = 'booking/delete';

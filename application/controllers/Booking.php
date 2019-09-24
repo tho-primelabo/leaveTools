@@ -23,34 +23,40 @@ class Booking extends CI_Controller {
         parent::__construct();
 		setUserContext($this);
 		$this->load->model('booking_model');
+		$this->load->model('rooms_model');
+
     }
 
     public function index() { 
 		setUserContext($this);
 		$data = getUserContext($this);
-        $data['title'] = 'Booking';
+		$data['rooms'] = $this->rooms_model->getRooms();
+        $data['title'] = 'Booking';	
 		$this->auth->checkIfOperationIsAllowed('booking');
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('menu/index', $data);
+		
 		$this->load->view('booking/index');
 		$this->load->view('templates/footer');
       } 
 	  
 	  public function loadData(){
-		 $events = $this->booking_model->loadData();
-		 foreach($events as $key=>$event){
-			$res[] = $event;
-		 }
-		 echo json_encode($res);
+		 $events = $this->booking_model->loadData($this->input->get('roomid'));
+		 //$res = '';
+		 //foreach($events as $key=>$event){
+			//$res[] = $event;
+		 //}
+		 echo json_encode($events);
 	  }
 	  public function insert(){
 		$this->auth->checkIfOperationIsAllowed('create_booking');
-		
 		 $events = $this->booking_model->insert();
-		 foreach($events as $key=>$event){
-			$res[] = $event;
+		 if($events){
+ 			echo json_encode($events);
 		 }
-		 echo json_encode($res);
+		
+		
 		 //print_r(json_encode($res));
 		 //redirect('booking');
 	  }
