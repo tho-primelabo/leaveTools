@@ -12,7 +12,7 @@
         <h2>Booking</h2>
         <div class="row-fluid">
             <div class="span12">
-                <?php echo lang('calendar_individual_description'); ?>
+                <?php echo lang('booking_description'); ?>
             </div>
         </div>
         <!-- <div class="row-fluid">
