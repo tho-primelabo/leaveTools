@@ -1,27 +1,6 @@
     <div class="row-fluid">
         <div class="span12">
-
-            <h2>Booking &nbsp;</h2>
-
-            <div class="row-fluid">
-                <div class="span12">Calendar of my Booking Room.</div>
-            </div>
-
-            <div class="row-fluid">
-                <div class="span6">
-                    <button id="cmdPrevious" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i></button>
-                    <button id="cmdToday" class="btn btn-primary">today</button>
-                    <button id="cmdNext" class="btn btn-primary"><i class="mdi mdi-chevron-right"></i></button>
-                </div>
-                <!-- <div class="span6">
-                    <div class="pull-right">
-                        <button id="cmdDisplayDayOff" class="btn btn-primary"><i class="mdi mdi-calendar"></i>&nbsp;Days off</button>
-                    </div>
-                </div> -->
-            </div>
-            <div class="row-fluid">
-                <div class="span12">&nbsp;</div>
-            </div>
+            
             <div id='calendar'></div>
         </div>
     </div>
@@ -47,7 +26,7 @@
 
             <input type="hidden" id="startTime"/>
             <input type="hidden" id="endTime"/>
-
+			<input type="hidden" id="roomid"/>
 
 
         <div class="control-group">
@@ -87,31 +66,17 @@
 </div>
 </div>
 <!--Modal-->
-
-<div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
-        <div class="modal-header">
-            <h1><?php echo lang('global_msg_wait'); ?></h1>
-        </div>
-        <div class="modal-body">
-            <img src="<?php echo base_url(); ?>assets/images/loading.gif"  align="middle">
-        </div>
- </div>
-
-<link href="<?php echo base_url(); ?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
-<?php if ($language_code != 'en') {?>
-<script type="text/javascript" src="<?php echo base_url(); ?>assets/fullcalendar-2.8.0/lang/<?php echo strtolower($language_code); ?>.js"></script>
-<?php }?>
-<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/clipboard-1.6.1.min.js"></script>
-
-
-
 <script type="text/javascript">
-
-$(function () {
-    //Global Ajax error handling mainly used for session expiration
+	$(function() {
+   <?php if ($this->config->item('csrf_protection') == TRUE) {?>
+    $.ajaxSetup({
+        data: {
+            <?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
+        }
+    });
+	<?php }?>
+	});
+	//Global Ajax error handling mainly used for session expiration
     $( document ).ajaxError(function(event, jqXHR, settings, errorThrown) {
         $('#frmModalAjaxWait').modal('hide');
         if (jqXHR.status == 401) {
@@ -203,20 +168,14 @@ $(function () {
         $('#calendar').fullCalendar('prev');
     });
 
-    //On click on today, if the current month is the same than the displayed month, we refetch the events
-    $('#cmdToday').click(function() {
-        // var displayedDate = new Date($('#calendar').fullCalendar('getDate'));
-        // var currentDate = new Date();
-        // if (displayedDate.getMonth() == currentDate.getMonth()) {
-        //     $('#calendar').fullCalendar('today');
-        // } else {
-            $('#calendar').fullCalendar('today');
-        // }
-    });
-
-    
-});
-
 </script>
+<link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
+<?php if ($language_code != 'en') {?>
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lang/<?php echo strtolower($language_code);?>.js"></script>
+<?php }?>
+<script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/clipboard-1.6.1.min.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>

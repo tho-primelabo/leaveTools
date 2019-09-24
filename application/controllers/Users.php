@@ -24,6 +24,7 @@ class Users extends CI_Controller {
         setUserContext($this);
         $this->load->model('users_model');
         $this->lang->load('users', $this->language);
+		$this->load->model('rooms_model');
     }
 
     /**
@@ -34,6 +35,7 @@ class Users extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('list_users');
         $data = getUserContext($this);
         $this->load->helper('form');
+		$data['rooms'] = $this->rooms_model->getRooms();
         $this->lang->load('datatable', $this->language);
         $data['users'] = $this->users_model->getUsersAndRoles();
         $data['title'] = lang('users_index_title');

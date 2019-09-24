@@ -22,33 +22,63 @@ class Booking_model extends CI_Model {
 		parent::__construct(); 
     }
 
-    public function loadData(){
-		$query = $this->db->get_where('events');
+    public function loadData($roomId=null){
+		if($roomId){
+			$query = $this->db->get_where('events' ,array('roomid' => $roomId));
+		}
+		else{
+		$query = $this->db->get_where('events' );
+			
+		}
+
         return $query->result_array();
 	}
 	public function insert(){
 		$title = $this->input->post('title');
 		$start = $this->input->post('start');
 		$end = $this->input->post('end');
+		$uid = $this->session->userdata('id');
+		$roomId = $this->input->post('roomid');
+		//print_r($this->session->userdata); die();
 		$data = array(
             'title' => $title,
             'start' => $start,
+			'uid'   => $uid,
+			'roomid'=> $roomId,
             'end'   => $end);
-		var_dump($data);
-		return $this->db->insert('events', $data);
+		$this->db->insert('events', $data);
+		$insert_id = $this->db->insert_id();
+
+		return  $insert_id;
+	
+		//return $this->db->insert('events');
 	}
 	 public function update(){
 		$data = array(
             'title' => $this->input->post('title'),
             'start' => $this->input->post('start'),
-            'end' => $this->input->post('end')
+            'end' => $this->input->post('end'),
+			'roomid' =>$this->input->post('roomid')
         );
-		var_dump($data);
+		//	print_r($this->db->where('id', $this->input->post('id'))); die;
 		$this->db->where('id', $this->input->post('id'));
         return $this->db->update('events', $data);
 	}
 	 public function delete(){
 		 $id = $this->input->post('id');
-		$this->db->delete('events', array('id' => $id));
+		 print_r($id);
+		return $this->db->delete('events', array('id' => $id));
+	}
+	public function getUidById() {
+		$id = $this->input->post('id');
+		$query = $this->db->get_where('events', array('id' => $id));
+		//print_r($query);
+		$record = $query->row_array();
+        if (!empty($record)) {
+            return $record['uid'];
+        } else {
+            return '';
+        }
+      
 	}
 }

@@ -164,6 +164,15 @@ $route['organization/lists/reorder'] = 'organization/listsReorder';
 $route['organization/lists/name'] = 'organization/listName';
 $route['organization'] = 'organization';
 
+//HR edit rooms
+$route['rooms/delete/(:num)'] = 'rooms/delete/$1';
+$route['rooms/edit/(:num)'] = 'rooms/edit/$1';
+$route['rooms/index'] = 'rooms/index';
+$route['rooms/select'] = 'rooms/select';
+$route['rooms/create'] = 'rooms/create';
+$route['rooms/export'] = 'rooms/export';
+$route['rooms'] = 'rooms';
+
 //_______________________________________________
 //Various calendars
 $route['calendar/individual'] = 'calendar/individual';
@@ -400,6 +409,8 @@ $route['api/rest/admin/logs']['GET'] = 'RestAdmin/logs';
 $route['booking/export'] = 'booking/export';
 $route['booking'] = 'booking/index';
 $route['booking/loadData'] = 'booking/loadData';
+$route['booking/(:num)'] = 'booking/index';
+
 $route['booking/insert'] = 'booking/insert';
 $route['booking/update'] = 'booking/update';
 $route['booking/delete'] = 'booking/delete';
