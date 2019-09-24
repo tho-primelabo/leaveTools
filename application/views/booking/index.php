@@ -1,6 +1,6 @@
     <div class="row-fluid">
         <div class="span12">
-            
+
             <div id='calendar'></div>
         </div>
     </div>
@@ -66,15 +66,25 @@
 </div>
 </div>
 <!--Modal-->
+
+<link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
+<?php if ($language_code != 'en') {?>
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lang/<?php echo strtolower($language_code);?>.js"></script>
+<?php }?>
+<script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/clipboard-1.6.1.min.js"></script>
+
 <script type="text/javascript">
 	$(function() {
-   <?php if ($this->config->item('csrf_protection') == TRUE) {?>
-    $.ajaxSetup({
-        data: {
-            <?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
-        }
-    });
-	<?php }?>
+        <?php if ($this->config->item('csrf_protection') == true) {?>
+        $.ajaxSetup({
+            data: {
+                <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+            }
+        });
+        <?php }?>
 	});
 	//Global Ajax error handling mainly used for session expiration
     $( document ).ajaxError(function(event, jqXHR, settings, errorThrown) {
@@ -88,90 +98,86 @@
             bootbox.alert("<?php echo lang('global_ajax_error'); ?>");
         }
     });
-	$(document).ready(function(){
-		var url = window.location;
-        var url_array = url.toString().split('/') // Split the string into an array with / as separator
-        var roomid = url_array[url_array.length -1]
-        $('#roomid').val(roomid);
-        var calendar = $('#calendar').fullCalendar({
-            header:{
-                left: 'prev,today next',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay'
-                
-            },
-            defaultView: 'agendaWeek',
-            editable: true,
-            selectable: true,
-			selectOverlap: false,
-            allDaySlot: false,
-            
-            events:  "/booking/loadData?roomid="+roomid,
-						            
-            eventClick:  function(event, jsEvent, view) {
-                //console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
-                endtime = $.fullCalendar.moment(event.end).format('h:mm');
-                starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
-                var mywhen = starttime + ' - ' + endtime;
-                $('#modalTitle').html(event.title);
-                $('#modalWhen').text(mywhen);
-                $('#eventID').val(event.id);
-                $('#calendarModal').modal();
-            },
-            
-            //header and other values
-            select: function(start, end, jsEvent) {
-				if(start.isBefore(moment())) {
-					$('#calendar').fullCalendar('unselect');
-					return false;
-				}
-                endtime = $.fullCalendar.moment(end).format('h:mm');
-                starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
-                var mywhen = starttime + ' - ' + endtime;
-                start = moment(start).format();
-                end = moment(end).format();
-                $('#createEventModal #startTime').val(start);
-                $('#createEventModal #endTime').val(end);
-                $('#createEventModal #when').text(mywhen);
-                $('#createEventModal').modal('toggle');
-           },
-           eventDrop: function(event, delta){
-			   console.log(event);
-               $.ajax({
-                   url  : "update",
-                   data: {'title': event.title,'start': moment(event.start).format(),'end':moment(event.end).format(),
-                   'id':event.id , 'roomid': roomid},
-                   type: "POST",
-                   success: function(json) {
-                   //alert(json);
-                   }
-               });
-           },
-           eventResize: function(event) {
-			   console.log(event);
-               $.ajax({
-                   url  : "update",
-                   data: {'title':event.title,'start':moment(event.start).format(),
-                   'end': moment(event.end).format(),'id':event.id, 'roomid':roomid},
-                   type: "POST",
-                   success: function(json) {
-                       //alert(json);
-                   }
-               });
-           }
-        });
-       
-       
+
+    var calendar = $('#calendar').fullCalendar({
+        timeFormat: ' ', /*Trick to remove the start time of the event*/
+        header: {
+            left: "",
+            center: "title",
+            right: ""
+        },
+        defaultView: 'agendaWeek',
+        editable: true,
+        selectable: true,
+        allDaySlot: false,
+
+        events: '<?php echo base_url(); ?>booking/loadData',
+
+
+        eventClick: function(event, jsEvent, view) {
+            endtime = $.fullCalendar.moment(event.end).format('h:mm');
+            starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
+            var mywhen = starttime + ' - ' + endtime;
+            $('#modalTitle').html(event.title);
+            $('#modalWhen').text(mywhen);
+            $('#eventID').val(event.id);
+            $('#calendarModal').modal();
+        },
+
+        //header and other values
+        select: function(start, end, jsEvent) {
+            endtime = $.fullCalendar.moment(end).format('h:mm');
+            starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
+            var mywhen = starttime + ' - ' + endtime;
+            start = moment(start).format();
+            end = moment(end).format();
+            $('#createEventModal #startTime').val(start);
+            $('#createEventModal #endTime').val(end);
+            $('#createEventModal #when').text(mywhen);
+            $('#createEventModal').modal('toggle');
+        },
+        eventDrop: function(event, delta) {
+            console.log(event);
+            $.ajax({
+                url: "booking/update",
+                data: {
+                    'title': event.title,
+                    'start': moment(event.start).format(),
+                    'end': moment(event.end).format(),
+                    'id': event.id
+                },
+                type: "POST",
+                success: function(json) {
+                    //alert(json);
+                }
+            });
+        },
+        eventResize: function(event) {
+            console.log(event);
+            $.ajax({
+                url: "booking/update",
+                data: {
+                    'title': event.title,
+                    'start': moment(event.start).format(),
+                    'end': moment(event.end).format(),
+                    'id': event.id
+                },
+                type: "POST",
+                success: function(json) {
+                    //alert(json);
+                }
+            });
+        }
+    });
+
+    //Manage Prev/Next buttons
+    $('#cmdNext').click(function() {
+        $('#calendar').fullCalendar('next');
+    });
+    $('#cmdPrevious').click(function() {
+        $('#calendar').fullCalendar('prev');
     });
 
 </script>
-<link href="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/fullcalendar.min.js"></script>
-<?php if ($language_code != 'en') {?>
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lang/<?php echo strtolower($language_code);?>.js"></script>
-<?php }?>
-<script src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
-<script src="<?php echo base_url();?>assets/js/clipboard-1.6.1.min.js"></script>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/book/js/script.js"></script>
