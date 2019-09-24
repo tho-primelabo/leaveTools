@@ -26,7 +26,7 @@
 
             <input type="hidden" id="startTime"/>
             <input type="hidden" id="endTime"/>
-
+			<input type="hidden" id="roomid"/>
 
 
         <div class="control-group">
@@ -89,23 +89,27 @@
         }
     });
 	$(document).ready(function(){
-				
+		var url = window.location;
+        var url_array = url.toString().split('/') // Split the string into an array with / as separator
+        var roomid = url_array[url_array.length -1]
+        $('#roomid').val(roomid);
         var calendar = $('#calendar').fullCalendar({
             header:{
                 left: 'prev,today next',
                 center: 'title',
-                right: 'agendaWeek,agendaDay'
+                right: 'month,agendaWeek,agendaDay'
+                
             },
             defaultView: 'agendaWeek',
             editable: true,
             selectable: true,
+			selectOverlap: false,
             allDaySlot: false,
             
-            events:  "/booking/loadData",
-   
-            
+            events:  "/booking/loadData?roomid="+roomid,
+						            
             eventClick:  function(event, jsEvent, view) {
-                console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
+                //console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
                 endtime = $.fullCalendar.moment(event.end).format('h:mm');
                 starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
                 var mywhen = starttime + ' - ' + endtime;
@@ -117,6 +121,10 @@
             
             //header and other values
             select: function(start, end, jsEvent) {
+				if(start.isBefore(moment())) {
+					$('#calendar').fullCalendar('unselect');
+					return false;
+				}
                 endtime = $.fullCalendar.moment(end).format('h:mm');
                 starttime = $.fullCalendar.moment(start).format('dddd, MMMM Do YYYY, h:mm');
                 var mywhen = starttime + ' - ' + endtime;
@@ -130,9 +138,9 @@
            eventDrop: function(event, delta){
 			   console.log(event);
                $.ajax({
-                   url  : "booking/update",
+                   url  : "update",
                    data: {'title': event.title,'start': moment(event.start).format(),'end':moment(event.end).format(),
-                   'id':event.id },
+                   'id':event.id , 'roomid': roomid},
                    type: "POST",
                    success: function(json) {
                    //alert(json);
@@ -142,9 +150,9 @@
            eventResize: function(event) {
 			   console.log(event);
                $.ajax({
-                   url  : "booking/update",
+                   url  : "update",
                    data: {'title':event.title,'start':moment(event.start).format(),
-                   'end': moment(event.end).format(),'id':event.id},
+                   'end': moment(event.end).format(),'id':event.id, 'roomid':roomid},
                    type: "POST",
                    success: function(json) {
                        //alert(json);

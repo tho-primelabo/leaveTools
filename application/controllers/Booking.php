@@ -23,34 +23,40 @@ class Booking extends CI_Controller {
         parent::__construct();
 		setUserContext($this);
 		$this->load->model('booking_model');
+		$this->load->model('rooms_model');
+
     }
 
     public function index() { 
 		setUserContext($this);
 		$data = getUserContext($this);
-        $data['title'] = 'Booking';
+		$data['rooms'] = $this->rooms_model->getRooms();
+        $data['title'] = 'Booking';	
 		$this->auth->checkIfOperationIsAllowed('booking');
+		
 		$this->load->view('templates/header', $data);
 		$this->load->view('menu/index', $data);
+		
 		$this->load->view('booking/index');
 		$this->load->view('templates/footer');
       } 
 	  
 	  public function loadData(){
-		 $events = $this->booking_model->loadData();
-		 foreach($events as $key=>$event){
-			$res[] = $event;
-		 }
-		 echo json_encode($res);
+		 $events = $this->booking_model->loadData($this->input->get('roomid'));
+		 //$res = '';
+		 //foreach($events as $key=>$event){
+			//$res[] = $event;
+		 //}
+		 echo json_encode($events);
 	  }
 	  public function insert(){
 		$this->auth->checkIfOperationIsAllowed('create_booking');
-		
 		 $events = $this->booking_model->insert();
-		 foreach($events as $key=>$event){
-			$res[] = $event;
+		 if($events){
+ 			echo $events;
 		 }
-		 echo json_encode($res);
+		//return $events;
+		
 		 //print_r(json_encode($res));
 		 //redirect('booking');
 	  }
@@ -76,7 +82,7 @@ class Booking extends CI_Controller {
 			$data = $this->booking_model->delete();
 			
 			$this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
-			echo json_encode(1);
+			echo json_encode($data);
 		}
     	//redirect('booking');
     }

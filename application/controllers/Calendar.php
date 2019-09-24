@@ -21,6 +21,7 @@ class Calendar extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
+		$this->load->model('rooms_model');
         //This controller differs from the others, because some calendars can be public
     }
 
@@ -93,6 +94,7 @@ class Calendar extends CI_Controller {
         $this->lang->load('calendar', $this->language);
         $this->auth->checkIfOperationIsAllowed('individual_calendar');
         $data = getUserContext($this);
+		$data['rooms'] = $this->rooms_model->getRooms();
         $data['title'] = lang('calendar_individual_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_individual');
         $data['googleApi'] = FALSE;
