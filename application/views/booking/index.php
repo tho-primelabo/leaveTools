@@ -14,7 +14,7 @@
             <div class="span12">
                 <?php echo lang('booking_description'); ?>
             </div>
-        </div>
+        </div>  
         <!-- <div class="row-fluid">
             <div class="span6">
                 <button id="cmdPrevious" class="btn btn-primary"><i class="mdi mdi-chevron-left"></i></button>

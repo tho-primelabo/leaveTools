@@ -229,6 +229,7 @@ class Auth {
             //Calendar
 			//case 'booking' :
 			//return true;
+            case 'create_booking' :
             case 'individual_calendar' :
               return true;
             case 'workmates_calendar' :
