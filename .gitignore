@@ -20,7 +20,6 @@ application/temp/*
 /node_modules/
 /assets/js/app.js
 /assets/css/app.css
-/application/config/database.php
 /application/config/email.php
 /nbproject/*
 /.metadata/
