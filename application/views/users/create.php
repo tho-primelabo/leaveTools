@@ -67,8 +67,15 @@ echo form_open('users/create', $attributes); ?>
             </div>
         </div>
     </div>
-
-    <div class="span8">
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="annualleave"><?php echo lang('users_edit_field_annaulleave');?></label>
+            <div class="controls">
+                <input type="number" name="annualleave"  required />
+            </div>
+        </div>
+    </div>
+    <div class="span4">
         <input type="hidden" name="manager" id="manager" />
         <div class="control-group">
             <label class="control-label" for="txtManager">

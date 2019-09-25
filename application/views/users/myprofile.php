@@ -45,6 +45,10 @@
             <div class="span6"><strong><?php echo lang('users_myprofile_field_entity');?></strong></div>
             <div class="span6"><?php echo $organization_label;?></div>
         </div>
+        <div class="row-fluid">
+            <div class="span6"><strong><?php echo lang('users_myprofile_field_annualleave');?></strong></div>
+            <div class="span6"style="color:MediumSeaGreen;"><b><?php echo $user['annualleave'];?></b></div>
+        </div>
 
         <div class="row-fluid">
             <div class="span6"><strong><?php echo lang('users_myprofile_field_hired');?></strong></div>

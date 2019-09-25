@@ -99,16 +99,16 @@
 <script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/clipboard-1.6.1.min.js"></script>
 <script type="text/javascript">
-	$(function() {
+    $(function() {
    <?php if ($this->config->item('csrf_protection') == true) {?>
     $.ajaxSetup({
         data: {
             <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
         }
     });
-	<?php }?>
-	});
-	//Global Ajax error handling mainly used for session expiration
+    <?php }?>
+    });
+    //Global Ajax error handling mainly used for session expiration
     $(document).ajaxError(function(event, jqXHR, settings, errorThrown) {
         $('#frmModalAjaxWait').modal('hide');
         if (jqXHR.status == 401) {

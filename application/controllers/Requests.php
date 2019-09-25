@@ -79,6 +79,10 @@ class Requests extends CI_Controller {
         if (($this->user_id == $employee['manager']) || ($this->is_hr)  || ($is_delegate)) {
             $this->leaves_model->switchStatus($id, LMS_ACCEPTED);
             $this->sendMail($id, LMS_REQUESTED_ACCEPTED);
+            $duration = $employee['annualleave'] - ($leave['duration']*8);
+            if ($duration > 0) {
+                $this->users_model->updateAnnualLeave($leave['employee'], $duration);
+            }
             $this->session->set_flashdata('msg', lang('requests_accept_flash_msg_success'));
             if (isset($_GET['source'])) {
                 redirect($_GET['source']);
