@@ -111,7 +111,12 @@ echo form_open('users/create', $attributes); ?>
     </div>
 
     <div class="span4">
-        &nbsp;
+        <div class="control-group">
+            <label class="control-label" for="phoneNo"><?php echo lang('users_myprofile_field_phoneNo');?></label>
+            <div class="controls">
+                <input type="number" id="phoneNo" name="phoneNo" required />
+            </div>
+        </div>
     </div>
 
     <div class="span4">

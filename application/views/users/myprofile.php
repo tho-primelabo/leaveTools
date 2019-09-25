@@ -21,6 +21,10 @@
             <div class="span6"><strong><?php echo lang('users_myprofile_field_lastname');?></strong></div>
             <div class="span6"><?php echo $user['lastname'];?></div>
         </div>
+        <div class="row-fluid">
+            <div class="span6"><strong><?php echo lang('users_myprofile_field_phoneNo');?></strong></div>
+            <div class="span6"><?php echo $user['telephone'];?></div>
+        </div>
 
         <div class="row-fluid">
             <div class="span6"><strong><?php echo lang('users_myprofile_field_manager');?></strong></div>

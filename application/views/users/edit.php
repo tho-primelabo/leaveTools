@@ -120,8 +120,13 @@ if (isset($_GET['source'])) {
         </div>
     </div>
 
-    <div class="span4">
-        &nbsp;
+     <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="phoneNo"><?php echo lang('users_myprofile_field_phoneNo');?></label>
+            <div class="controls">
+                <input type="number" id="phoneNo" name="phoneNo" value="<?php echo $users_item['telephone']; ?>" />
+            </div>
+        </div>
     </div>
 </div>
 
