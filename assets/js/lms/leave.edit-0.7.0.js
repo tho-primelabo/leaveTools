@@ -69,7 +69,7 @@ function getLeaveInfos(preventDefault) {
         .done(function(leaveInfo) {
             if (typeof leaveInfo.length !== 'undefined') {
                 var duration = parseFloat(leaveInfo.length);
-                duration = Math.round(duration * 1000) / 1000;  //Round to 3 decimals only if necessary
+                duration = (Math.round(duration * 1000) / 1000)*8;  //Round to 3 decimals only if necessary
                 if (!preventDefault) {
                     if (start.isValid() && end.isValid()) {
                         $('#duration').val(duration);

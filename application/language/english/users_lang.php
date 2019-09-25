@@ -47,6 +47,8 @@ $lang['users_myprofile_field_entity'] = 'Entity';
 $lang['users_myprofile_field_hired'] = 'Date hired/started';
 $lang['users_myprofile_field_identifier'] = 'Internal/Company Identifier';
 $lang['users_myprofile_field_language'] = 'Language';
+$lang['users_myprofile_field_annualleave'] = 'Annual Leave';
+$lang['users_myprofile_field_phoneNo'] = 'Phone Number';
 
 $lang['users_edit_title'] = 'Edit user #';
 $lang['users_edit_html_title'] = 'Edit user';
@@ -80,6 +82,8 @@ $lang['users_edit_popup_position_button_cancel'] = 'Cancel';
 $lang['users_edit_button_update'] = 'Update user';
 $lang['users_edit_button_cancel'] = 'Cancel';
 $lang['users_edit_flash_msg_success'] = 'The user has been succesfully updated';
+$lang['users_edit_button_cancel'] = 'Cancel';
+$lang['users_edit_field_annaulleave'] = 'Annual Leave';
 
 $lang['users_delete_flash_msg_success'] = 'The user has been succesfully deleted';
 
@@ -138,3 +142,4 @@ $lang['users_export_thead_firstname'] = 'Firstname';
 $lang['users_export_thead_lastname'] = 'Lastname';
 $lang['users_export_thead_email'] = 'E-mail';
 $lang['users_export_thead_manager'] = 'Manager';
+$lang['users_export_thead_annualleave'] = 'Annual Leave';

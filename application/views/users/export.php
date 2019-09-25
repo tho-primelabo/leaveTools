@@ -23,9 +23,11 @@ $sheet->setCellValue('B1', lang('users_export_thead_firstname'));
 $sheet->setCellValue('C1', lang('users_export_thead_lastname'));
 $sheet->setCellValue('D1', lang('users_export_thead_email'));
 $sheet->setCellValue('E1', lang('users_export_thead_manager'));
+$sheet->setCellValue('F1', lang('users_export_thead_annualleave'));
+$sheet->setCellValue('G1', lang('users_myprofile_field_phoneNo'));
 
-$sheet->getStyle('A1:E1')->getFont()->setBold(true);
-$sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+$sheet->getStyle('A1:G1')->getFont()->setBold(true);
+$sheet->getStyle('A1:G1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
 $users = $this->users_model->getUsers();
 $line = 2;
@@ -35,11 +37,13 @@ foreach ($users as $user) {
     $sheet->setCellValue('C' . $line, $user['lastname']);
     $sheet->setCellValue('D' . $line, $user['email']);
     $sheet->setCellValue('E' . $line, $user['manager']);
+    $sheet->setCellValue('F' . $line, $user['annualleave']);
+    $sheet->setCellValue('G' . $line, $user['telephone']);
     $line++;
 }
 
 //Autofit
-foreach(range('A', 'E') as $colD) {
+foreach(range('A', 'G') as $colD) {
     $sheet->getColumnDimension($colD)->setAutoSize(TRUE);
 }
 

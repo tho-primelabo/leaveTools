@@ -87,7 +87,6 @@ class Auth {
             case 'list_users' :
             case 'create_user' :
             case 'delete_user' :
-            case 'delete_booking' :
             case 'view_user' :
             case 'edit_user' :
             case 'update_user' :
@@ -121,7 +120,6 @@ class Auth {
             case 'view_contract' :
             case 'create_contract' :
             case 'delete_contract' :
-            case 'delete_booking' :
             case 'edit_contract' :
             case 'delete_positions' :
             case 'edit_positions' :
@@ -209,11 +207,11 @@ class Auth {
             case 'list_overtime' :
             case 'accept_overtime' :
             case 'reject_overtime' :
-			case 'booking' :
-			case 'delete_booking' :
-			case 'create_booking' :
-			case 'update_booking' :
-			
+            case 'booking' :
+            case 'delete_booking' :
+            case 'create_booking' :
+            case 'update_booking' :
+            
                 return true;
                 break;
 

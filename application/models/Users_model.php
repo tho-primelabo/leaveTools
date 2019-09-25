@@ -206,6 +206,7 @@ class Users_model extends CI_Model {
             'identifier' => $this->input->post('identifier'),
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone'),
+            'annualleave' =>$this->input->post('annualleave'),
             'random_hash' => rtrim(strtr(base64_encode($this->getRandomBytes(24)), '+/', '-_'), '='),
         );
 
@@ -353,6 +354,7 @@ class Users_model extends CI_Model {
             'role' => $role,
             'manager' => $manager,
             'contract' => $this->input->post('contract'),
+            'annualleave'=>$this->input->post('annualleave'),
             'identifier' => $this->input->post('identifier'),
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone')
@@ -374,6 +376,18 @@ class Users_model extends CI_Model {
         $result = $this->db->update('users', $data);
         return $result;
     }
+
+ public function updateAnnualLeave($userid, $duration) {
+
+     $data = array(            
+            'annualleave'=>$duration   
+        );
+    $this->db->where('id', $userid);
+    $result = $this->db->update('users', $data);
+    echo $duration;
+    return $result;
+ }
+    
 
     /**
      * Update a given user in the database. Update data are coming from an HTML form

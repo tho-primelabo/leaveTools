@@ -53,6 +53,7 @@ if (isset($_GET['source'])) {
             </div>
         </div>
     </div>
+    
 </div>
 
 <div class="row">
@@ -64,7 +65,15 @@ if (isset($_GET['source'])) {
             </div>
         </div>
     </div>
-    <div class="span8">
+    <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="annualleave"><?php echo lang('users_edit_field_annaulleave');?></label>
+            <div class="controls">
+                <input type="number" name="annualleave" value="<?php echo $users_item['annualleave']; ?>" required />
+            </div>
+        </div>
+    </div>
+    <div class="span4">
         <input type="hidden" name="manager" id="manager" value="<?php echo $users_item['manager']; ?>" />
         <div class="control-group">
             <label class="control-label" for="txtManager"><?php echo lang('users_edit_field_manager');?>
@@ -111,8 +120,13 @@ if (isset($_GET['source'])) {
         </div>
     </div>
 
-    <div class="span4">
-        &nbsp;
+     <div class="span4">
+        <div class="control-group">
+            <label class="control-label" for="phoneNo"><?php echo lang('users_myprofile_field_phoneNo');?></label>
+            <div class="controls">
+                <input type="number" id="phoneNo" name="phoneNo" value="<?php echo $users_item['telephone']; ?>" />
+            </div>
+        </div>
     </div>
 </div>
 
