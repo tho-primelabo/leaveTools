@@ -207,6 +207,7 @@ class Users_model extends CI_Model {
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone'),
             'annualleave' =>$this->input->post('annualleave'),
+            'telephone' =>$this->input->post('phoneNo'),
             'random_hash' => rtrim(strtr(base64_encode($this->getRandomBytes(24)), '+/', '-_'), '='),
         );
 
@@ -355,6 +356,7 @@ class Users_model extends CI_Model {
             'manager' => $manager,
             'contract' => $this->input->post('contract'),
             'annualleave'=>$this->input->post('annualleave'),
+            'telephone'=>$this->input->post('phoneNo'),
             'identifier' => $this->input->post('identifier'),
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone')

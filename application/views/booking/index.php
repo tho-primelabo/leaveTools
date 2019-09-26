@@ -141,7 +141,12 @@
             events: "<?php echo base_url();?>booking/loadData?roomid=" + roomid,
 
             eventClick: function(event, jsEvent, view) {
-                //console.log(event.id + ":" +event.start.format('dddd, MMMM Do YYYY, h:mm'));
+                console.log(event.id + ":" +event.uid);
+                var userSession = <?php echo $this->session->userdata('id');?>;
+               if (event.uid != userSession) {
+                    event.disableDragging = true
+                    return false;
+                }
                 endtime = $.fullCalendar.moment(event.end).format('h:mm');
                 starttime = $.fullCalendar.moment(event.start).format('dddd, MMMM Do YYYY, h:mm');
                 var mywhen = starttime + ' - ' + endtime;
@@ -168,7 +173,11 @@
                 $('#createEventModal').modal('toggle');
             },
             eventDrop: function(event, delta) {
-                console.log(event);
+                var userSession = <?php echo $this->session->userdata('id');?>;
+                if (event.uid != userSession) {
+                    event.disableDragging = true
+                    return false;
+                }
                 $.ajax({
                     url: "update",
                     data: {
@@ -184,8 +193,29 @@
                     }
                 });
             },
+             eventAfterRender: function(event, element, view) {
+                //Add tooltip to the element
+                var userSession = <?php echo $this->session->userdata('id');?>;
+                
+                // console.log(userSession + ":" + event.uid);
+                if (event.uid == userSession) {
+                    $(element).attr('title', event.title);
+                   
+                }
+                else {
+                    element.disableResizing = true;
+                    element.draggable = false;
+                }
+               
+                
+             },
             eventResize: function(event) {
-                console.log(event);
+                var userSession = <?php echo $this->session->userdata('id');?>;
+                console.log(userSession + ":" + event.uid);
+                if (event.uid != userSession) {
+                    //event.disableDragging = true
+                    return false;
+                }
                 $.ajax({
                     url: "update",
                     data: {
@@ -197,7 +227,7 @@
                     },
                     type: "POST",
                     success: function(json) {
-                        //alert(json);
+                        alert(json);
                     }
                 });
             }
