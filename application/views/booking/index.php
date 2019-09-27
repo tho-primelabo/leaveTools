@@ -126,6 +126,7 @@
         var url_array = url.toString().split('/') // Split the string into an array with / as separator
         var roomid = url_array[url_array.length - 1]
         $('#roomid').val(roomid);
+       
         var calendar = $('#calendar').fullCalendar({
             header: {
                 left: 'prev,today,next',
@@ -136,7 +137,25 @@
             editable: true,
             selectable: true,
             selectOverlap: false,
+            eventOverlap: false,
             allDaySlot: false,
+            minTime: "08:00:00",
+            maxTime: "22:30:00",
+			businessHours: [{
+              dow: [1, 2, 3, 4, 5], // Monday - Friday
+              start: '08:00',
+              end: '12:00',
+            }, {
+              dow: [1, 2, 3, 4, 5], // Monday - Friday (if adding lunch hours)
+              start: '13:00',
+              end: '22:00',
+            }],
+ 			
+ 			/* This constrains it to today or later */
+            eventConstraint: {
+                start: moment().format('YYYY-MM-DD HH:mm'),
+                end: '2100-01-01' // hard coded goodness unfortunately
+            },
 
             events: "<?php echo base_url();?>booking/loadData?roomid=" + roomid,
 
@@ -144,7 +163,7 @@
                 console.log(event.id + ":" +event.uid);
                 var userSession = <?php echo $this->session->userdata('id');?>;
                if (event.uid != userSession) {
-                    event.disableDragging = true
+                    jsEvent.disableDragging = false;
                     return false;
                 }
                 endtime = $.fullCalendar.moment(event.end).format('h:mm');
@@ -158,6 +177,7 @@
 
             //header and other values
             select: function(start, end, jsEvent) {
+               
                 if (start.isBefore(moment())) {
                     $('#calendar').fullCalendar('unselect');
                     return false;
@@ -204,7 +224,8 @@
                 }
                 else {
                     element.disableResizing = true;
-                    element.draggable = false;
+                    element.draggable = true;
+                    element.editable= false;
                 }
                
                 
