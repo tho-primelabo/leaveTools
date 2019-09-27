@@ -36,7 +36,7 @@
 </div>
 
 
-<table id="leaves1" class="table table-striped table-bordered nowrap" style="width:100%">
+<table id="leaves" class="table table-striped table-bordered nowrap" style="width:100%">
     <thead>
         <tr>
             <th><?php echo lang('leaves_index_thead_id');?></th>
