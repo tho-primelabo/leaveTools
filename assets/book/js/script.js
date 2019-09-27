@@ -44,13 +44,16 @@ $(document).ready(function() {
             url: base_url+"/booking/insert",
             data: { 'title': title, 'start': startTime, 'end': endTime, 'roomid': roomid },
             type: "POST",
-            success: function(id) {
-				console.log(id);
+            success: function(json) {
+				//console.log(JSON.parse(json));
+                json = JSON.parse(json);
+                var id = json.id;
                 $("#calendar").fullCalendar('renderEvent', {
                         id: id,
                         title: title,
                         start: startTime,
                         end: endTime,
+                        uid: json.uid
                     },
                     true);
             }

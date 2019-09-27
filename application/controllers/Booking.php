@@ -56,9 +56,14 @@ class Booking extends CI_Controller
     public function insert()
     {
         // $this->auth->checkIfOperationIsAllowed('create_booking');
-        $events = $this->booking_model->insert();
+        $eventid = $this->booking_model->insert();
+        $uid = $this->session->userdata('id');
+         $events = array(
+            'id' => $eventid,
+            'uid'=>$uid
+         );
         if ($events) {
-            echo $events;
+            echo json_encode($events);
         }
         //return $events;
 
