@@ -33,6 +33,7 @@ class Calendar extends CI_Controller {
      */
     public function year($employee = 0, $year = 0) {
         setUserContext($this);
+        
         $this->lang->load('calendar', $this->language);
         if ($employee == 0 || $employee == $this->user_id) {
             $this->auth->checkIfOperationIsAllowed('individual_calendar');
@@ -41,6 +42,7 @@ class Calendar extends CI_Controller {
         }
         $data = getUserContext($this);
         $this->load->model('users_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $user = $this->users_model->getUsers($employee);
         if ($year==0) $year = date("Y");
         //Either self access, Manager or HR
@@ -118,6 +120,7 @@ class Calendar extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('workmates_calendar');
         $data = getUserContext($this);
         $data['title'] = lang('calendar_workmates_title');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_workmates');
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
@@ -135,6 +138,7 @@ class Calendar extends CI_Controller {
         $this->lang->load('calendar', $this->language);
         $this->auth->checkIfOperationIsAllowed('collaborators_calendar');
         $data = getUserContext($this);
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['title'] = lang('calendar_collaborators_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_collaborators');
         $this->load->view('templates/header', $data);
@@ -157,6 +161,7 @@ class Calendar extends CI_Controller {
         $data['title'] = lang('calendar_department_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_department');
         $this->load->model('organization_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $department = $this->organization_model->getDepartment($this->user_id);
         if (empty($department)) {
             $this->session->set_flashdata('msg', lang('calendar_department_msg_error'));
@@ -210,6 +215,7 @@ class Calendar extends CI_Controller {
             $data['title'] = lang('calendar_organization_title');
             $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_organization');
             $data['departmentName'] = $this->organization_model->getName(0);
+            $data['rooms'] = $this->rooms_model->getRooms();
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
             $this->load->view('calendar/organization', $data);
@@ -296,6 +302,7 @@ class Calendar extends CI_Controller {
             $this->auth->checkIfOperationIsAllowed('organization_calendar');
             $data = getUserContext($this);
             $this->load->model('leaves_model');
+            $data['rooms'] = $this->rooms_model->getRooms();
             $this->load->model('organization_model');
             $data['mode'] = 'connected';
             $data['tabular'] = $this->leaves_model->tabular($id, $month, $year, $children);

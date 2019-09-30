@@ -300,6 +300,7 @@ class Users extends CI_Controller {
         $data['help'] = $this->help->create_help_link('global_link_doc_page_create_user');
 
         $this->load->model('roles_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['roles'] = $this->roles_model->getRoles();
         $this->load->model('contracts_model');
         $data['contracts'] = $this->contracts_model->getContracts();

@@ -23,6 +23,7 @@ class LeaveTypes extends CI_Controller {
         setUserContext($this);
         $this->load->model('types_model');
         $this->lang->load('leavetypes', $this->language);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -33,6 +34,7 @@ class LeaveTypes extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('leavetypes_list');
         $data = getUserContext($this);
         $data['leavetypes'] = $this->types_model->getTypes();
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['title'] = lang('leavetypes_type_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_edit_leave_type');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);

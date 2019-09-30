@@ -54,7 +54,7 @@ class Leaves extends CI_Controller {
         }
         $data['types'] = $this->types_model->getTypes();
         $data['title'] = lang('leaves_index_title');
-		 $data['rooms'] = $this->rooms_model->getRooms();
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_requests_list');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -87,6 +87,7 @@ class Leaves extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('counters_leaves');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
+        $data['rooms'] = $this->rooms_model->getRooms();
         if ($refDate != NULL) {
             $data['isDefault'] = 0;
         } else {
@@ -121,6 +122,7 @@ class Leaves extends CI_Controller {
         $this->load->model('status_model');
         $this->load->helper('form');
         $data = getUserContext($this);
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['leave'] = $this->leaves_model->getLeaveWithComments($id);
         if (empty($data['leave'])) {
             redirect('notfound');
@@ -218,7 +220,7 @@ class Leaves extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = lang('leaves_create_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_request_leave');
-
+        $data['rooms'] = $this->rooms_model->getRooms();
         $this->form_validation->set_rules('startdate', lang('leaves_create_field_start'), 'required|strip_tags');
         $this->form_validation->set_rules('startdatetype', 'Start Date type', 'required|strip_tags');
         $this->form_validation->set_rules('enddate', lang('leaves_create_field_end'), 'required|strip_tags');
@@ -288,6 +290,7 @@ class Leaves extends CI_Controller {
         $this->load->model('status_model');
         $data = getUserContext($this);
         $data['leave'] = $this->leaves_model->getLeaveWithComments($id);
+        $data['rooms'] = $this->rooms_model->getRooms();
         //Check if exists
         if (empty($data['leave'])) {
             redirect('notfound');

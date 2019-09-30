@@ -22,6 +22,7 @@ class Organization extends CI_Controller {
      */
     public function __construct() {
         parent::__construct();
+        $this->load->model('rooms_model');
         //This controller differs from the others, because some endpoints can be public
         //when they are used by public calendars
     }
@@ -39,6 +40,7 @@ class Organization extends CI_Controller {
         $this->lang->load('datatable', $this->language);
         $this->lang->load('treeview', $this->language);
         $data['title'] = lang('organization_index_title');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_hr_organization');
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);

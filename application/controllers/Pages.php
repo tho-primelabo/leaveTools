@@ -22,6 +22,7 @@ class Pages extends CI_Controller {
     public function __construct() {
         parent::__construct();
         setUserContext($this);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -49,6 +50,7 @@ class Pages extends CI_Controller {
     public function view($page = 'home') {
         $data = getUserContext($this);
         $trans = array("-" => " ", "_" => " ", "." => " ");
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['title'] = ucfirst(strtr($page, $trans)); // Capitalize the first letter
         //The page containing export in their name are returning another MIMETYPE
         if (strpos($page, 'export') === FALSE) {//Don't include header and menu

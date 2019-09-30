@@ -26,6 +26,7 @@ class Reports extends CI_Controller {
         setUserContext($this);
         $this->lang->load('reports', $this->language);
         $this->lang->load('global', $this->language);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -36,7 +37,7 @@ class Reports extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('report_list');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
-
+        $data['rooms'] = $this->rooms_model->getRooms();
         $reports = array();
         //List all the available reports
         $files = glob(FCPATH . '/local/reports/*.ini');
@@ -75,6 +76,7 @@ class Reports extends CI_Controller {
         }
         $data['refDate'] = $refDate;
         $data['title'] = lang('reports_balance_title');
+        $data['rooms'] = $this->rooms_model->getRooms();  
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_balance_report');
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
@@ -197,6 +199,7 @@ class Reports extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('native_report_leaves');
         $data = getUserContext($this);
         $data['title'] = lang('reports_leaves_title');
+        $data['rooms'] = $this->rooms_model->getRooms();  
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leaves_report');
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);

@@ -29,6 +29,7 @@ class Requests extends CI_Controller {
         $this->load->model('leaves_model');
         $this->lang->load('requests', $this->language);
         $this->lang->load('global', $this->language);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -45,6 +46,7 @@ class Requests extends CI_Controller {
         $this->load->helper('form');
         $data['filter'] = $filter;
         $data['title'] = lang('requests_index_title');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_validation');
         ($filter == 'all')? $showAll = TRUE : $showAll = FALSE;
         if ($this->config->item('enable_history') == TRUE){
@@ -209,6 +211,7 @@ class Requests extends CI_Controller {
         $data['title'] = lang('requests_collaborators_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_collaborators_list');
         $this->load->model('users_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['collaborators'] = $this->users_model->getCollaboratorsOfManager($this->user_id);
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -234,6 +237,7 @@ class Requests extends CI_Controller {
             $data['name'] = $this->users_model->getName($id);
             $data['id'] = $id;
             $this->load->model('delegations_model');
+            $data['rooms'] = $this->rooms_model->getRooms();
             $data['delegations'] = $this->delegations_model->listDelegationsForManager($id);
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
@@ -300,6 +304,7 @@ class Requests extends CI_Controller {
     public function createleave($id) {
         $this->lang->load('hr', $this->language);
         $this->load->model('users_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $employee = $this->users_model->getUsers($id);
         if (($this->user_id != $employee['manager']) && ($this->is_hr === FALSE)) {
             log_message('error', 'User #' . $this->user_id . ' illegally tried to access to collaborators/leave/create  #' . $id);
@@ -458,7 +463,7 @@ class Requests extends CI_Controller {
         $this->lang->load('datatable', $this->language);
         $data['title'] = lang('requests_balance_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_leave_balance_report');
-
+        $data['rooms'] = $this->rooms_model->getRooms();    
         if ($dateTmp === NULL) {
             $refDate = date("Y-m-d");
             $data['isDefault'] = 1;
