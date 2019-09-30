@@ -25,6 +25,7 @@ class Positions extends CI_Controller {
         setUserContext($this);
         $this->load->model('positions_model');
         $this->lang->load('positions', $this->language);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -36,6 +37,7 @@ class Positions extends CI_Controller {
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
         $data['positions'] = $this->positions_model->getPositions();
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['title'] = lang('positions_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_positions_list');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);

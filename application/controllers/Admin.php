@@ -24,6 +24,7 @@ class Admin extends CI_Controller {
         setUserContext($this);
         $this->lang->load('global', $this->language);
         $this->lang->load('admin', $this->language);
+        $this->load->model('rooms_model');
     }
     
     /**
@@ -33,6 +34,7 @@ class Admin extends CI_Controller {
     public function settings() {
         $this->auth->checkIfOperationIsAllowed('list_settings');
         $data = getUserContext($this);
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['title'] = 'application/config/config.php';
         $data['help'] = $this->help->create_help_link('global_link_doc_page_settings');
         $this->load->view('templates/header', $data);
@@ -55,6 +57,7 @@ class Admin extends CI_Controller {
         $this->load->model('dayoffs_model');
         $this->load->model('contracts_model');
         $this->load->model('overtime_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['duplicatedLeaves'] = $this->leaves_model->detectDuplicatedRequests();
         $data['wrongDateType'] = $this->leaves_model->detectWrongDateTypes();
         $data['entitlmentOverflow'] = $this->entitleddays_model->detectOverflow();
@@ -97,6 +100,7 @@ class Admin extends CI_Controller {
         $data['tokens'] = $this->oauthclients_model->getAccessTokens();
         $data['title'] = lang('admin_oauthclients_title');
         $data['help'] = '';
+        $data['rooms'] = $this->rooms_model->getRooms();
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view('admin/oauth_clients', $data);

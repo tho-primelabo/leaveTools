@@ -26,6 +26,7 @@ class Hr extends CI_Controller {
         $this->load->model('leaves_model');
         $this->lang->load('hr', $this->language);
         $this->lang->load('global', $this->language);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -41,6 +42,7 @@ class Hr extends CI_Controller {
         $data['title'] = lang('hr_employees_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_list_employees');
         $this->load->model('contracts_model');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['contracts'] = $this->contracts_model->getContracts();
         $this->load->model('types_model');
         $data['types'] = $this->types_model->getTypes();

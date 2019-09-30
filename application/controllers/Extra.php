@@ -29,6 +29,7 @@ class Extra extends CI_Controller {
         $this->load->model('overtime_model');
         $this->lang->load('extra', $this->language);
         $this->lang->load('global', $this->language);
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -41,6 +42,7 @@ class Extra extends CI_Controller {
         $this->lang->load('datatable', $this->language);
         $data['extras'] = $this->overtime_model->getExtrasOfEmployee($this->user_id);
         $data['title'] = lang('extra_index_title');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_extra_list');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -106,7 +108,7 @@ class Extra extends CI_Controller {
         $data = getUserContext($this);
         $this->load->helper('form');
         $this->load->library('form_validation');
-
+        $data['rooms'] = $this->rooms_model->getRooms();
         $this->form_validation->set_rules('date', lang('extra_create_field_date'), 'required|strip_tags');
         $this->form_validation->set_rules('duration', lang('extra_create_field_duration'), 'required|strip_tags');
         $this->form_validation->set_rules('cause', lang('extra_create_field_cause'), 'required|strip_tags');

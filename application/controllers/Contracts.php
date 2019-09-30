@@ -33,6 +33,7 @@ class Contracts extends CI_Controller
         $this->lang->load('contract', $this->language);
         $this->lang->load('contracttypes', $this->language);
         $this->load->model('contracts_model');
+        $this->load->model('rooms_model');
     }
 
     /**
@@ -47,6 +48,7 @@ class Contracts extends CI_Controller
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
         $data['contracts'] = $this->contracts_model->getContracts();
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);

@@ -16,6 +16,7 @@ class Contracttypes extends CI_Controller
         setUserContext($this);
         $this->load->model('Contracttypes_model', 'contract_types');
         $this->lang->load('contracttypes', $this->language);
+        $this->load->model('rooms_model');
     }
 
     public function index()
@@ -24,6 +25,7 @@ class Contracttypes extends CI_Controller
         $data = getUserContext($this);
         $data['contracttypes'] = $this->contract_types->getContractTypes();
         $data['title'] = lang('contracttypes_type_title');
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['help'] = $this->help->create_help_link('global_link_doc_page_edit_leave_type');
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);

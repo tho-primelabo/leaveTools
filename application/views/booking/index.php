@@ -154,9 +154,9 @@
  			/* This constrains it to today or later */
             eventConstraint: {
                 start: moment().format('YYYY-MM-DD HH:mm'),
-                end: '2100-01-01' // hard coded goodness unfortunately
+                end: '2100-01-01', // hard coded goodness unfortunately
             },
-
+            //selectConstraint: "businessHours",
             events: "<?php echo base_url();?>booking/loadData?roomid=" + roomid,
 
             eventClick: function(event, jsEvent, view) {
@@ -195,7 +195,7 @@
             eventDrop: function(event, delta) {
                 var userSession = <?php echo $this->session->userdata('id');?>;
                 if (event.uid != userSession) {
-                    event.disableDragging = true
+                    event.eventStartEditable = false;
                     return false;
                 }
                 $.ajax({
