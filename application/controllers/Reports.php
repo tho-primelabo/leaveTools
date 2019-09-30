@@ -37,7 +37,7 @@ class Reports extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('report_list');
         $data = getUserContext($this);
         $this->lang->load('datatable', $this->language);
-        $data['rooms'] = $this->rooms_model->getRooms();    
+        $data['rooms'] = $this->rooms_model->getRooms();
         $reports = array();
         //List all the available reports
         $files = glob(FCPATH . '/local/reports/*.ini');
@@ -239,7 +239,6 @@ class Reports extends CI_Controller {
         $this->load->model('leaves_model');
         $this->load->model('types_model');
         $this->load->model('dayoffs_model');
-        $data['rooms'] = $this->rooms_model->getRooms();  
         $types = $this->types_model->getTypes();
 
         //Iterate on all employees of the entity

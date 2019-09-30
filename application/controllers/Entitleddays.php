@@ -24,7 +24,7 @@ class Entitleddays extends CI_Controller {
         setUserContext($this);
         $this->load->model('entitleddays_model');
         $this->lang->load('entitleddays', $this->language);
-        $data['rooms'] = $this->rooms_model->getRooms();
+        $this->load->model('rooms_model');
         $data['rooms'] = $this->rooms_model->getRooms();
     }
 

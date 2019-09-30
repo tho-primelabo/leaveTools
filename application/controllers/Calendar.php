@@ -215,6 +215,7 @@ class Calendar extends CI_Controller {
             $data['title'] = lang('calendar_organization_title');
             $data['help'] = $this->help->create_help_link('global_link_doc_page_calendar_organization');
             $data['departmentName'] = $this->organization_model->getName(0);
+            $data['rooms'] = $this->rooms_model->getRooms();
             $this->load->view('templates/header', $data);
             $this->load->view('menu/index', $data);
             $this->load->view('calendar/organization', $data);

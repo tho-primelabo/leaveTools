@@ -122,6 +122,7 @@ class Leaves extends CI_Controller {
         $this->load->model('status_model');
         $this->load->helper('form');
         $data = getUserContext($this);
+        $data['rooms'] = $this->rooms_model->getRooms();
         $data['leave'] = $this->leaves_model->getLeaveWithComments($id);
         if (empty($data['leave'])) {
             redirect('notfound');

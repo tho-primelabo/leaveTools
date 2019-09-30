@@ -192,10 +192,10 @@
                 $('#createEventModal #when').text(mywhen);
                 $('#createEventModal').modal('toggle');
             },
-            eventDrop: function(event, delta) {
+            eventDrop: function(event, delta, revertFunc) {
                 var userSession = <?php echo $this->session->userdata('id');?>;
                 if (event.uid != userSession) {
-                    event.eventStartEditable = false;
+                    revertFunc();
                     return false;
                 }
                 $.ajax({
@@ -226,15 +226,15 @@
                     element.disableResizing = true;
                     element.draggable = true;
                     element.editable= false;
+                    //$(this).addClass('hideClass');
+                    //$(element).removeClass('fc-event');
+                    $(element).removeClass('fc-time-grid-event');
                 }
-               
-                
              },
-            eventResize: function(event) {
+            eventResize: function(event, element) {
                 var userSession = <?php echo $this->session->userdata('id');?>;
-                console.log(userSession + ":" + event.uid);
+                //console.log(userSession + ":" + event.uid);
                 if (event.uid != userSession) {
-                    //event.disableDragging = true
                     return false;
                 }
                 $.ajax({
@@ -248,7 +248,7 @@
                     },
                     type: "POST",
                     success: function(json) {
-                        alert(json);
+                        //alert(json);
                     }
                 });
             }
