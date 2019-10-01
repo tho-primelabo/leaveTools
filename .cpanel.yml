@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/gpmax132/leavetools.gpmaxx.com/
+    - /bin/cp -r ./application $DEPLOYPATH
+    - /bin/cp -r ./assets $DEPLOYPATH
+    - /bin/cp -r ./docker $DEPLOYPATH
+    - /bin/cp -r ./local $DEPLOYPATH
+    - /bin/cp -r ./system $DEPLOYPATH
