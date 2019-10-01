@@ -52,7 +52,7 @@ CREATE TABLE `users` (
   `user_properties` text COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Entity ID (eg. user id) to which the parameter is applied',
   `picture` blob DEFAULT NULL COMMENT 'Profile picture of user for tabular calendar',
   `annualleave` decimal(11,2) DEFAULT 0.00,
-  `telephone` varchar(20) DEFAULT  NULL,
+  `telephone` varchar(20) DEFAULT  NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='List of employees / users having access to Jorani' ROW_FORMAT=COMPACT;
 
 --
