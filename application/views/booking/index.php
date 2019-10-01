@@ -216,10 +216,11 @@
              eventAfterRender: function(event, element, view) {
                 //Add tooltip to the element
                 var userSession = <?php echo $this->session->userdata('id');?>;
+                var userName = '<?php echo $this->session->userdata('login');?>';
                 
                 // console.log(userSession + ":" + event.uid);
                 if (event.uid == userSession) {
-                    $(element).attr('title', event.title);
+                    $(element).attr('title', userName);
                    
                 }
                 else {
@@ -228,13 +229,14 @@
                     element.editable= false;
                     //$(this).addClass('hideClass');
                     //$(element).removeClass('fc-event');
-                    $(element).removeClass('fc-time-grid-event');
+                    //$(element).removeClass('fc-time-grid-event');
                 }
              },
             eventResize: function(event, element) {
                 var userSession = <?php echo $this->session->userdata('id');?>;
                 //console.log(userSession + ":" + event.uid);
                 if (event.uid != userSession) {
+                    $(element).removeClass('fc-event');
                     return false;
                 }
                 $.ajax({
