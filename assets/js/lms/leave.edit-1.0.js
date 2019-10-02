@@ -79,7 +79,7 @@ function getLeaveInfos(preventDefault) {
             if (typeof leaveInfo.credit !== 'undefined') {
                 var credit = parseFloat(leaveInfo.credit);
                 var duration = parseFloat($("#duration").val());
-                if (duration > credit) {
+                if (duration > credit && duration > 8) {
                     $("#lblCreditAlert").show();
                 } else {
                     $("#lblCreditAlert").hide();

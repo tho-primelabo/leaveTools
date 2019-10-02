@@ -94,9 +94,10 @@ class Rooms extends CI_Controller {
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('rooms_edit_title');
-        $data['rooms'] = $this->Rooms_model->getRooms($id);
+        $data['room'] = $this->Rooms_model->getRooms($id);
+        $data['rooms'] = $this->Rooms_model->getRooms();
         //Check if exists
-        if (empty($data['rooms'])) {
+        if (empty($data['room'])) {
             redirect('notfound');
         }
         $this->form_validation->set_rules('name', lang('Rooms_edit_field_name'), 'required|strip_tags');

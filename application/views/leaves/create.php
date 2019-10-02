@@ -7,90 +7,91 @@
  * @since         0.1.0
  */
 ?>
+<div class="container h-100 d-flex justify-content-center">
+    <h2><?php echo lang('leaves_create_title'); ?> &nbsp;<?php echo $help; ?></h2>
 
-<h2><?php echo lang('leaves_create_title'); ?> &nbsp;<?php echo $help; ?></h2>
+    <div class="row">
+        <div class="span8">
 
-<div class="row-fluid">
-    <div class="span8">
+            <?php echo validation_errors(); ?>
 
-        <?php echo validation_errors(); ?>
+            <?php
+            $attributes = array('id' => 'frmLeaveForm');
+            echo form_open('leaves/create', $attributes)
+            ?>
 
-        <?php
-        $attributes = array('id' => 'frmLeaveForm');
-        echo form_open('leaves/create', $attributes)
-        ?>
+            <label for="type">
+                <?php echo lang('leaves_create_field_type'); ?>
+                &nbsp;<span class="muted" id="lblCredit"></span>
+            </label>
+            <select class="input-large" name="type" id="type">
+                <?php foreach ($types as $typeId => $TypeName): ?>
+                    <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
+                <?php endforeach ?>
+            </select>
 
-        <label for="type">
-            <?php echo lang('leaves_create_field_type'); ?>
-            &nbsp;<span class="muted" id="lblCredit"><?php if (!is_null($credit)) { ?>(<?php echo $credit; ?>)<?php } ?></span>
-        </label>
-        <select class="input-large" name="type" id="type">
-            <?php foreach ($types as $typeId => $TypeName): ?>
-                <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
-            <?php endforeach ?>
-        </select>
+            <label for="viz_startdate"><?php echo lang('leaves_create_field_start'); ?></label>
+            <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
+            <input type="hidden" name="startdate" id="startdate" />
+            <select name="startdatetype" id="startdatetype">
+                <option value="Morning" selected><?php echo lang('Morning'); ?></option>
+                <option value="Afternoon"><?php echo lang('Afternoon'); ?></option>
+            </select><br />
 
-        <label for="viz_startdate"><?php echo lang('leaves_create_field_start'); ?></label>
-        <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
-        <input type="hidden" name="startdate" id="startdate" />
-        <select name="startdatetype" id="startdatetype">
-            <option value="Morning" selected><?php echo lang('Morning'); ?></option>
-            <option value="Afternoon"><?php echo lang('Afternoon'); ?></option>
-        </select><br />
+            <label for="viz_enddate"><?php echo lang('leaves_create_field_end'); ?></label>
+            <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
+            <input type="hidden" name="enddate" id="enddate" />
+            <select name="enddatetype" id="enddatetype">
+                <option value="Morning"><?php echo lang('Morning'); ?></option>
+                <option value="Afternoon" selected><?php echo lang('Afternoon'); ?></option>
+            </select><br />
 
-        <label for="viz_enddate"><?php echo lang('leaves_create_field_end'); ?></label>
-        <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
-        <input type="hidden" name="enddate" id="enddate" />
-        <select name="enddatetype" id="enddatetype">
-            <option value="Morning"><?php echo lang('Morning'); ?></option>
-            <option value="Afternoon" selected><?php echo lang('Afternoon'); ?></option>
-        </select><br />
+            <label for="duration"><?php echo lang('leaves_create_field_duration'); ?> <span id="tooltipDayOff"></span></label>
+            <?php if ($this->config->item('disable_edit_leave_duration') == TRUE) { ?>
+                <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" readonly />
+            <?php } else { ?>
+                <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" required/>
+            <?php } ?>
 
-        <label for="duration"><?php echo lang('leaves_create_field_duration'); ?> <span id="tooltipDayOff"></span></label>
-        <?php if ($this->config->item('disable_edit_leave_duration') == TRUE) { ?>
-            <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" readonly />
-        <?php } else { ?>
-            <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" />
-        <?php } ?>
+            <span style="margin-left: 2px;position: relative;top: -5px;" id="spnDayType"></span>
 
-        <span style="margin-left: 2px;position: relative;top: -5px;" id="spnDayType"></span>
+            <div class="alert hide alert-error" id="lblCreditAlert" onclick="$('#lblCreditAlert').hide();">
+                <button type="button" class="close">&times;</button>
+                <?php echo lang('leaves_create_field_duration_message'); ?>
+            </div>
 
-        <div class="alert hide alert-error" id="lblCreditAlert" onclick="$('#lblCreditAlert').hide();">
-            <button type="button" class="close">&times;</button>
-            <?php echo lang('leaves_create_field_duration_message'); ?>
+            <div class="alert hide alert-error" id="lblOverlappingAlert" onclick="$('#lblOverlappingAlert').hide();">
+                <button type="button" class="close">&times;</button>
+                <?php echo lang('leaves_create_field_overlapping_message'); ?>
+            </div>
+
+            <div class="alert hide alert-error" id="lblOverlappingDayOffAlert" onclick="$('#lblOverlappingDayOffAlert').hide();">
+                <button type="button" class="close">&times;</button>
+                <?php echo lang('leaves_flash_msg_overlap_dayoff'); ?>
+            </div>
+
+            <label for="cause"><?php echo lang('leaves_create_field_cause'); ?></label>
+            <textarea name="cause"><?php echo set_value('cause'); ?></textarea>
+
+            <label for="status" required><?php echo lang('extra_create_field_status');?></label>
+            <select name="status">
+                <option value="1"><?php echo lang('Planned');?></option>
+                <option value="2"><?php echo lang('Requested');?></option>
+            </select>
+            <br/><br/>
+            <button type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; Create</button> <a href="<?php echo base_url(); ?>leaves" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('leaves_create_button_cancel'); ?></a>
+            </form>
+
         </div>
-
-        <div class="alert hide alert-error" id="lblOverlappingAlert" onclick="$('#lblOverlappingAlert').hide();">
-            <button type="button" class="close">&times;</button>
-            <?php echo lang('leaves_create_field_overlapping_message'); ?>
-        </div>
-
-        <div class="alert hide alert-error" id="lblOverlappingDayOffAlert" onclick="$('#lblOverlappingDayOffAlert').hide();">
-            <button type="button" class="close">&times;</button>
-            <?php echo lang('leaves_flash_msg_overlap_dayoff'); ?>
-        </div>
-
-        <label for="cause"><?php echo lang('leaves_create_field_cause'); ?></label>
-        <textarea name="cause"><?php echo set_value('cause'); ?></textarea>
-
-        <label for="status" required><?php echo lang('extra_create_field_status');?></label>
-        <select name="status">
-            <option value="1"><?php echo lang('Planned');?></option>
-            <option value="2"><?php echo lang('Requested');?></option>
-        </select>
-        <br/><br/>
-        <button type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; Create</button> <a href="<?php echo base_url(); ?>leaves" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('leaves_create_button_cancel'); ?></a>
-        </form>
-
     </div>
-</div>
 
-<div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
-    <div class="modal-header">
-        <h1><?php echo lang('global_msg_wait'); ?></h1>
-    </div>
-    <div class="modal-body">
-        <img src="<?php echo base_url(); ?>assets/images/loading.gif"  align="middle">
+    <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
+        <div class="modal-header">
+            <h1><?php echo lang('global_msg_wait'); ?></h1>
+        </div>
+        <div class="modal-body">
+            <img src="<?php echo base_url(); ?>assets/images/loading.gif"  align="middle">
+        </div>
     </div>
 </div>
 

@@ -7,20 +7,21 @@
  * @since         0.2.0
  */
 ?>
+<div class="container h-100 d-flex justify-content-center">
+    <h2><?php echo lang('rooms_edit_title');?><?php echo $room['id']; ?></h2>
 
-<h2><?php echo lang('rooms_edit_title');?><?php echo $rooms['id']; ?></h2>
+    <?php echo validation_errors(); ?>
 
-<?php echo validation_errors(); ?>
+    <?php echo form_open('rooms/edit/' . $room['id']) ?>
 
-<?php echo form_open('rooms/edit/' . $rooms['id']) ?>
+        <label for="name"><?php echo lang('rooms_edit_field_name');?></label>
+        <input type="text" name="name" id="name" value="<?php echo $room['name']; ?>" autofocus required /><br />
 
-    <label for="name"><?php echo lang('rooms_edit_field_name');?></label>
-    <input type="text" name="name" id="name" value="<?php echo $rooms['name']; ?>" autofocus required /><br />
+    
 
-   
-
-    <br /><br />
-    <button type="submit" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('rooms_edit_button_update');?></button>
-    &nbsp;
-    <a href="<?php echo base_url();?>rooms" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('rooms_edit_button_cancel');?></a>
-</form>
+        <br /><br />
+        <button type="submit" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('rooms_edit_button_update');?></button>
+        &nbsp;
+        <a href="<?php echo base_url();?>rooms" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('rooms_edit_button_cancel');?></a>
+    </form>
+</div>

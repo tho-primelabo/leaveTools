@@ -77,6 +77,7 @@ class Contracts extends CI_Controller
         $this->form_validation->set_rules('endentdateday', lang('contract_edit_field_end_day'), 'required|strip_tags');
 
         $data['contract'] = $this->contracts_model->getContracts($id);
+        $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['contract'])) {
             redirect('notfound');
         }

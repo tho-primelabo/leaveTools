@@ -97,6 +97,7 @@ class Positions extends CI_Controller {
         $this->load->library('form_validation');
         $data['title'] = lang('positions_edit_title');
         $data['position'] = $this->positions_model->getPositions($id);
+        $data['rooms'] = $this->rooms_model->getRooms();
         //Check if exists
         if (empty($data['position'])) {
             redirect('notfound');

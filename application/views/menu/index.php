@@ -150,18 +150,14 @@ $this->lang->load('menu', $language);
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('menu_booking_department'); ?> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <?php
-if (isset($rooms)) {
-
-    foreach ($rooms as $room): ?>
-              <li><a href="<?php echo base_url(); ?>booking/<?=$room['id']?>"><?php echo $room['name']; ?></a>
-
-              <?php endforeach;
-}?>
-
-
-              </li>
-            </ul>
-          </li>
+                if (isset($rooms)) {
+                    foreach ($rooms as $room): ?>
+                              <li><a href="<?php echo base_url(); ?>booking/<?php $room['id']?>"><?php echo $room['name']; ?></a>
+                              <?php endforeach;
+                }?>
+                </li>
+              </ul>
+            </li>
 
           <li>
             <form class="navbar-form pull-left">
