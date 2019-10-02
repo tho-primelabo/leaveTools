@@ -45,7 +45,7 @@ class Contracttypes extends CI_Controller
         $this->load->helper('form');
         $this->load->library('form_validation');
         $data['title'] = lang('leavetypes_popup_create_title');
-        $data['leavetypes'] = $this->contract_types->getContractTypes();
+        $data['contracttypes'] = $this->contract_types->getContractTypes();
 
         $this->form_validation->set_rules('name', lang('leavetypes_popup_create_field_name'), 'required|strip_tags');
 
@@ -66,7 +66,7 @@ class Contracttypes extends CI_Controller
         $this->load->library('form_validation');
         $data['title'] = lang('contracttypes_popup_update_title');
         $data['id'] = $id;
-        $data['contracttypes'] = $this->contract_types->getContractTypes();
+        //$data['contracttypes'] = $this->contract_types->getContractTypes();
         $data['contracttypes'] = $this->contract_types->getContractTypes($id);
 
         $this->form_validation->set_rules('name', lang('contracttypes_popup_update_field_name'), 'required|strip_tags');

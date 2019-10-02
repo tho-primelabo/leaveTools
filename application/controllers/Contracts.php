@@ -71,18 +71,19 @@ class Contracts extends CI_Controller
         $data['title'] = lang('contract_edit_title');
 
         $this->form_validation->set_rules('name', lang('contract_edit_field_name'), 'required|strip_tags');
-        $this->form_validation->set_rules('startentdatemonth', lang('contract_edit_field_start_month'), 'required|strip_tags');
-        $this->form_validation->set_rules('startentdateday', lang('contract_edit_field_start_day'), 'required|strip_tags');
-        $this->form_validation->set_rules('endentdatemonth', lang('contract_edit_field_end_month'), 'required|strip_tags');
-        $this->form_validation->set_rules('endentdateday', lang('contract_edit_field_end_day'), 'required|strip_tags');
-
+        $this->form_validation->set_rules('startdate', lang('contract_edit_field_start_month'), 'required|strip_tags');
+       // $this->form_validation->set_rules('startentdateday', lang('contract_edit_field_start_day'), 'required|strip_tags');
+        //$this->form_validation->set_rules('endentdatemonth', lang('contract_edit_field_end_month'), 'required|strip_tags');
+        $this->form_validation->set_rules('enddate', lang('contract_edit_field_end_day'), 'required|strip_tags');
+        
         $data['contract'] = $this->contracts_model->getContracts($id);
-        $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['contract'])) {
             redirect('notfound');
         }
 
         if ($this->form_validation->run() === FALSE) {
+            $this->load->model('Contracttypes_model', 'contract_types');
+            $data['contract_types'] = $this->contract_types->getTypesAsArray();
             $this->load->model('types_model');
             $allTypes = $this->types_model->getTypesAsArray();
             $excludedTypes = $this->contracts_model->getListOfExcludedTypes($id);
@@ -119,14 +120,14 @@ class Contracts extends CI_Controller
         $data['title'] = lang('contract_create_title');
 
         $this->form_validation->set_rules('name', lang('contract_create_field_name'), 'required|strip_tags');
-        $this->form_validation->set_rules('startentdatemonth', lang('contract_create_field_start_month'), 'required|strip_tags');
-        $this->form_validation->set_rules('startentdateday', lang('contract_create_field_start_day'), 'required|strip_tags');
-        $this->form_validation->set_rules('endentdatemonth', lang('contract_create_field_end_month'), 'required|strip_tags');
-        $this->form_validation->set_rules('endentdateday', lang('contract_create_field_end_day'), 'required|strip_tags');
+        $this->form_validation->set_rules('startdate', lang('contract_create_field_start_month'), 'required|strip_tags');
+        //$this->form_validation->set_rules('startentdateday', lang('contract_create_field_start_day'), 'required|strip_tags');
+        $this->form_validation->set_rules('enddate', lang('contract_create_field_end_month'), 'required|strip_tags');
+        //$this->form_validation->set_rules('endentdateday', lang('contract_create_field_end_day'), 'required|strip_tags');
 
         if ($this->form_validation->run() === FALSE) {
-            $this->load->model('types_model');
-            $data['types'] = $this->types_model->getTypesAsArray();
+            //$this->load->model('types_model');
+            //$data['types'] = $this->types_model->getTypesAsArray();
 
             $this->load->model('Contracttypes_model', 'contract_types');
             $data['contract_types'] = $this->contract_types->getTypesAsArray();
