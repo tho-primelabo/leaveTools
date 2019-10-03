@@ -1,135 +1,347 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
- 
-    <title>Pay Slip Generation</title>
-	<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+        #salary_comment {
+            text-align: left;
+            float: left;
+           
+            color: #1b435d;
+        }
 
+        .main .content {
+            color: #000;
+            font-size: 12px;
+        }
+
+        #form_convert label {
+            color: #000;
+            float: right;
+            margin-left: 3px;
+            margin-top: 3px;
+        }
+
+        .margin-top-5 {
+            margin-top: 8px;
+            color: #000;
+            width: 140px;
+        }
+
+        .datalist {
+            border-collapse: collapse;
+            
+        }
+
+            .datalist th:last-child, .datalist td:last-child {
+                border-right: 0px solid #F37A21;
+                padding: 6px;
+                text-align: right;
+                vertical-align: top;
+                border-bottom: solid 1px #fff;
+                text-align: left;
+            }
+
+            .datalist th, .datalist td {
+                border-right: 1px solid #F37A21;
+                padding: 6px;
+                text-align: right;
+                vertical-align: top;
+                border-bottom: solid 1px #fff;
+            }
+
+            .datalist th {
+                font-weight: bold;
+                color: #1A1A1A;
+            }
+
+            .datalist td {
+                padding-left: 25px;
+            }
+
+        .rownote {
+            background-color: #E6E6E6;
+        }
+
+        #form_convert span {
+            margin-right: 8px;
+            float: left;
+        }
+
+        #form_convert .title {
+            color: #1b435d;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .title {
+            color: #1b435d;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        #form_convert input[type='text'] {
+            font-size: 12px;
+            border: 1px solid #105576;
+            border-radius: 2px;
+            ss;
+        }
+
+        #form_convert input[type='submit'] {
+            border: 1px solid #4ebad5;
+            background-color: #4ebad5;
+            padding: 5px 10px;
+        }
+
+        #form_convert input[type='button'] {
+            float: left;
+            margin-right: 10px;
+            width: 150px;
+        }
+
+        #form_convert input[type='submit']:hover {
+            padding: 5px 10px;
+            background-color: #fff;
+            color: #4ebad5;
+        }
+
+        #salary_comment {
+            margin-top: 20px;
+            float: right;
+        }
+
+            #salary_comment span {
+                margin-right: 2px;
+                float: left;
+                margin-bottom: 2px;
+            }
+
+        #curencyUni {
+            margin-top: 4px;
+        }
+
+        .cssFreeToolRight {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-  <form name="employeeInfoForm" action="" onsubmit="return generatePayslip(this['name'].value, this['lastname'].value, this['salary'].value,this['superrate'].value);" method="post">
-	 <fieldset>		
-		<label for="name">First Name</label>
-		<input type="text" class="form-control" id="name">
-		<br />
-		<label for="lastname">Lastname</label>
-		<input type="text" id="lastname" class="form-control" name="lastname" placeholder="Enter your last name" />
-		<br />
-		<label for="salary">Annual salary</label>
-		<input type="text" id="salary" class="form-control" name="salary" placeholder="Enter your salary" />
-		<br />
-		<label for="superrate">Super rate</label>
-		<input type="text" id="superrate" class="form-control" name="superrate" placeholder="Enter your superrate" />
-		<br />
-		
-		<button type="submit" class="btn btn-primary">Generate Payslip</button>
-	 </fieldset>
-  </form>
-  
-  
-  
-  <form name="payForm" action="" onsubmit="" method="post">
-		<input type="hidden" id="nameValue" name="name"  />
-		<input type="hidden" id="lastnameValue" name="lastname"  />
-		<input type="hidden" id="annualValue" name="annual"  />
-		<input type="hidden" id="grossValue"  name="gross" />
-		<input type="hidden" id="taxValue" name="tax" />
-		<input type="hidden" id="netValue"  name="net"/>
-		<input type="hidden" id="superValue" name="super" />
-		<input type="hidden" id="payValue"  name="pay"/>
-		<table class="table table-striped">
-			<tbody>
-			  <tr>
-				<td>Pay Date</td>
-				<td>31 December 2016</td>
-			  </tr>
-			  <tr>
-				<td>Pay Frequency</td>
-				<td>Monthly</td>
-			  </tr>		
-			 <tr>
-				<td>Annual income</td>
-				<td id="annual" ></td>
-			  </tr>		
-			  <tr>
-				<td>Gross income</td>
-				<td id="gross" ></td>
-			  </tr>		
-			  <tr>
-				<td>Income Tax</td>
-				<td id="tax" ></td>
-			  </tr>		
-			  <tr>
-				<td>Net income</td>
-				<td id="net" ></td>
-			  </tr>		
-			  <tr>
-				<td>Super</td>
-				<td id="super" ></td>
-			  </tr>		
-			  <tr>
-				<td>Pay</td>
-				<td id="pay"></td>
-			  </tr>			
-			</tbody>
-		</table>
-		
-		<br>
-      <button type="submit" class="btn btn-primary">Pay</button>
-  </form>
-  
-  
-  
-  
-    <script>
-	
-	function round(number){
-		if (number%1 >= 50) 
-			return Math.ceil(number);
-		else
-			return Math.floor(number);
-	}
-	
-	function calculateIncomeTax(salary){
-		if (salary<=18200) return 0;
-		if (salary>18200 && salary <=37000) return round(((salary-18200) * 0.19)/12);
-		if (salary>37000 && salary <=80000) return round((3572 + ((salary-37000)* 0.325))/12);
-		if (salary>80000 && salary <=180000) return round((17547 + ((salary-80000) * 0.37))/12);
-		if (salary>180000) return round((54547 + ((salary-180000) * 0.45))/12);
-	}
-	
-    function generatePayslip(name, lastname, salary, superrate){
-	  document.querySelector("#nameValue").value = name;
-	  document.querySelector("#lastnameValue").value = lastname;
-	  document.querySelector("#annual").textContent = Number(salary);
-	  document.querySelector("#annualValue").value = Number(salary);
-	  gross = round(Number(salary) / 12);
-	  document.querySelector("#gross").textContent = gross;
-	  document.querySelector("#grossValue").value = gross;
-	  tax = calculateIncomeTax(Number(salary));
-	  document.querySelector("#tax").textContent = tax;
-	  document.querySelector("#taxValue").value = tax;
-	  net = gross - tax;
-	  document.querySelector("#net").textContent = net;
-	  document.querySelector("#netValue").value = net;
-	  superAmount = round(gross * superrate/100);
-	  document.querySelector("#super").textContent = superAmount;
-	  document.querySelector("#superValue").value = superAmount;
-  	  document.querySelector("#pay").textContent = net - superAmount;
-  	  document.querySelector("#payValue").value = net - superAmount;
 
-      return false;
-    }
-	
-	
-	
-	
-    </script>
-	
-	
+<div class="row">
+  <div class="column" style="background-color:#fff;">
+    <div class="col-md-6 col-sm-12 col-xs-12" style="padding-right: 0px;">
+        <div>
+            <div id="form_convert">
+                <div class="title">
+                    Income
+                </div>
+                <div>
+                    <span class="margin-top-5">Salary </span><span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="Please enter number to salary">
+                        <input name="ctl00$ContentPlaceHolder1$txtSalary" type="text" maxlength="14" id="ctl00_ContentPlaceHolder1_txtSalary" class="inputaspx" onkeydown="return MoveNextTextBox(event.keyCode);" style="width:150px;">
+                    </span>
+                    <span>
+                        <select name="ctl00$ContentPlaceHolder1$ddlUnit" id="ctl00_ContentPlaceHolder1_ddlUnit" class="selectaspx" onchange="chonTienTe()" style="width:68px;">
+                            <option value="VND">VND</option>
+                            <option value="USD">USD</option>
+
+                        </select>
+                    </span>
+                        
+                </div>
+                <div style="clear: both;">
+                </div>
+                <div>
+                    <span class="margin-top-5">Exchange rate </span><span>1 USD =
+                    <input name="ctl00$ContentPlaceHolder1$txtExchangeRate" type="text" value="23260" maxlength="5" id="ctl00_ContentPlaceHolder1_txtExchangeRate" class="inputaspx" style="width:172px;" disabled="disabled"></span><span class="margin-top-5" style="margin-right: 0px; width: 20px;">VND</span>
+                </div>
+                <div class="f-boder"></div>
+               
+                <div>
+                    <div class="title">
+                        Insurance
+                    </div>
+                    <div>                                                                    
+                        <span class="margin-top-5" style="margin-top: 2px;">Pay for</span><span>
+                            <input id="ctl00_ContentPlaceHolder1_RadioButton1" type="radio" name="ctl00$ContentPlaceHolder1$rdbPayfor" value="RadioButton1" checked="checked" onclick="chonLuongDongBaoHiem();"><label for="ctl00_ContentPlaceHolder1_RadioButton1">full wage</label></span>
+                        <span>
+                            <input id="ctl00_ContentPlaceHolder1_RadioButton2" type="radio" name="ctl00$ContentPlaceHolder1$rdbPayfor" value="RadioButton2" onclick="chonLuongDongBaoHiem();"><label for="ctl00_ContentPlaceHolder1_RadioButton2">Other</label>
+                        </span><span id="idSalaryBasic" data-toggle="tooltip" data-placement="top" data-title="Please enter number salary basic">
+                            <input name="ctl00$ContentPlaceHolder1$txtSalaryBasic" type="text" maxlength="13" id="ctl00_ContentPlaceHolder1_txtSalaryBasic" style="width:90px;" disabled="disabled"></span> <span class="margin-top-5" style="width: 20px" id="curencyUni">VND</span>
+                        
+                    </div>
+
+                    <div style="clear: both;"></div>
+                    <div style="margin-top: 6px;">
+                        <span>Included UnEmployement Insurance</span> <span>
+                            <input id="ctl00_ContentPlaceHolder1_chkIncludedIns" type="checkbox" name="ctl00$ContentPlaceHolder1$chkIncludedIns" checked="checked"></span>
+                    </div>
+                    <div class="f-boder"></div>
+                    <div style="clear: both;">
+                    </div>
+                    <div>
+                        <div class="title">
+                            Reduction based on family circumstances
+                        </div>
+                        <div>
+                            <span class="margin-top-5">Number of dependant :</span>
+                            <span>
+                                <input name="ctl00$ContentPlaceHolder1$txtNumberOfDep" type="text" value="0" maxlength="2" id="ctl00_ContentPlaceHolder1_txtNumberOfDep" class="inputaspx" onfocus="SearchOnFocus(this)" onblur="SearchOnBlur(this)" style="width:50px;">
+                                
+                            </span>
+                        </div>
+                    </div>
+                    <div style="clear: both;">
+                    </div>
+                    <div style="margin-top: 60px; text-align: center;">
+                        <input id="clienGrossi" onclick="clickso1()" class="form-control btn-primary bg-orange" type="button" value="Gross to Net">
+                        <input id="clientNet" onclick="clickso2()" class="form-control btn-primary bg-orange" type="button" value="Net To Gross">
+                        <div style="display:none">
+                            <input type="submit" name="ctl00$ContentPlaceHolder1$btnCalculator" value="Gross to Net" id="ctl00_ContentPlaceHolder1_btnCalculator" cclass="form-control btn-primary bg-orange">
+                            <input type="submit" name="ctl00$ContentPlaceHolder1$btnNetToGross" value="Net To Gross" id="ctl00_ContentPlaceHolder1_btnNetToGross" class="form-control btn-primary bg-orange">
+                        </div>
+                    </div>
+                        <script>
+                            function CheckLuong() {
+                                var strLuong = $('input[id*="txtSalary"]').val();
+                                if ($.trim(strLuong) == "") {
+                                    var title = $('#idNhapLuong').attr("data-title");
+                                    $('#idNhapLuong').attr('title', title);
+                                    $('#idNhapLuong').tooltip('show');
+                                    return false;
+                                }
+                                // neu nhap la so 
+                                if (isNaN(strLuong)) {
+                                    var title = $('#idNhapLuong').attr("data-title");
+
+                                    $('#idNhapLuong').attr('title', title);
+                                    $('#idNhapLuong').tooltip('show');
+                                    return false;
+                                }
+                                return true;
+                            }
+                            function clickso1() {
+                                var bCheck = CheckLuong();
+                                if (bCheck == true) {
+                                    $('input[id*="btnCalculator"]').click();
+                                }
+                            }
+                            function clickso2() {
+                                //$('input[id*="btnNetToGross"]').click();
+                                var bCheck = CheckLuong();
+                                if (bCheck == true) {
+                                    $('input[id*="btnNetToGross"]').click();
+                                }
+                            }
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class="column" style="background-color:#bbb;">
+   <div id="blockUI" style="padding: 5px; float: right; z-index: 3;">
+        <div style="z-index: 5;">
+            <div class="title" style="text-align: center">
+                Description       (VND)
+            </div>
+            <div>
+                <table class="datalist">
+                    <tbody><tr class="rownote">
+                        <th style="width: 300px;">
+                            GROSS Salary       
+                        </th>
+                        <td style="width: 105px;">
+                            <strong>
+                                <span id="ctl00_ContentPlaceHolder1_lblGrossSalary"></span></strong>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #CDCDCD;">
+                        <th>
+                            Social insurance    (8 %)
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblSocialInsurance"></span>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #CDCDCD;">
+                        <th>
+                            Health Insurance    (1.5 %)
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblHealthInsurance"></span>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #CDCDCD;">
+                        <th>
+                            UnEmployment Insurance    (1 %)
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblThatNghiep"></span>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #E6E6E6;">
+                        <th>
+                            For the tax payer     
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblGiamTruCaNhan"></span>
+                        </td>
+                    </tr>
+                    <tr style="background-color: #CCCCCC;">
+                        <th>
+
+                            For per person that depends on the tax payer 
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblGiamTruPhuThuoc"></span>
+                        </td>
+                    </tr>
+                    <tr class="rownote" style="background-color: #E7E7E7">
+                        <th>
+                            Taxable income 
+        
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblTaxableIncome"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Personal income tax    
+                        </th>
+                        <td>
+                            <span id="ctl00_ContentPlaceHolder1_lblIncomeTax"></span>
+                        </td>
+                    </tr>
+                    <tr class="rownote" style="background-color: #CCCCCC">
+                        <td>
+                            <b>Net salary   </b>
+                            <br>
+                        </td>
+                        <td>
+                            <strong>
+                                <span id="ctl00_ContentPlaceHolder1_lblNetSalary"></span></strong>
+                        </td>
+                    </tr>
+                </tbody></table>
+                <div id="salary_comment">
+                    <span>(*) GROSS:</span><span>
+                        <span id="ctl00_ContentPlaceHolder1_lblGrossVnd">0</span></span><span>(VND) ≈ </span><span>
+                            <span id="ctl00_ContentPlaceHolder1_lblGrossUsd">0.00</span></span><span>(USD)</span>
+                    <div style="clear: both;"></div>
+                    <span>(**) NET:</span><span>
+                        <span id="ctl00_ContentPlaceHolder1_lblNetVnd">0</span></span><span>(VND) ≈</span><span>
+                            <span id="ctl00_ContentPlaceHolder1_lblNetUsd">0.00</span></span><span>(USD)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

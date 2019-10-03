@@ -117,6 +117,7 @@ class Users extends CI_Controller {
         $this->load->library('polyglot');
         $data = getUserContext($this);
         $data['user'] = $this->users_model->getUsers($this->user_id);
+        $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['user'])) {
             redirect('notfound');
         }

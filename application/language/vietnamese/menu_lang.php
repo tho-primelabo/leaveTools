@@ -62,3 +62,4 @@ $lang['menu_calendar_collaborators'] = 'Cấp dưới của tôi';
 $lang['menu_calendar_department'] = 'Phòng ban';
 $lang['menu_calendar_organization'] = 'Toàn cầu';
 $lang['menu_calendar_tabular'] = 'Bảng';
+$lang['menu_booking_department'] = 'Booking';

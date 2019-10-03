@@ -227,9 +227,10 @@
                     element.disableResizing = true;
                     element.draggable = true;
                     element.editable= false;
+                    $(element).addClass('btn-danger');
                     //$(this).addClass('hideClass');
-                    //$(element).removeClass('fc-event');
-                    //$(element).removeClass('fc-time-grid-event');
+                    //$(element).removeClass('fc-event-container');
+                    $(element).removeClass('fc-time-grid-event');
                 }
              },
             eventResize: function(event, element) {
@@ -237,6 +238,7 @@
                 //console.log(userSession + ":" + event.uid);
                 if (event.uid != userSession) {
                     $(element).removeClass('fc-event');
+                    //$(element).find('fc-event-container').removeClass("fc-event");
                     return false;
                 }
                 $.ajax({
