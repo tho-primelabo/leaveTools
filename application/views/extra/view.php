@@ -7,7 +7,7 @@
  * @since         0.2.0
  */
 ?>
-
+<div class="container h-100 d-flex justify-content-center">
 <h2><?php echo lang('extra_view_title');?><?php echo $extra['id']; if ($name != "") {?>&nbsp;<span class="muted">(<?php echo $name; ?>)</span><?php } ?></h2>
 
     <label for="date" required><?php echo lang('extra_view_field_date');?></label>
@@ -33,3 +33,4 @@
         $source = 'entitleddays/user/' . $extra['employee'];
     }?>
     <a href="<?php echo base_url() . $source; ?>" class="btn btn-primary"><i class="mdi mdi-arrow-left-bold"></i>&nbsp;<?php echo lang('extra_view_button_back_list');?></a>
+</div>

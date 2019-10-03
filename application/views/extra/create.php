@@ -7,46 +7,46 @@
  * @since         0.2.0
  */
 ?>
+<div class="container h-100 d-flex justify-content-center">
+    <div class="row-fluid">
+        <div class="span12">
 
-<div class="row-fluid">
-    <div class="span12">
+    <h2><?php echo lang('extra_create_title');?>&nbsp;<?php echo $help;?></h2>
 
-<h2><?php echo lang('extra_create_title');?>&nbsp;<?php echo $help;?></h2>
+    <?php echo validation_errors(); ?>
 
-<?php echo validation_errors(); ?>
+    <?php
+    $attributes = array('id' => 'frmCreateExtra');
+    echo form_open('extra/create', $attributes) ?>
 
-<?php
-$attributes = array('id' => 'frmCreateExtra');
-echo form_open('extra/create', $attributes) ?>
+        <label for="viz_date" required><?php echo lang('extra_create_field_date');?></label>
+        <input type="text" name="viz_date" id="viz_date" value="<?php echo set_value('date'); ?>" />
+        <input type="hidden" name="date" id="date" />
+        
+        <label for="duration" required><?php echo lang('extra_create_field_duration');?></label>
+        <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" />&nbsp;<span><?php echo lang('extra_create_field_duration_description');?></span>
+        
+        <label for="cause"><?php echo lang('extra_create_field_cause');?></label>
+        <textarea name="cause" id="cause"><?php echo set_value('cause'); ?></textarea>
+        
+        <label for="status" required><?php echo lang('extra_create_field_status');?></label>
+        <select name="status">
 
-    <label for="viz_date" required><?php echo lang('extra_create_field_date');?></label>
-    <input type="text" name="viz_date" id="viz_date" value="<?php echo set_value('date'); ?>" />
-    <input type="hidden" name="date" id="date" />
-    
-    <label for="duration" required><?php echo lang('extra_create_field_duration');?></label>
-    <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" />&nbsp;<span><?php echo lang('extra_create_field_duration_description');?></span>
-    
-    <label for="cause"><?php echo lang('extra_create_field_cause');?></label>
-    <textarea name="cause" id="cause"><?php echo set_value('cause'); ?></textarea>
-    
-    <label for="status" required><?php echo lang('extra_create_field_status');?></label>
-    <select name="status">
+            <option value="1" <?php if ($this->config->item('extra_status_requested') == FALSE) echo 'selected'; ?>><?php echo lang('Planned');?></option>
+            <option value="2" <?php if ($this->config->item('extra_status_requested') == TRUE) echo 'selected'; ?>><?php echo lang('Requested');?></option>
+        </select>
+    </form>
 
-        <option value="1" <?php if ($this->config->item('extra_status_requested') == FALSE) echo 'selected'; ?>><?php echo lang('Planned');?></option>
-        <option value="2" <?php if ($this->config->item('extra_status_requested') == TRUE) echo 'selected'; ?>><?php echo lang('Requested');?></option>
-    </select>
-</form>
-
-    <div class="row-fluid"><div class="span12">&nbsp;</div></div>
-    <div class="row-fluid"><div class="span12">
-        <button id="cmdCreateExtra" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('extra_create_button_create');?></button>
-        &nbsp;
-        <a href="<?php echo base_url(); ?>extra" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('extra_create_button_cancel');?></a>
-    </div></div>
-    <div class="row-fluid"><div class="span12">&nbsp;</div></div>
+        <div class="row-fluid"><div class="span12">&nbsp;</div></div>
+        <div class="row-fluid"><div class="span12">
+            <button id="cmdCreateExtra" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('extra_create_button_create');?></button>
+            &nbsp;
+            <a href="<?php echo base_url(); ?>extra" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('extra_create_button_cancel');?></a>
+        </div></div>
+        <div class="row-fluid"><div class="span12">&nbsp;</div></div>
+        </div>
     </div>
 </div>
-
     
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui.custom.min.css">
 <script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>

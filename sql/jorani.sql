@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Functions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `GetAcronym` (`str` TEXT) RETURNS TEXT CHARSET utf8 READS SQL DATA
+CREATE FUNCTION `GetAcronym` (`str` TEXT) RETURNS TEXT CHARSET utf8 READS SQL DATA
     SQL SECURITY INVOKER
 BEGIN
     declare result text default '';

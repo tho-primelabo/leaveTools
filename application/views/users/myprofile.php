@@ -9,8 +9,8 @@
  */
 ?>
 
-<div class="row-fluid">
-    <div class="span6">
+<div class="container h-100 d-flex justify-content-center text-center">
+    <div class="jumbotron my-auto">
         <h2><?php echo lang('users_myprofile_title');?></h2>
         <div class="row-fluid">
             <div class="span6"><strong><?php echo lang('users_myprofile_field_firstname');?></strong></div>
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="span6">
+    <!--<div class="span6">
         <h2>Apps</h2>
         <?php foreach ($apps as $app): ?>
         <div class="row-fluid">
@@ -95,7 +95,7 @@
             </div>
         </div>
         <?php endforeach ?>
-    </div>
+    </div>-->
 </div>
 
 <div class="row-fluid"><div class="span12">&nbsp;</div></div>

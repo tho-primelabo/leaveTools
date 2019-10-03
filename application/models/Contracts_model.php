@@ -71,8 +71,8 @@ class Contracts_model extends CI_Model
             "/" . str_pad($this->input->post('endentdateday'), 2, "0", STR_PAD_LEFT);
         $data = array(
             'name' => $this->input->post('name'),
-            'startentdate' => $startentdate,
-            'endentdate' => $endentdate,
+            'startentdate' => $this->input->post('startdate'),
+            'endentdate' => $this->input->post('enddate'),
             'default_leave_type' => $this->input->post('default_leave_type')
         );
         return $this->db->insert('contracts', $data);

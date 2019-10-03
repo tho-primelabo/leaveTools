@@ -167,6 +167,7 @@ class Users extends CI_Controller {
         if ($this->config->item('ldap_basedn_db')) $this->form_validation->set_rules('ldap_path', lang('users_edit_field_ldap_path'), 'strip_tags');
 
         $data['users_item'] = $this->users_model->getUsers($id);
+        $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['users_item'])) {
             redirect('notfound');
         }
