@@ -416,6 +416,9 @@ $route['booking/update'] = 'booking/update';
 $route['booking/delete'] = 'booking/delete';
 
 //_______________________________________________
+//payslip requests
+$route['payslip'] = 'payslip/index';
+//_______________________________________________
 //Default controllers
 $route['default_controller'] = 'leaves';
 $route['404_override'] = 'pages/notfound';

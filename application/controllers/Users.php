@@ -360,7 +360,7 @@ class Users extends CI_Controller {
             if ($this->config->item('subject_prefix') != FALSE) {
                 $subject = $this->config->item('subject_prefix');
             } else {
-               $subject = '[Jorani] ';
+               $subject = '[Thole] ';
             }
             $this->email->subject($subject . $lang_mail->line('email_user_create_subject'));
             $this->email->message($message);
