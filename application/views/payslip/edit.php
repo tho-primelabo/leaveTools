@@ -1,5 +1,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<h2><?php echo lang('payslip_title');?>&nbsp;</h2>
+<div class="row-fluid">
+    <div class="span12">
+        <h2><?php echo lang('payslip_title');?><?php echo $users_item['id']; ?></h2>
+
+        <?php echo validation_errors(); ?>
+    </div>
+</div>
 
 
 <div class="wrapper">
@@ -11,7 +17,7 @@
                     <div class="clearfix">
                         <span class="margin-top-5">Salary </span>
                         <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="Please enter number to salary">
-                            <input name="txtSalary" type="text" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
+                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary']; ?>"" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
                         </span>
                         <span>
                             <select name="ddlUnit" id="ddlUnit" class="selectaspx w70" onchange="chonTienTe()">
@@ -65,7 +71,16 @@
                         <input type="submit" name="btnNetToGross" value="Net To Gross" id="btnNetToGross" class="form-control btn-primary bg-orange">
                     </div>
                 </div>
+              <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
+                <div class="modal-header">
+                    <h1><?php echo lang('global_msg_wait');?></h1>
+                </div>
+                <div class="modal-body">
+                    <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
+                </div>
+        </div>
                 <script>
+                  
                     $(function() {
                         <?php if ($this->config->item('csrf_protection') == true) {?>
                             $.ajaxSetup({
@@ -104,6 +119,9 @@
                         console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep);
                         $.ajax({
                             url: "payslip/create",
+                             beforeSend: function(){
+                                $('#frmModalAjaxWait').modal('show');
+                                },
                             data: {
                                 'userid': <?php echo $this->session->userdata('id');?>,
                                 'salary': sal,
@@ -113,6 +131,7 @@
                             type: "POST",
                             success: function(json) {
                                 //console.log(JSON.parse(json));
+                               //$('#frmModalAjaxWait').modal('hide');
                                 json = JSON.parse(json);
                                 $('#lblGrossSalary').html(accounting.formatNumber(json.salary_basic));
                                 $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));

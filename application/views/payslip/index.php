@@ -1,237 +1,168 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<h2><?php echo lang('payslip_title');?>&nbsp;</h2>
+<?php
+/**
+ * This view displays the list of users.
+ * @copyright  Copyright (c) 2014-2019 Benjamin BALET
+ * @license    http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
+ * @link       https://github.com/tho-primelabo/leavetools
+ * @since      0.1.0
+ */
+?>
+
+<div class="row-fluid">
+    <div class="span12">
 
 
-<div class="wrapper">
-    <div class="row box-auto">
-        <div class="column border-right">
-            <div id="form_convert">
-                <div class="f-boder">
-                    <div class="title">Income</div>
-                    <div class="clearfix">
-                        <span class="margin-top-5">Salary </span>
-                        <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="Please enter number to salary">
-                            <input name="txtSalary" type="text" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
-                        </span>
-                        <span>
-                            <select name="ddlUnit" id="ddlUnit" class="selectaspx w70" onchange="chonTienTe()">
-                                <option value="VND">VND</option>
-                                <option value="USD">USD</option>
-                            </select>
-                        </span>
-                    </div>
-                    <div class="clearfix">
-                        <span class="margin-top-5">Exchange rate </span>
-                        <span>1 USD =
-                            <input name="txtExchangeRate" type="text" value="23260" maxlength="5" id="txtExchangeRate" class="inputaspx w170" disabled="disabled"> VND
-                        </span>
-                    </div>
-                </div>
+<h2><?php echo lang('payslip_title');?> &nbsp;</h2>
+<?php echo $flash_partial_view;?>
+
+<table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
+    <thead>
+        <tr>
+            <th><?php echo lang('payslip_index_thead_id');?></th>
+            <th><?php echo lang('payslip_field_firstname');?></th>
+            <th><?php echo lang('payslip_field_lastname');?></th>
+            <th><?php echo lang('payslip_gross_salary');?></th>
             
-                <div class="f-boder">
-                    <div class="title">Insurance</div>
-                    <div class="clearfix">             
-                        <span class="margin-top-5 mt-2">Pay for</span>
-                        <span>
-                            <input id="RadioButton1" type="radio" name="rdbPayfor" value="RadioButton1" checked="checked" onclick="chonLuongDongBaoHiem();"><label for="RadioButton1"><strong>full wage</strong></label>
-                        </span>
-                        <span>
-                            <input id="RadioButton2" type="radio" name="rdbPayfor" value="RadioButton2" onclick="chonLuongDongBaoHiem();"><label for="RadioButton2"><strong>Other</strong></label>
-                        </span>
-                        <span id="idSalaryBasic" data-toggle="tooltip" data-placement="top" data-title="Please enter number salary basic">
-                            <input name="txtSalaryBasic" type="text" maxlength="13" id="txtSalaryBasic" class="w70" disabled="disabled"> VND
-                        </span>                                
-                    </div>
-                    <div class="clearfix mt-2">
-                        <span>Included UnEmployement Insurance</span> <span>
-                            <input id="chkIncludedIns" type="checkbox" name="chkIncludedIns" checked="checked">
-                        </span>
-                    </div>
-                </div>
-                <div class="f-boder">
-                    <div class="title">Reduction based on family circumstances</div>
-                    <div class="clearfix">
-                        <span class="margin-top-5">Number of dependant :</span>
-                        <span>
-                            <input name="txtNumberOfDep" type="text" value="0" maxlength="2" id="txtNumberOfDep" class="inputaspx w70" onfocus="SearchOnFocus(this)" onblur="SearchOnBlur(this)">
-                        </span>
-                    </div>
-                </div>
-                <div class="style-btn clearfix">
-                    <input id="clienGrossi" onclick="clickso1()" class="form-control btn-primary bg-orange" type="button" value="Gross to Net">
-                    <input id="clientNet" onclick="clickso2()" class="form-control btn-primary bg-orange" type="button" value="Net To Gross">
-                    <div style="display:none">
-                        <input type="submit" name="btnCalculator" value="Gross to Net" id="btnCalculator" cclass="form-control btn-primary bg-orange">
-                        <input type="submit" name="btnNetToGross" value="Net To Gross" id="btnNetToGross" class="form-control btn-primary bg-orange">
-                    </div>
-                </div>
-                <script>
-                    $(function() {
-                        <?php if ($this->config->item('csrf_protection') == true) {?>
-                            $.ajaxSetup({
-                                data: {
-                                    <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
-                                }
-                            });
-                            <?php }?>
-                            });
-                    function CheckLuong() {
-                        var strLuong = $('input[id*="txtSalary"]').val();
-                        if ($.trim(strLuong) == "") {
-                            var title = $('#idNhapLuong').attr("data-title");
-                            $('#idNhapLuong').attr('title', title);
-                            $('#idNhapLuong').tooltip('show');
-                            return false;
-                        }
-                        // neu nhap la so 
-                        if (isNaN(strLuong)) {
-                            var title = $('#idNhapLuong').attr("data-title");
-
-                            $('#idNhapLuong').attr('title', title);
-                            $('#idNhapLuong').tooltip('show');
-                            return false;
-                        }
-                        return true;
-                    }
-                    function go2Net() {
-                        var sal = $('#txtSalary').val();
-                        var chkIncludedIns = 0;
-                        var txtNumberOfDep = $('#txtNumberOfDep').val();
-                        //var date = new Date();
-                        if ($('#chkIncludedIns').is(":checked")) {
-                            chkIncludedIns  = 1;
-                        }
-                        console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep);
-                        $.ajax({
-                            url: "payslip/create",
-                            data: {
-                                'userid': <?php echo $this->session->userdata('id');?>,
-                                'salary': sal,
-                                'chkIncludedIns': chkIncludedIns,
-                                'txtNumberOfDep': txtNumberOfDep
-                            },
-                            type: "POST",
-                            success: function(json) {
-                                //console.log(JSON.parse(json));
-                                json = JSON.parse(json);
-                                $('#lblGrossSalary').html(accounting.formatNumber(json.salary_basic));
-                                $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));
-                                $('#lblHealthInsurance').html(accounting.formatNumber(json.health_insurance));
-                                $('#lblThatNghiep').html(accounting.formatNumber(json.unEmployment_insurance));
-                                $('#lblGiamTruPhuThuoc').html(accounting.formatNumber(json.peson_tax_payer));
-                                $('#lblTaxableIncome').html(accounting.formatNumber(json.taxable_incom));
-                                $('#lblIncomeTax').html(accounting.formatNumber(json.personal_income_tax));
-                                $('#lblNetSalary').html(accounting.formatNumber(json.salary_net));
-                                // console.log(json.salary_basic);
-                            }
-                        });
-                        
-                    }
-                    function clickso1() {
-                        var bCheck = CheckLuong();
-                        if (bCheck == true) {
-                            //$('input[id*="btnCalculator"]').click();
-                            go2Net();
-                        }
-                    }
-                    function clickso2() {
-                        //$('input[id*="btnNetToGross"]').click();
-                        var bCheck = CheckLuong();
-                        if (bCheck == true) {
-                            $('input[id*="btnNetToGross"]').click();
-                        }
-                    }
-                </script>
+        </tr>
+    </thead>
+    <tbody>
+<?php foreach ($users as $users_item): ?>
+    <tr>
+        <td data-order="<?php echo $users_item['id']; ?>">
+            <?php echo $users_item['id'] ?>&nbsp;
+            <div class="pull-right">
+                
+                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_edit');?>"><i class="mdi mdi-account-edit nolink"></i></a>
+               
             </div>
-        </div>
-        <?php
-            // var_dump($payslip); exit();
-        ?>
-        <div class="column">
-            <div id="blockUI">
-                <div class="title" style="text-align: center">Description (VND)</div>
-                <table class="datalist">
-                    <tbody>
-                        <tr class="rownote">
-                            <th style="width: 300px;">GROSS Salary</th>
-                            <td style="width: 105px;">
-                                <strong><span id="lblGrossSalary"></span></strong>
-                            </td>
-                        </tr>
-                        <tr style="background-color: #CDCDCD;">
-                            <th>Social insurance    (8 %)</th>
-                            <td>
-                                <span id="lblSocialInsurance"></span>
-                            </td>
-                        </tr>
-                        <tr style="background-color: #CDCDCD;">
-                            <th>Health Insurance    (1.5 %)</th>
-                            <td>
-                                <span id="lblHealthInsurance"></span>
-                            </td>
-                        </tr>
-                        <tr style="background-color: #CDCDCD;">
-                            <th>UnEmployment Insurance    (1 %)</th>
-                            <td>
-                                <span id="lblThatNghiep"></span>
-                            </td>
-                        </tr>
-                        <tr style="background-color: #E6E6E6;">
-                            <th>For the tax payer</th>
-                            <td>
-                                <span id="lblGiamTruCaNhan">9.000.000</span>
-                            </td>
-                        </tr>
-                        <tr style="background-color: #CCCCCC;">
-                            <th>For per person that depends on the tax payer</th>
-                            <td>
-                                <span id="lblGiamTruPhuThuoc"></span>
-                            </td>
-                        </tr>
-                        <tr class="rownote" style="background-color: #E7E7E7">
-                            <th>Taxable income</th>
-                            <td>
-                                <span id="lblTaxableIncome"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Personal income tax</th>
-                            <td>
-                                <span id="lblIncomeTax"></span>
-                            </td>
-                        </tr>
-                        <tr class="rownote" style="background-color: #CCCCCC">
-                            <th><strong>Net salary</strong></th>
-                            <td>
-                                <strong><span id="lblNetSalary"></span></strong>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="salary_comment">
-                    <span>(*) GROSS:</span><span>
-                        <span id="lblGrossVnd">0</span></span><span>(VND) ≈ </span><span>
-                            <span id="lblGrossUsd">0.00</span></span><span>(USD)</span>
-                    <div style="clear: both;"></div>
-                    <span>(**) NET:</span><span>
-                        <span id="lblNetVnd">0</span></span><span>(VND) ≈</span><span>
-                            <span id="lblNetUsd">0.00</span></span><span>(USD)</span>
-                </div>
-            </div>
-        </div>
+        </td>
+        <td><?php echo $users_item['firstname']; ?></td>
+        <td><?php echo $users_item['lastname']; ?></td>
+           
+        <td><?php echo number_format($users_item['salary']); ?></td>
+    </tr>
+<?php endforeach ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
-<script src="<?php echo base_url();?>assets/payslip/js/accounting.js"></script>
-<link rel="stylesheet" href="<?php echo base_url();?>assets/payslip/css/payslip.css">
+<div class="row-fluid"><div class="span12">&nbsp;</div></div>
+
+<div class="row-fluid">
+    <div class="span12">
+      <a href="<?php echo base_url();?>users/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
+      &nbsp;
+      <a href="<?php echo base_url();?>users/create" class="btn btn-primary"><i class="mdi mdi-account-plus"></i>&nbsp;<?php echo lang('payslip_index_button_create_user');?></a>
+    </div>
+</div>
+
+<div class="row-fluid"><div class="span12">&nbsp;</div></div>
+
+<div id="frmConfirmDelete" class="modal hide fade">
+    <div class="modal-header">
+        <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="close">&times;</a>
+         <h3><?php echo lang('users_index_popup_delete_title');?></h3>
+    </div>
+    <div class="modal-body">
+        <p><?php echo lang('users_index_popup_delete_message');?></p>
+        <p><?php echo lang('users_index_popup_delete_question');?></p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-danger" id="lnkDeleteUser"><?php echo lang('users_index_popup_delete_button_yes');?></a>
+        <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="btn"><?php echo lang('users_index_popup_delete_button_no');?></a>
+    </div>
+</div>
+
+<div id="frmResetPwd" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+         <h3><?php echo lang('users_index_popup_password_title');?></h3>
+    </div>
+    <div class="modal-body">
+        <img src="<?php echo base_url();?>assets/images/loading.gif">
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal"><?php echo lang('users_index_popup_password_button_cancel');?></button>
+    </div>
+</div>
+
+<div id="frmImportUsers" class="modal hide fade">
+
+    <div class="modal-header">
+        <a href="#" onclick="$('#frmImportUsers').modal('hide');" class="close">&times;</a>
+         <h3><?php echo lang('users_index_popup_import_title');?></h3>
+    </div>
+    <div class="modal-body">
+        <?php echo form_open_multipart('users/import');?>
+            <label for="importFile"><?php echo lang('users_index_popup_field_filename');?>
+            <input type="file" name="importFile" size="20" />
+            </label>
+            <input class="btn btn-primary" type="submit" value="<?php echo lang('OK');?>" />
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a href="#" onclick="$('#frmImportUsers').modal('hide');" class="btn btn-danger"><?php echo lang('Cancel');?></a>
+    </div>
+
+</div>
+
+<link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
+
 <script type="text/javascript">
-    
-     $(function MoveNextTextBox(_key) {
-        if (_key == 13) {
-            var _next = document.getElementById('txtNumberOfDep');
-            if (_next != null) _next.focus();
-            return false;
-        }
-        
-    })
-<script>
+$(document).ready(function() {
+    //Transform the HTML table in a fancy datatable
+    $('#users').dataTable({
+        stateSave: true,
+        language: {
+            decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
+            processing:       "<?php echo lang('datatable_sProcessing');?>",
+            search:              "<?php echo lang('datatable_sSearch');?>",
+            lengthMenu:     "<?php echo lang('datatable_sLengthMenu');?>",
+            info:                   "<?php echo lang('datatable_sInfo');?>",
+            infoEmpty:          "<?php echo lang('datatable_sInfoEmpty');?>",
+            infoFiltered:       "<?php echo lang('datatable_sInfoFiltered');?>",
+            infoPostFix:        "<?php echo lang('datatable_sInfoPostFix');?>",
+            loadingRecords: "<?php echo lang('datatable_sLoadingRecords');?>",
+            zeroRecords:    "<?php echo lang('datatable_sZeroRecords');?>",
+            emptyTable:     "<?php echo lang('datatable_sEmptyTable');?>",
+            paginate: {
+                first:          "<?php echo lang('datatable_sFirst');?>",
+                previous:   "<?php echo lang('datatable_sPrevious');?>",
+                next:           "<?php echo lang('datatable_sNext');?>",
+                last:           "<?php echo lang('datatable_sLast');?>"
+            },
+            aria: {
+                sortAscending:  "<?php echo lang('datatable_sSortAscending');?>",
+                sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
+            }
+        },
+    });
+    $("#frmResetPwd").alert();
+    $("#frmImportUsers").alert();
+
+    //On showing the confirmation pop-up, add the user id at the end of the delete url action
+    $('#frmConfirmDelete').on('show', function() {
+        var link = "<?php echo base_url();?>users/delete/" + $(this).data('id');
+        $("#lnkDeleteUser").attr('href', link);
+    });
+
+    //Display a modal pop-up so as to confirm if a user has to be deleted or not
+    //We build a complex selector because datatable does horrible things on DOM...
+    //a simplier selector doesn't work when the delete is on page >1
+    $("#users tbody").on('click', '.confirm-delete',  function(){
+        var id = $(this).data('id');
+        $('#frmConfirmDelete').data('id', id).modal('show');
+    });
+
+    //Prevent to load always the same content (refreshed each time)
+    $('#frmConfirmDelete').on('hidden', function() {
+        $(this).removeData('modal');
+    });
+    $('#frmResetPwd').on('hidden', function() {
+        $(this).removeData('modal');
+    });
+});
+</script>

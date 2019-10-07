@@ -44,10 +44,10 @@ class Users_model extends CI_Model {
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function getUsersAndRoles() {
-        $this->db->select('users.id, active, firstname, lastname, login, email');
+        $this->db->select('users.id, active, firstname, lastname, login, email, salary');
         $this->db->select("GROUP_CONCAT(roles.name SEPARATOR ',') as roles_list", FALSE);
         $this->db->join('roles', 'roles.id = (users.role & roles.id)');
-        $this->db->group_by('users.id, active, firstname, lastname, login, email');
+        $this->db->group_by('users.id, active, firstname, lastname, login, email, salary');
         $query = $this->db->get('users');
         return $query->result_array();
     }
@@ -207,6 +207,7 @@ class Users_model extends CI_Model {
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone'),
             'annualleave' =>$this->input->post('annualleave'),
+            'salary'=>$this->input->post('grossSalary'),
             'telephone' =>$this->input->post('phoneNo'),
             'random_hash' => rtrim(strtr(base64_encode($this->getRandomBytes(24)), '+/', '-_'), '='),
         );
@@ -357,6 +358,7 @@ class Users_model extends CI_Model {
             'contract' => $this->input->post('contract'),
             'annualleave'=>$this->input->post('annualleave'),
             'telephone'=>$this->input->post('phoneNo'),
+            'salary'=>$this->input->post('grossSalary'),
             'identifier' => $this->input->post('identifier'),
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone')

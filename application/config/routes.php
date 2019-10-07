@@ -418,6 +418,7 @@ $route['booking/delete'] = 'booking/delete';
 //_______________________________________________
 //payslip requests
 $route['payslip'] = 'payslip/index';
+$route['payslip/edit/(:num)'] = 'payslip/edit/$1';
 //_______________________________________________
 //Default controllers
 $route['default_controller'] = 'leaves';

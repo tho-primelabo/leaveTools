@@ -62,6 +62,8 @@ $lang['users_edit_field_manager_alt'] = 'Không có người quản lý trực t
 $lang['users_edit_field_manager_description'] = 'Nếu người dùng không có người quản lý (tự quản lý), đề nghị nghỉ phép có thể tự duyệt.';
 $lang['users_edit_button_self'] = 'Chính bạn';
 $lang['users_edit_button_select'] = 'Chọn';
+$lang['users_edit_field_annualleave'] = 'Phép Năm';
+$lang['users_edit_field_GROSS_salary'] = 'Lương GROSS';
 $lang['users_edit_field_contract'] = 'Hợp đồng';
 $lang['users_edit_field_position'] = 'Chức danh';
 $lang['users_edit_field_entity'] = 'Thực thể';
@@ -124,6 +126,10 @@ $lang['users_create_flash_msg_success'] = 'User đã được tạo thành công
 $lang['users_create_login_check'] = 'User đã tồn tại';
 
 $lang['users_create_flash_msg_error'] = 'User này không sẵn sàng';
+$lang['users_create_field_annaulleave'] = 'Phép Năm';
+$lang['users_create_field_phoneNo'] = 'Điện Thoại';
+$lang['users_create_field_GROSS_salary'] = 'Lương GROSS';
+
 
 $lang['users_employees_thead_id'] = 'ID';
 $lang['users_employees_thead_firstname'] = 'Tên';

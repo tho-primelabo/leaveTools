@@ -10,9 +10,9 @@
 
 <div class="row-fluid">
     <div class="span12">
-<h2><?php echo lang('users_edit_title');?><?php echo $users_item['id']; ?><?php echo $help;?></h2>
+    <h2><?php echo lang('users_edit_title');?><?php echo $users_item['id']; ?></h2>
 
-<?php echo validation_errors(); ?>
+    <?php echo validation_errors(); ?>
     </div>
 </div>
 
@@ -67,7 +67,7 @@ if (isset($_GET['source'])) {
     </div>
     <div class="span4">
         <div class="control-group">
-            <label class="control-label" for="annualleave"><?php echo lang('users_edit_field_annaulleave');?></label>
+            <label class="control-label" for="annualleave"><?php echo lang('users_edit_field_annualleave');?></label>
             <div class="controls">
                 <input type="number" name="annualleave" value="<?php echo $users_item['annualleave']; ?>" required />
             </div>
@@ -133,7 +133,7 @@ if (isset($_GET['source'])) {
 <hr />
 
 <div class="row">
-    <div class="span12">
+    <div class="span8">
         <input type="hidden" name="entity" id="entity" value="<?php echo $users_item['organization']; ?>" />
         <div class="control-group">
             <label class="control-label" for="txtEntity"><?php echo lang('users_edit_field_entity');?></label>
@@ -142,6 +142,16 @@ if (isset($_GET['source'])) {
                     <input type="text" id="txtEntity" name="txtEntity" value="<?php echo $organization_label; ?>" required readonly />
                     <a id="cmdSelectEntity" class="btn btn-primary"><?php echo lang('users_edit_button_select');?></a>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="span4">
+       <div class="control-group">
+            <label class="control-label" for="grossSalary"><?php echo lang('users_edit_field_GROSS_salary');?></label>
+            <div class="controls">
+            <?php $number =  $users_item['salary']?>
+                <input type="text" id="
+                " name="grossSalary" value="<?php echo number_format($number); ?>" required />
             </div>
         </div>
     </div>
@@ -302,7 +312,17 @@ if (isset($_GET['source'])) {
 <link rel="stylesheet" href="<?php echo base_url();?>assets/select2-4.0.5/css/select2.min.css">
 <script src="<?php echo base_url();?>assets/select2-4.0.5/js/select2.full.min.js"></script>
 <script type="text/javascript">
-
+  $(function(){
+    $("#grossSalary").keypress(function(event){
+        var ew = event.which;
+       
+        if(48 <= ew && ew <= 57)
+            return true;
+        
+           
+        return false;
+    });
+});
     //Popup select postion: on click OK, find the user id for the selected line
     function select_manager() {
         var employees = $('#employees').DataTable();

@@ -10,7 +10,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-<h2><?php echo lang('users_create_title');?><?php echo $help;?></h2>
+<h2><?php echo lang('users_create_title');?></h2>
 
 <?php echo validation_errors(); ?>
     </div>
@@ -69,7 +69,7 @@ echo form_open('users/create', $attributes); ?>
     </div>
     <div class="span4">
         <div class="control-group">
-            <label class="control-label" for="annualleave"><?php echo lang('users_edit_field_annaulleave');?></label>
+            <label class="control-label" for="annualleave"><?php echo lang('users_create_field_annaulleave');?></label>
             <div class="controls">
                 <input type="number" name="annualleave"  required />
             </div>
@@ -112,7 +112,7 @@ echo form_open('users/create', $attributes); ?>
 
     <div class="span4">
         <div class="control-group">
-            <label class="control-label" for="phoneNo"><?php echo lang('users_myprofile_field_phoneNo');?></label>
+            <label class="control-label" for="phoneNo"><?php echo lang('users_create_field_phoneNo');?></label>
             <div class="controls">
                 <input type="number" id="phoneNo" name="phoneNo" required />
             </div>
@@ -120,7 +120,12 @@ echo form_open('users/create', $attributes); ?>
     </div>
 
     <div class="span4">
-        &nbsp;
+       <div class="control-group">
+            <label class="control-label" for="grossSalary"><?php echo lang('users_create_field_GROSS_salary');?></label>
+            <div class="controls">
+                <input type="number" id="grossSalary" name="grossSalary" required />
+            </div>
+        </div>
     </div>
 </div>
 
