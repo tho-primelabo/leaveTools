@@ -14,7 +14,17 @@
 
 <h2><?php echo lang('payslip_title');?> &nbsp;</h2>
 <?php echo $flash_partial_view;?>
-
+<?php echo lang('payslip_employees_thead_date');?>
+                <div class="input-prepend input-append">
+                    <div class="btn-group">
+                        <div class="btn-group" data-toggle="buttons-radio">
+                            <button id="cmdGreater1" type="button" class="btn active"><i class="mdi mdi-chevron-right"></i></button>
+                            <button id="cmdLesser1" type="button" class="btn"><i class="mdi mdi-chevron-left"></i></button>
+                        </div>
+                        <input type="text" id="viz_datehired1" class="input-small" readonly />
+                        <button id="cmdResetDate1" type="button" class="btn"><i class="mdi mdi-close"></i></button>
+                    </div>
+                </div>
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
         <tr>
@@ -22,7 +32,8 @@
             <th><?php echo lang('payslip_field_firstname');?></th>
             <th><?php echo lang('payslip_field_lastname');?></th>
             <th><?php echo lang('payslip_gross_salary');?></th>
-            
+            <th><?php echo lang('payslip_net_salary');?></th>
+            <th><?php echo lang('payslip_number_dependant');?></th>
         </tr>
     </thead>
     <tbody>
@@ -32,14 +43,15 @@
             <?php echo $users_item['id'] ?>&nbsp;
             <div class="pull-right">
                 
-                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('users_index_thead_tip_edit');?>"><i class="mdi mdi-account-edit nolink"></i></a>
+                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-account-edit nolink"></i></a>
                
             </div>
         </td>
         <td><?php echo $users_item['firstname']; ?></td>
         <td><?php echo $users_item['lastname']; ?></td>
-           
         <td><?php echo number_format($users_item['salary']); ?></td>
+        <td><?php echo number_format($users_item['salaryNet']); ?></td>
+        <td><?php echo $users_item['number_dependant']; ?></td>
     </tr>
 <?php endforeach ?>
             </tbody>
@@ -87,31 +99,14 @@
     </div>
 </div>
 
-<div id="frmImportUsers" class="modal hide fade">
 
-    <div class="modal-header">
-        <a href="#" onclick="$('#frmImportUsers').modal('hide');" class="close">&times;</a>
-         <h3><?php echo lang('users_index_popup_import_title');?></h3>
-    </div>
-    <div class="modal-body">
-        <?php echo form_open_multipart('users/import');?>
-            <label for="importFile"><?php echo lang('users_index_popup_field_filename');?>
-            <input type="file" name="importFile" size="20" />
-            </label>
-            <input class="btn btn-primary" type="submit" value="<?php echo lang('OK');?>" />
-        </form>
-    </div>
-    <div class="modal-footer">
-        <a href="#" onclick="$('#frmImportUsers').modal('hide');" class="btn btn-danger"><?php echo lang('Cancel');?></a>
-    </div>
-
-</div>
 
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
+
 $(document).ready(function() {
     //Transform the HTML table in a fancy datatable
     $('#users').dataTable({

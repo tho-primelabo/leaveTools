@@ -53,7 +53,9 @@ CREATE TABLE `users` (
   `picture` blob DEFAULT NULL COMMENT 'Profile picture of user for tabular calendar',
   `annualleave` decimal(11,2) DEFAULT 0.00,
   `telephone` varchar(20) DEFAULT  NULL,
-  `salary` varchar(20) DEFAULT  0
+  `salary` varchar(20) DEFAULT  0,
+  `number_dependant` int(3) DEFAULT  0
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='List of employees / users having access to Jorani' ROW_FORMAT=COMPACT;
 
 --

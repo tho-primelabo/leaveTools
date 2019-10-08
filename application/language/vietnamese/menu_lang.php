@@ -28,6 +28,7 @@ $lang['menu_admin_oauth_clients'] = 'OAuth Clients';
 $lang['menu_hr_title'] = 'HR';
 $lang['menu_hr_employees_divider'] = 'Nhân viên';
 $lang['menu_hr_list_organization'] = 'Tổ chức';
+$lang['menu_hr_list_payslip'] = 'Bang Luong';
 $lang['menu_hr_list_employees'] = 'Danh sách nhân viên';
 $lang['menu_hr_contracts_divider'] = 'Hợp đồng';
 $lang['menu_hr_list_contracts'] = 'Danh sách các hợp đồng';

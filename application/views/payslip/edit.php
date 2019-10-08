@@ -1,12 +1,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="row-fluid">
     <div class="span12">
-        <h2><?php echo lang('payslip_title');?><?php echo $users_item['id']; ?></h2>
+        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo $users_item['lastname']; ?></h2>
 
         <?php echo validation_errors(); ?>
     </div>
 </div>
+<?php
+$attributes = array('class' => 'form-horizontal');
+if (isset($_GET['source'])) {
+    echo form_open('payslip/edit/' . $users_item['id'] .'?source=' . $_GET['source'], $attributes);
+} else {
+    echo form_open('users/edit/' . $users_item['id'], $attributes);
+} ?>
 
+    <input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
 
 <div class="wrapper">
     <div class="row box-auto">
@@ -16,8 +24,8 @@
                     <div class="title">Income</div>
                     <div class="clearfix">
                         <span class="margin-top-5">Salary </span>
-                        <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="Please enter number to salary">
-                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary']; ?>"" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
+                        <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="<?php echo lang('payslip_employees_input_salary');?>">
+                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
                         </span>
                         <span>
                             <select name="ddlUnit" id="ddlUnit" class="selectaspx w70" onchange="chonTienTe()">
@@ -59,7 +67,12 @@
                     <div class="clearfix">
                         <span class="margin-top-5">Number of dependant :</span>
                         <span>
-                            <input name="txtNumberOfDep" type="text" value="0" maxlength="2" id="txtNumberOfDep" class="inputaspx w70" onfocus="SearchOnFocus(this)" onblur="SearchOnBlur(this)">
+                            
+                            <input name="txtNumberOfDep" value="<?php echo $users_item['number_dependant']; ?>" readonly
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                type = "number"
+                                maxlength = "2"
+                             />
                         </span>
                     </div>
                 </div>
@@ -118,12 +131,12 @@
                         }
                         console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep);
                         $.ajax({
-                            url: "payslip/create",
+                            url: "<?php echo base_url(); ?>/payslip/create",
                              beforeSend: function(){
                                 $('#frmModalAjaxWait').modal('show');
                                 },
                             data: {
-                                'userid': <?php echo $this->session->userdata('id');?>,
+                                'userid': <?php echo $users_item['id'];?>,
                                 'salary': sal,
                                 'chkIncludedIns': chkIncludedIns,
                                 'txtNumberOfDep': txtNumberOfDep
@@ -131,7 +144,7 @@
                             type: "POST",
                             success: function(json) {
                                 //console.log(JSON.parse(json));
-                               //$('#frmModalAjaxWait').modal('hide');
+                               $('#frmModalAjaxWait').modal('hide');
                                 json = JSON.parse(json);
                                 $('#lblGrossSalary').html(accounting.formatNumber(json.salary_basic));
                                 $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));
@@ -235,8 +248,15 @@
                     <span>(**) NET:</span><span>
                         <span id="lblNetVnd">0</span></span><span>(VND) ≈</span><span>
                             <span id="lblNetUsd">0.00</span></span><span>(USD)</span>
+                            <span id="lblNetUsd">0.00</span></span><span></span>
+                </div>
+               <div class="style-btn clearfix">
+                    
+                    <a href="<?php echo base_url();?>payslip" ><input id="clienGrossi" class="form-control btn-primary bg-orange" type="button" value="Back"></a>
+                    
                 </div>
             </div>
+            
         </div>
     </div>
 </div>

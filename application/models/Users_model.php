@@ -38,16 +38,27 @@ class Users_model extends CI_Model {
         return $query->row_array();
     }
 
+    public function getUsersByDate() {
+        //$date = date('Y-m-d');
+        $this->db->select('users.id as id, users.lastname as lastname, users.firstname as firstname,
+         users.number_dependant as number_dependant, users.salary as salary, salary.salary_net as salaryNet');
+        $this->db->join('salary', 'salary.employee_id = users.id', 'left');
+        //$this->db->group_by('users.id, active, firstname, lastname, login, email, salary, number_dependant');
+        $query = $this->db->get('users');
+       //echo json_encode($query);
+        //$query = $this->db->get_where('users', array('salary.date' => $date));
+        return $query->result_array();
+    }
     /**
      * Get the list of users and their roles
      * @return array record of users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function getUsersAndRoles() {
-        $this->db->select('users.id, active, firstname, lastname, login, email, salary');
+        $this->db->select('users.id, active, firstname, lastname, login, email, salary, number_dependant');
         $this->db->select("GROUP_CONCAT(roles.name SEPARATOR ',') as roles_list", FALSE);
         $this->db->join('roles', 'roles.id = (users.role & roles.id)');
-        $this->db->group_by('users.id, active, firstname, lastname, login, email, salary');
+        $this->db->group_by('users.id, active, firstname, lastname, login, email, salary, number_dependant');
         $query = $this->db->get('users');
         return $query->result_array();
     }
