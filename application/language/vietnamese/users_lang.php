@@ -83,6 +83,7 @@ $lang['users_edit_popup_position_button_ok'] = 'Chấp nhận';
 $lang['users_edit_popup_position_button_cancel'] = 'Hủy bỏ';
 $lang['users_edit_button_update'] = 'Cập nhật thông tin user';
 $lang['users_edit_button_cancel'] = 'Hủy bỏ';
+$lang['users_edit_number_dependant'] = 'Số người phụ thuộc';
 
 $lang['users_edit_flash_msg_success'] = 'Thông tin user được cập nhật thành công';
 $lang['users_delete_flash_msg_success'] = 'User đã bị xóa';

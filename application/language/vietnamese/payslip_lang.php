@@ -25,4 +25,5 @@ $lang['payslip_index_button_create_user'] = 'Create new user';
 $lang['payslip_edit_field_salary'] = 'Nhập số lương';
 $lang['payslip_employees_thead_date'] = 'Ngày';
 $lang['payslip_employees_input_salary'] = 'Nhập số lương';
+$lang['payslip_button_back'] = 'Trở lại';
 

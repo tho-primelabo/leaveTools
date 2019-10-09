@@ -41,10 +41,8 @@
     <tr>
         <td data-order="<?php echo $users_item['id']; ?>">
             <?php echo $users_item['id'] ?>&nbsp;
-            <div class="pull-right">
-                
-                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-account-edit nolink"></i></a>
-               
+            <div class="pull-right">                
+                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-cash-usd nolink"></i></a>
             </div>
         </td>
         <td><?php echo $users_item['firstname']; ?></td>

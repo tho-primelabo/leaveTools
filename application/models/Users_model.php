@@ -38,12 +38,14 @@ class Users_model extends CI_Model {
         return $query->row_array();
     }
 
-    public function getUsersByDate() {
+    public function getUsersByDate($date) {
         //$date = date('Y-m-d');
-        $this->db->select('users.id as id, users.lastname as lastname, users.firstname as firstname,
-         users.number_dependant as number_dependant, users.salary as salary, salary.salary_net as salaryNet');
+        $this->db->select('users.id, users.lastname , users.firstname ,
+         users.number_dependant , users.salary , salary.salary_net as salaryNet');
         $this->db->join('salary', 'salary.employee_id = users.id', 'left');
-        //$this->db->group_by('users.id, active, firstname, lastname, login, email, salary, number_dependant');
+        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        $this->db->group_by('users.id, users.lastname , users.firstname ,
+         users.number_dependant , users.salary ');
         $query = $this->db->get('users');
        //echo json_encode($query);
         //$query = $this->db->get_where('users', array('salary.date' => $date));
@@ -358,7 +360,7 @@ class Users_model extends CI_Model {
         } else {
             $manager = $this->input->post('manager');
         }
-
+        $sal = str_replace(',', '', $this->input->post('grossSalary'));
         $data = array(
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
@@ -369,8 +371,9 @@ class Users_model extends CI_Model {
             'contract' => $this->input->post('contract'),
             'annualleave'=>$this->input->post('annualleave'),
             'telephone'=>$this->input->post('phoneNo'),
-            'salary'=>$this->input->post('grossSalary'),
+            'salary'=> $sal,
             'identifier' => $this->input->post('identifier'),
+            'number_dependant'=> $this->input->post('number_dependant'),
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone')
         );
@@ -924,6 +927,15 @@ class Users_model extends CI_Model {
             'contract' => $contractId
         );
         $this->db->where_in('id', $usersList);
+        $result = $this->db->update('users', $data);
+        return $result;
+    }
+    public function updateSalaryNNumberDependantById($uid, $salary, $numDependant) {
+        $data = array(            
+            'salary'=>$salary,
+            'number_dependant' => $numDependant
+        );
+        $this->db->where('id', $uid);
         $result = $this->db->update('users', $data);
         return $result;
     }

@@ -36,7 +36,8 @@ class Payslip extends CI_Controller {
         $data = getUserContext($this);
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
-        $data['users'] = $this->users_model->getUsersByDate();
+        $date = date('Y-m-d');
+        $data['users'] = $this->users_model->getUsersByDate($date);
         $data['rooms'] = $this->rooms_model->getRooms();
         //echo json_encode($data['users']);die();
         $data['payslip'] = [];
@@ -100,12 +101,18 @@ class Payslip extends CI_Controller {
         $data['contracts'] = $this->contracts_model->getContracts();
         $data['public_key'] = file_get_contents('./assets/keys/public.pem', TRUE);
         $salary_id = $this->payslip_model->create();
+        // update user
+        $userid = $this->input->post('userid');
+		$sal =  $this->input->post('salary');
+		
+		$txtNumberOfDep = (int)$this->input->post('txtNumberOfDep');
+        $this->users_model->updateSalaryNNumberDependantById($userid, $sal, $txtNumberOfDep);
         //echo $salary_id; die();
         $data['payslip'] = [];
         if (isset($salary_id)) {
             $data['payslip'] = $this->payslip_model->getPayslip($salary_id);
             // echo $payslip;
-            $this->session->set_flashdata('msg', lang('users_create_flash_msg_success'));
+            //$this->session->set_flashdata('msg', lang('users_create_flash_msg_success'));
         }
         
         echo json_encode($data['payslip']);//die();

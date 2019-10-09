@@ -26,3 +26,4 @@ $lang['payslip_index_button_create_user'] = 'Create new user';
 $lang['payslip_edit_field_salary'] = 'Input Salary';
 $lang['payslip_employees_thead_date'] = 'Date';
 $lang['payslip_employees_input_salary'] = 'Enter number to salary';
+$lang['payslip_button_back'] = 'Back';

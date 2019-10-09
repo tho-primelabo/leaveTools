@@ -133,7 +133,7 @@ if (isset($_GET['source'])) {
 <hr />
 
 <div class="row">
-    <div class="span8">
+    <div class="span4">
         <input type="hidden" name="entity" id="entity" value="<?php echo $users_item['organization']; ?>" />
         <div class="control-group">
             <label class="control-label" for="txtEntity"><?php echo lang('users_edit_field_entity');?></label>
@@ -150,9 +150,14 @@ if (isset($_GET['source'])) {
             <label class="control-label" for="grossSalary"><?php echo lang('users_edit_field_GROSS_salary');?></label>
             <div class="controls">
             <?php $number =  $users_item['salary']?>
-                <input type="text" id="
-                " name="grossSalary" value="<?php echo number_format($number); ?>" required />
+                <input type="text" id="grossSalary" name="grossSalary" value="<?php echo number_format($number); ?>" required />
             </div>
+        </div>
+    </div>
+      <div class="span4">
+       <label class="control-label" for="grossSalary"><?php echo lang('users_create_number_dependant');?></label>
+        <div class="controls">
+            <input type="number" id="number_dependant" name="number_dependant" value="<?php echo $users_item['number_dependant']; ?>" required />
         </div>
     </div>
 </div>

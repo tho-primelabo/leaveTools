@@ -68,7 +68,7 @@ if (isset($_GET['source'])) {
                         <span class="margin-top-5">Number of dependant :</span>
                         <span>
                             
-                            <input name="txtNumberOfDep" value="<?php echo $users_item['number_dependant']; ?>" readonly
+                            <input name="txtNumberOfDep" id="txtNumberOfDep" value="<?php echo $users_item['number_dependant']; ?>" 
                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                 type = "number"
                                 maxlength = "2"
@@ -241,20 +241,38 @@ if (isset($_GET['source'])) {
                     </tbody>
                 </table>
                 <div id="salary_comment">
-                    <span>(*) GROSS:</span><span>
-                        <span id="lblGrossVnd">0</span></span><span>(VND) ≈ </span><span>
-                            <span id="lblGrossUsd">0.00</span></span><span>(USD)</span>
+                    <span>(*) GROSS:</span>
+                    <span>
+                        <span id="lblGrossVnd">0</span>
+                    </span>
+                    <span>(VND) ≈ </span>
+                    <span>
+                            <span id="lblGrossUsd">0.00</span>
+                    </span>
+                    <span>(USD)</span>
                     <div style="clear: both;"></div>
-                    <span>(**) NET:</span><span>
-                        <span id="lblNetVnd">0</span></span><span>(VND) ≈</span><span>
-                            <span id="lblNetUsd">0.00</span></span><span>(USD)</span>
-                            <span id="lblNetUsd">0.00</span></span><span></span>
+                    <span>(**) NET:</span>
+                    <span>
+                        <span id="lblNetVnd">0</span>
+                    </span>
+                    <span>(VND) ≈</span>
+                    <span>
+                        <span id="lblNetUsd">0.00</span>
+                    </span>
+                    <span>(USD)</span>
+                    <span id="lblNetUsd">0.00</span>
+                    </span>
+                    <br/>
+                    <span>
+                        <div style="clear: both;"></div>
+                        <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
+                            <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
+                        </a>
+                    </span>
+                  
+                   
                 </div>
-               <div class="style-btn clearfix">
-                    
-                    <a href="<?php echo base_url();?>payslip" ><input id="clienGrossi" class="form-control btn-primary bg-orange" type="button" value="Back"></a>
-                    
-                </div>
+                
             </div>
             
         </div>

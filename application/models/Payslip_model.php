@@ -38,9 +38,13 @@ class Payslip_model extends CI_Model {
     }
 
     public function getPayslipByDate($id = 0, $date) {
-        
+        /*
         $query = $this->db->get_where('salary', array('employee_id' => $id,
-                                                      'date'=> $date));
+                                                      "DATE_FORMAT(date, '%Y-%m')="=> "DATE_FORMAT($date, '%Y-%m')"));*/
+        $this->db->where('employee_id', $id);
+        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        $query = $this->db->get('salary');
+        //echo json_encode($query);die();
         return $query->row_array();
     }
     
@@ -101,6 +105,8 @@ class Payslip_model extends CI_Model {
 		$sal = (double)$this->input->post('salary');
 		$chkIncludedIns = (int)$this->input->post('chkIncludedIns');
         $curDate = date('Y-m-d');
+        //$curMonth = date('m');
+        //$curYear = date('Y');
 		//$uid = $this->session->userdata('chkIncludedIns');
 		$txtNumberOfDep = (int)$this->input->post('txtNumberOfDep');
 		//print_r($this->session->userdata); die();
@@ -169,7 +175,9 @@ class Payslip_model extends CI_Model {
 			'salary_other'=> $salary_other);
            // print_r($data); echo $data ;die();
         $date = $this->getDateByUserIdnCurDate($userid, $curDate);
+        //echo $date; die();
         if (isset($date)) {
+
             $this->db->where('date', $date);
             $this->db->where('employee_id', $userid);
             $this->db->update('salary', $data);

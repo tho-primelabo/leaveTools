@@ -86,6 +86,8 @@ $lang['users_edit_flash_msg_success'] = 'The user has been succesfully updated';
 $lang['users_edit_button_cancel'] = 'Cancel';
 $lang['users_edit_field_annualleave'] = 'Annual Leave';
 $lang['users_edit_field_GROSS_salary'] = 'GROSS Salary';
+$lang['users_edit_number_dependant'] = 'Number of dependant';
+
 $lang['users_delete_flash_msg_success'] = 'The user has been succesfully deleted';
 
 $lang['users_reset_flash_msg_success'] = 'The password has been succesfully changed';
@@ -130,6 +132,7 @@ $lang['users_create_flash_msg_error'] = 'This username is not available.';
 $lang['users_create_field_annaulleave'] = 'Annual Leave';
 $lang['users_create_field_phoneNo'] = 'Phone Number';
 $lang['users_create_field_GROSS_salary'] = 'GROSS Salary';
+$lang['users_create_number_dependant'] = 'Number of dependant';
 
 $lang['users_employees_thead_id'] = 'ID';
 $lang['users_employees_thead_firstname'] = 'Firstname';
