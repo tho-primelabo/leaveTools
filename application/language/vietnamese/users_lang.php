@@ -47,6 +47,8 @@ $lang['users_myprofile_field_entity'] = 'Thực thể';
 $lang['users_myprofile_field_hired'] = 'Ngày tuyển dụng';
 $lang['users_myprofile_field_identifier'] = 'Mã cán bộ';
 $lang['users_myprofile_field_language'] = 'Ngôn ngữ';
+$lang['users_myprofile_field_phoneNo'] = 'Số Điện Thoại';
+$lang['users_myprofile_field_annualleave'] = 'Số Phép Còn Lại';
 
 $lang['users_edit_title'] = 'Sửa đổi thông tin user #';
 $lang['users_edit_html_title'] = 'Sửa đổi thông tin user';
@@ -60,6 +62,8 @@ $lang['users_edit_field_manager_alt'] = 'Không có người quản lý trực t
 $lang['users_edit_field_manager_description'] = 'Nếu người dùng không có người quản lý (tự quản lý), đề nghị nghỉ phép có thể tự duyệt.';
 $lang['users_edit_button_self'] = 'Chính bạn';
 $lang['users_edit_button_select'] = 'Chọn';
+$lang['users_edit_field_annualleave'] = 'Phép Năm';
+$lang['users_edit_field_GROSS_salary'] = 'Lương GROSS';
 $lang['users_edit_field_contract'] = 'Hợp đồng';
 $lang['users_edit_field_position'] = 'Chức danh';
 $lang['users_edit_field_entity'] = 'Thực thể';
@@ -79,6 +83,7 @@ $lang['users_edit_popup_position_button_ok'] = 'Chấp nhận';
 $lang['users_edit_popup_position_button_cancel'] = 'Hủy bỏ';
 $lang['users_edit_button_update'] = 'Cập nhật thông tin user';
 $lang['users_edit_button_cancel'] = 'Hủy bỏ';
+$lang['users_edit_number_dependant'] = 'Số người phụ thuộc';
 
 $lang['users_edit_flash_msg_success'] = 'Thông tin user được cập nhật thành công';
 $lang['users_delete_flash_msg_success'] = 'User đã bị xóa';
@@ -122,6 +127,10 @@ $lang['users_create_flash_msg_success'] = 'User đã được tạo thành công
 $lang['users_create_login_check'] = 'User đã tồn tại';
 
 $lang['users_create_flash_msg_error'] = 'User này không sẵn sàng';
+$lang['users_create_field_annaulleave'] = 'Phép Năm';
+$lang['users_create_field_phoneNo'] = 'Điện Thoại';
+$lang['users_create_field_GROSS_salary'] = 'Lương GROSS';
+
 
 $lang['users_employees_thead_id'] = 'ID';
 $lang['users_employees_thead_firstname'] = 'Tên';

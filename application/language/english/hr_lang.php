@@ -27,6 +27,7 @@ $lang['hr_employees_thead_manager'] = 'Manager';
 $lang['hr_employees_thead_identifier'] = 'Identifier';
 $lang['hr_employees_thead_datehired'] = 'Date hired';
 $lang['hr_employees_thead_position'] = 'Position';
+$lang['hr_employees_thead_payslip'] = 'Payslip';
 $lang['hr_employees_button_create_user'] = 'Create';
 $lang['hr_employees_button_export'] = 'Export this list';
 $lang['hr_employees_popup_entitlment_title'] = 'Entitled days';

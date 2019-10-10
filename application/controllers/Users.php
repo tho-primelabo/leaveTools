@@ -117,6 +117,7 @@ class Users extends CI_Controller {
         $this->load->library('polyglot');
         $data = getUserContext($this);
         $data['user'] = $this->users_model->getUsers($this->user_id);
+        $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['user'])) {
             redirect('notfound');
         }
@@ -359,7 +360,7 @@ class Users extends CI_Controller {
             if ($this->config->item('subject_prefix') != FALSE) {
                 $subject = $this->config->item('subject_prefix');
             } else {
-               $subject = '[Jorani] ';
+               $subject = '[Thole] ';
             }
             $this->email->subject($subject . $lang_mail->line('email_user_create_subject'));
             $this->email->message($message);

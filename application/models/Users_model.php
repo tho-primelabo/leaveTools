@@ -38,16 +38,37 @@ class Users_model extends CI_Model {
         return $query->row_array();
     }
 
+    public function getUsersByDate($date) {
+        //$date = date('Y-m-d');
+        
+        
+        if ($date != 0) {
+            $this->db->select('users.id, users.lastname , users.firstname ,
+                 users.number_dependant , users.salary , salary.salary_net as salaryNet');
+            $this->db->join('salary', 'salary.employee_id = users.id', 'left');
+            $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        }
+        else {
+            $this->db->select('users.id, users.lastname , users.firstname ,
+            users.number_dependant , users.salary ');
+        }
+        $this->db->group_by('users.id, users.lastname , users.firstname ,
+         users.number_dependant , users.salary ');
+        $query = $this->db->get('users');
+       echo json_encode($query);
+        //$query = $this->db->get_where('users', array('salary.date' => $date));
+        return $query->result_array();
+    }
     /**
      * Get the list of users and their roles
      * @return array record of users
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
     public function getUsersAndRoles() {
-        $this->db->select('users.id, active, firstname, lastname, login, email');
+        $this->db->select('users.id, active, firstname, lastname, login, email, salary, number_dependant');
         $this->db->select("GROUP_CONCAT(roles.name SEPARATOR ',') as roles_list", FALSE);
         $this->db->join('roles', 'roles.id = (users.role & roles.id)');
-        $this->db->group_by('users.id, active, firstname, lastname, login, email');
+        $this->db->group_by('users.id, active, firstname, lastname, login, email, salary, number_dependant');
         $query = $this->db->get('users');
         return $query->result_array();
     }
@@ -207,6 +228,7 @@ class Users_model extends CI_Model {
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone'),
             'annualleave' =>$this->input->post('annualleave'),
+            'salary'=>$this->input->post('grossSalary'),
             'telephone' =>$this->input->post('phoneNo'),
             'random_hash' => rtrim(strtr(base64_encode($this->getRandomBytes(24)), '+/', '-_'), '='),
         );
@@ -346,7 +368,7 @@ class Users_model extends CI_Model {
         } else {
             $manager = $this->input->post('manager');
         }
-
+        $sal = str_replace(',', '', $this->input->post('grossSalary'));
         $data = array(
             'firstname' => $this->input->post('firstname'),
             'lastname' => $this->input->post('lastname'),
@@ -357,7 +379,9 @@ class Users_model extends CI_Model {
             'contract' => $this->input->post('contract'),
             'annualleave'=>$this->input->post('annualleave'),
             'telephone'=>$this->input->post('phoneNo'),
+            'salary'=> $sal,
             'identifier' => $this->input->post('identifier'),
+            'number_dependant'=> $this->input->post('number_dependant'),
             'language' => $this->input->post('language'),
             'timezone' => $this->input->post('timezone')
         );
@@ -911,6 +935,15 @@ class Users_model extends CI_Model {
             'contract' => $contractId
         );
         $this->db->where_in('id', $usersList);
+        $result = $this->db->update('users', $data);
+        return $result;
+    }
+    public function updateSalaryNNumberDependantById($uid, $salary, $numDependant) {
+        $data = array(            
+            'salary'=>$salary,
+            'number_dependant' => $numDependant
+        );
+        $this->db->where('id', $uid);
         $result = $this->db->update('users', $data);
         return $result;
     }

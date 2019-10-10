@@ -10,7 +10,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-<h2><?php echo lang('users_create_title');?><?php echo $help;?></h2>
+<h2><?php echo lang('users_create_title');?></h2>
 
 <?php echo validation_errors(); ?>
     </div>
@@ -69,7 +69,7 @@ echo form_open('users/create', $attributes); ?>
     </div>
     <div class="span4">
         <div class="control-group">
-            <label class="control-label" for="annualleave"><?php echo lang('users_edit_field_annaulleave');?></label>
+            <label class="control-label" for="annualleave"><?php echo lang('users_create_field_annaulleave');?></label>
             <div class="controls">
                 <input type="number" name="annualleave"  required />
             </div>
@@ -112,7 +112,7 @@ echo form_open('users/create', $attributes); ?>
 
     <div class="span4">
         <div class="control-group">
-            <label class="control-label" for="phoneNo"><?php echo lang('users_myprofile_field_phoneNo');?></label>
+            <label class="control-label" for="phoneNo"><?php echo lang('users_create_field_phoneNo');?></label>
             <div class="controls">
                 <input type="number" id="phoneNo" name="phoneNo" required />
             </div>
@@ -120,19 +120,24 @@ echo form_open('users/create', $attributes); ?>
     </div>
 
     <div class="span4">
-        &nbsp;
+       <div class="control-group">
+            <label class="control-label" for="grossSalary"><?php echo lang('users_create_field_GROSS_salary');?></label>
+            <div class="controls">
+                <input type="number" id="grossSalary" name="grossSalary" required />
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="span6">
+    <div class="span4">
         <?php if ($this->config->item('ldap_enabled')=== FALSE && $this->config->item('saml_enabled') === FALSE) {?>
         <div class="control-group">
             <label class="control-label" for="password"><?php echo lang('users_create_field_password');?></label>
             <div class="controls">
                 <div class="input-append">
                     <input type="password" name="password" id="password" required />
-                    <a class="btn" id="cmdGeneratePassword"><i class="mdi mdi-refresh"></i>&nbsp;<?php echo lang('users_create_button_generate_password');?></a>
+                    <!--<a class="btn" id="cmdGeneratePassword"><i class="mdi mdi-refresh"></i>&nbsp;<?php echo lang('users_create_button_generate_password');?></a>-->
                 </div>
             </div>
         </div>
@@ -140,12 +145,12 @@ echo form_open('users/create', $attributes); ?>
         &nbsp;
         <?php } ?>
     </div>
-
-    <div class="span6">
+    
+    <div class="span4">
         <div class="control-group">
             <label class="control-label" for="contract"><?php echo lang('users_create_field_contract');?></label>
             <div class="controls">
-                <select name="contract" id="contract" class="selectized input-xlarge">
+                <select name="contract" id="contract" class="selectized">
                 <?php $index = 0;
                      foreach ($contracts as $contract) { ?>
                     <option value="<?php echo $contract['id'] ?>" <?php if ($index == 0) echo "selected"; ?>><?php echo $contract['name']; ?></option>
@@ -154,6 +159,12 @@ echo form_open('users/create', $attributes); ?>
                     } ?>
                 </select>
             </div>
+        </div>
+    </div>
+    <div class="span4">
+       <label class="control-label" for="grossSalary"><?php echo lang('users_create_number_dependant');?></label>
+        <div class="controls">
+            <input type="number" id="number_dependant" name="number_dependant" value="0" required />
         </div>
     </div>
 </div>

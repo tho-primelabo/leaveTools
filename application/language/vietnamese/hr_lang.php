@@ -28,6 +28,7 @@ $lang['hr_employees_thead_manager'] = 'Quản lý';
 $lang['hr_employees_thead_identifier'] = 'Người nhận dạng';
 $lang['hr_employees_thead_datehired'] = 'Ngày được tuyển dụng';
 $lang['hr_employees_thead_position'] = 'Vị trí';
+$lang['hr_employees_thead_payslip'] = 'Tính Lương';
 $lang['hr_employees_button_create_user'] = 'Khởi tạo';
 $lang['hr_employees_button_export'] = 'Xuất danh sách';
 $lang['hr_employees_popup_entitlment_title'] = 'Gán tiêu đề cho ngày';
