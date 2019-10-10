@@ -21,9 +21,9 @@ if (isset($_GET['source'])) {
         <div class="column border-right">
             <div id="form_convert">
                 <div class="f-boder">
-                    <div class="title">Income</div>
+                    <div class="title"><?php echo lang('payslip_income')?></div>
                     <div class="clearfix">
-                        <span class="margin-top-5">Salary </span>
+                        <span class="margin-top-5"><?php echo lang('payslip_gross_salary')?> </span>
                         <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="<?php echo lang('payslip_employees_input_salary');?>">
                             <input name="txtSalary" type="text" value="<?php echo $users_item['salary']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
                         </span>
@@ -35,7 +35,7 @@ if (isset($_GET['source'])) {
                         </span>
                     </div>
                     <div class="clearfix">
-                        <span class="margin-top-5">Exchange rate </span>
+                        <span class="margin-top-5"><?php echo lang('payslip_exchange_rate')?> </span>
                         <span>1 USD =
                             <input name="txtExchangeRate" type="text" value="23260" maxlength="5" id="txtExchangeRate" class="inputaspx w170" disabled="disabled"> VND
                         </span>
@@ -43,29 +43,29 @@ if (isset($_GET['source'])) {
                 </div>
             
                 <div class="f-boder">
-                    <div class="title">Insurance</div>
+                    <div class="title"><?php echo lang('payslip_insurance')?></div>
                     <div class="clearfix">             
-                        <span class="margin-top-5 mt-2">Pay for</span>
+                        <span class="margin-top-5 mt-2"><?php echo lang('payslip_pay_for')?></span>
                         <span>
-                            <input id="RadioButton1" type="radio" name="rdbPayfor" value="RadioButton1" checked="checked" onclick="chonLuongDongBaoHiem();"><label for="RadioButton1"><strong>full wage</strong></label>
+                            <input id="RadioButton1" type="radio" name="rdbPayfor" value="RadioButton1" checked="checked" ><label for="RadioButton1"><strong><?php echo lang('payslip_full_wage')?></strong></label>
                         </span>
                         <span>
-                            <input id="RadioButton2" type="radio" name="rdbPayfor" value="RadioButton2" onclick="chonLuongDongBaoHiem();"><label for="RadioButton2"><strong>Other</strong></label>
+                            <input id="RadioButton2" type="radio" name="rdbPayfor" value="RadioButton2" ><label for="RadioButton2"><strong>Other</strong></label>
                         </span>
                         <span id="idSalaryBasic" data-toggle="tooltip" data-placement="top" data-title="Please enter number salary basic">
                             <input name="txtSalaryBasic" type="text" maxlength="13" id="txtSalaryBasic" class="w70" disabled="disabled"> VND
                         </span>                                
                     </div>
                     <div class="clearfix mt-2">
-                        <span>Included UnEmployement Insurance</span> <span>
+                        <span><?php echo lang('payslip_included_unEmployement_insurance')?></span> <span>
                             <input id="chkIncludedIns" type="checkbox" name="chkIncludedIns" checked="checked">
                         </span>
                     </div>
                 </div>
                 <div class="f-boder">
-                    <div class="title">Reduction based on family circumstances</div>
+                    <div class="title"><?php echo lang('payslip_reduction_family_circumstances')?></div>
                     <div class="clearfix">
-                        <span class="margin-top-5">Number of dependant :</span>
+                        <span class="margin-top-5"><?php echo lang('payslip_number_dependant')?> :</span>
                         <span>
                             
                             <input name="txtNumberOfDep" id="txtNumberOfDep" value="<?php echo $users_item['number_dependant']; ?>" 
@@ -78,11 +78,8 @@ if (isset($_GET['source'])) {
                 </div>
                 <div class="style-btn clearfix">
                     <input id="clienGrossi" onclick="clickso1()" class="form-control btn-primary bg-orange" type="button" value="Gross to Net">
-                    <input id="clientNet" onclick="clickso2()" class="form-control btn-primary bg-orange" type="button" value="Net To Gross">
-                    <div style="display:none">
-                        <input type="submit" name="btnCalculator" value="Gross to Net" id="btnCalculator" cclass="form-control btn-primary bg-orange">
-                        <input type="submit" name="btnNetToGross" value="Net To Gross" id="btnNetToGross" class="form-control btn-primary bg-orange">
-                    </div>
+                    <input id="clientNet" onclick="clickso2()" class="form-control btn-primary bg-orange"  type="hidden" value="Net To Gross">
+                    
                 </div>
               <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
                 <div class="modal-header">
@@ -181,59 +178,59 @@ if (isset($_GET['source'])) {
         ?>
         <div class="column">
             <div id="blockUI">
-                <div class="title" style="text-align: center">Description (VND)</div>
+                <div class="title" style="text-align: center"><?php echo lang('payslip_description')?> (VND)</div>
                 <table class="datalist">
                     <tbody>
                         <tr class="rownote">
-                            <th style="width: 300px;">GROSS Salary</th>
+                            <th style="width: 300px;"><?php echo lang('payslip_gross_salary')?></th>
                             <td style="width: 105px;">
                                 <strong><span id="lblGrossSalary"></span></strong>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th>Social insurance    (8 %)</th>
+                            <th><?php echo lang('payslip_social_insurance')?>    (8 %)</th>
                             <td>
                                 <span id="lblSocialInsurance"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th>Health Insurance    (1.5 %)</th>
+                            <th><?php echo lang('payslip_health_insurance')?>    (1.5 %)</th>
                             <td>
                                 <span id="lblHealthInsurance"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th>UnEmployment Insurance    (1 %)</th>
+                            <th><?php echo lang('payslip_unEmployment_insurance')?>   (1 %)</th>
                             <td>
                                 <span id="lblThatNghiep"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #E6E6E6;">
-                            <th>For the tax payer</th>
+                            <th><?php echo lang('payslip_health_insurance')?>For the tax payer</th>
                             <td>
                                 <span id="lblGiamTruCaNhan">9.000.000</span>
                             </td>
                         </tr>
                         <tr style="background-color: #CCCCCC;">
-                            <th>For per person that depends on the tax payer</th>
+                            <th><?php echo lang('payslip_number_dependant_tax')?></th>
                             <td>
                                 <span id="lblGiamTruPhuThuoc"></span>
                             </td>
                         </tr>
                         <tr class="rownote" style="background-color: #E7E7E7">
-                            <th>Taxable income</th>
+                            <th><?php echo lang('payslip_taxable_income')?></th>
                             <td>
                                 <span id="lblTaxableIncome"></span>
                             </td>
                         </tr>
                         <tr>
-                            <th>Personal income tax</th>
+                            <th><?php echo lang('payslip_personal_income_tax')?></th>
                             <td>
                                 <span id="lblIncomeTax"></span>
                             </td>
                         </tr>
                         <tr class="rownote" style="background-color: #CCCCCC">
-                            <th><strong>Net salary</strong></th>
+                            <th><strong><?php echo lang('payslip_net_salary')?></strong></th>
                             <td>
                                 <strong><span id="lblNetSalary"></span></strong>
                             </td>

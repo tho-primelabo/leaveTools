@@ -14,17 +14,16 @@
 
 <h2><?php echo lang('payslip_title');?> &nbsp;</h2>
 <?php echo $flash_partial_view;?>
-<?php echo lang('payslip_employees_thead_date');?>
-                <div class="input-prepend input-append">
-                    <div class="btn-group">
-                        <div class="btn-group" data-toggle="buttons-radio">
-                            <button id="cmdGreater1" type="button" class="btn active"><i class="mdi mdi-chevron-right"></i></button>
-                            <button id="cmdLesser1" type="button" class="btn"><i class="mdi mdi-chevron-left"></i></button>
-                        </div>
-                        <input type="text" id="viz_datehired1" class="input-small" readonly />
-                        <button id="cmdResetDate1" type="button" class="btn"><i class="mdi mdi-close"></i></button>
-                    </div>
-                </div>
+
+  <div class="span12">
+       
+        <div class="input-prepend input-append">
+            <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
+            <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
+            <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
+        </div>
+    </div>
+<br/>
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
         <tr>
@@ -42,13 +41,15 @@
         <td data-order="<?php echo $users_item['id']; ?>">
             <?php echo $users_item['id'] ?>&nbsp;
             <div class="pull-right">                
-                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-cash-usd nolink"></i></a>
+                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-currency-usd nolink"></i></a>
             </div>
         </td>
         <td><?php echo $users_item['firstname']; ?></td>
         <td><?php echo $users_item['lastname']; ?></td>
         <td><?php echo number_format($users_item['salary']); ?></td>
-        <td><?php echo number_format($users_item['salaryNet']); ?></td>
+        <td><?php $sal = isset($users_item['salaryNet']);
+                  if($sal) echo number_format($users_item['salaryNet']);
+                  else echo 0; ?></td>
         <td><?php echo $users_item['number_dependant']; ?></td>
     </tr>
 <?php endforeach ?>
@@ -61,9 +62,9 @@
 
 <div class="row-fluid">
     <div class="span12">
-      <a href="<?php echo base_url();?>users/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
+      <a href="<?php echo base_url();?>payslip/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
       &nbsp;
-      <a href="<?php echo base_url();?>users/create" class="btn btn-primary"><i class="mdi mdi-account-plus"></i>&nbsp;<?php echo lang('payslip_index_button_create_user');?></a>
+      <a href="<?php echo base_url();?>payslip/bulkCreate" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>
     </div>
 </div>
 
@@ -100,62 +101,87 @@
 
 
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
-
-$(document).ready(function() {
-    //Transform the HTML table in a fancy datatable
-    $('#users').dataTable({
-        stateSave: true,
-        language: {
-            decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
-            processing:       "<?php echo lang('datatable_sProcessing');?>",
-            search:              "<?php echo lang('datatable_sSearch');?>",
-            lengthMenu:     "<?php echo lang('datatable_sLengthMenu');?>",
-            info:                   "<?php echo lang('datatable_sInfo');?>",
-            infoEmpty:          "<?php echo lang('datatable_sInfoEmpty');?>",
-            infoFiltered:       "<?php echo lang('datatable_sInfoFiltered');?>",
-            infoPostFix:        "<?php echo lang('datatable_sInfoPostFix');?>",
-            loadingRecords: "<?php echo lang('datatable_sLoadingRecords');?>",
-            zeroRecords:    "<?php echo lang('datatable_sZeroRecords');?>",
-            emptyTable:     "<?php echo lang('datatable_sEmptyTable');?>",
-            paginate: {
-                first:          "<?php echo lang('datatable_sFirst');?>",
-                previous:   "<?php echo lang('datatable_sPrevious');?>",
-                next:           "<?php echo lang('datatable_sNext');?>",
-                last:           "<?php echo lang('datatable_sLast');?>"
+    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
+    var year = "<?php echo $year;?>";
+    var currentDate = moment().year(year).month(month).date(1);
+    //var table = $('#users').DataTable();
+    $(document).ready(function() {
+         
+        <?php if ($this->config->item('csrf_protection') == TRUE) {?>
+          $.ajaxSetup({
+              data: {
+                  <?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
+              }
+          });
+      <?php }?>
+        //Transform the HTML table in a fancy datatable
+        $('#users').dataTable({
+            stateSave: true,
+            language: {
+                decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
+                processing:       "<?php echo lang('datatable_sProcessing');?>",
+                search:              "<?php echo lang('datatable_sSearch');?>",
+                lengthMenu:     "<?php echo lang('datatable_sLengthMenu');?>",
+                info:                   "<?php echo lang('datatable_sInfo');?>",
+                infoEmpty:          "<?php echo lang('datatable_sInfoEmpty');?>",
+                infoFiltered:       "<?php echo lang('datatable_sInfoFiltered');?>",
+                infoPostFix:        "<?php echo lang('datatable_sInfoPostFix');?>",
+                loadingRecords: "<?php echo lang('datatable_sLoadingRecords');?>",
+                zeroRecords:    "<?php echo lang('datatable_sZeroRecords');?>",
+                emptyTable:     "<?php echo lang('datatable_sEmptyTable');?>",
+                paginate: {
+                    first:          "<?php echo lang('datatable_sFirst');?>",
+                    previous:   "<?php echo lang('datatable_sPrevious');?>",
+                    next:           "<?php echo lang('datatable_sNext');?>",
+                    last:           "<?php echo lang('datatable_sLast');?>"
+                },
+                aria: {
+                    sortAscending:  "<?php echo lang('datatable_sSortAscending');?>",
+                    sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
+                }
             },
-            aria: {
-                sortAscending:  "<?php echo lang('datatable_sSortAscending');?>",
-                sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
-            }
-        },
+        });
+        
     });
-    $("#frmResetPwd").alert();
-    $("#frmImportUsers").alert();
+    $('#cmdNext').click(function() {
+            currentDate = currentDate.add(1, 'M');
+            month = currentDate.month() +1;
+            year = currentDate.year();
+            var fullDate = currentDate.format("MMMM") + ' ' + year;
+            date = year + '-' + month + '-' +'01';
+            $("#txtMonthYear").val(fullDate);
+            $.ajax({
+                            url: "<?php echo base_url(); ?>/payslip/bydate/" + date,
+                             beforeSend: function(){
+                                $('#frmModalAjaxWait').modal('show');
+                                },
+                            data: {
+                                'userid': <?php echo $users_item['id'];?>,
+                                'date': year + '-' + month + '-' +'01'
+                            },
+                            type: "POST",
+                            success: function(json) {
+                                console.log(json);
+                               $('#frmModalAjaxWait').modal('hide');
+                               $('#users').DataTable().clear().draw();
+                                //$('#users').DataTable().rows.add(json).draw();
+                               //Table.rows.add(result).draw();
+                                // console.log(json.salary_basic);
+                            }
+                        });
+            //$('#calendar').fullCalendar('next');
+        });
 
-    //On showing the confirmation pop-up, add the user id at the end of the delete url action
-    $('#frmConfirmDelete').on('show', function() {
-        var link = "<?php echo base_url();?>users/delete/" + $(this).data('id');
-        $("#lnkDeleteUser").attr('href', link);
-    });
-
-    //Display a modal pop-up so as to confirm if a user has to be deleted or not
-    //We build a complex selector because datatable does horrible things on DOM...
-    //a simplier selector doesn't work when the delete is on page >1
-    $("#users tbody").on('click', '.confirm-delete',  function(){
-        var id = $(this).data('id');
-        $('#frmConfirmDelete').data('id', id).modal('show');
-    });
-
-    //Prevent to load always the same content (refreshed each time)
-    $('#frmConfirmDelete').on('hidden', function() {
-        $(this).removeData('modal');
-    });
-    $('#frmResetPwd').on('hidden', function() {
-        $(this).removeData('modal');
-    });
-});
+        $('#cmdPrevious').click(function() {
+            currentDate = currentDate.add(-1, 'M');
+            month = currentDate.month();
+            year = currentDate.year();
+            var fullDate = currentDate.format("MMMM") + ' ' + year;
+            $("#txtMonthYear").val(fullDate);
+            //$('#calendar').fullCalendar('prev');
+        });
 </script>

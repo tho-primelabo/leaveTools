@@ -29,14 +29,21 @@ class Payslip extends CI_Controller {
         $this->load->model('users_model');
     }
 
-    public function index()
+    public function index($date = 0)
     {
         $this->auth->checkIfOperationIsAllowed('list_contracts');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
+        $month = date('m');
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
-        $date = date('Y-m-d');
+        //echo $date;
+        if ($date == 0) {
+            $date = date('Y-m-d');
+        }
+        //$dateObj = DateTime::createFromFormat('!m', $month);
+        $data['year'] = date('Y');
+        $data['month'] = date('M');
         $data['users'] = $this->users_model->getUsersByDate($date);
         $data['rooms'] = $this->rooms_model->getRooms();
         //echo json_encode($data['users']);die();
@@ -47,6 +54,35 @@ class Payslip extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('payslip/index', $data);
         $this->load->view('templates/footer');
+    }
+    public function bydate($date)
+    {
+        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->lang->load('datatable', $this->language);
+        $data = getUserContext($this);
+        $curmonth = date('m');
+        $curYear = date('y');
+        $data['title'] = lang('contract_index_title');
+        $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
+        //echo $date;die();
+        if ($date == 0) {
+            $date = date('Y-m-d');
+        }
+        $dateValue = strtotime($date); 
+        $mon = date("m", $dateValue)." "; 
+        $year = date('y', $dateValue)."";
+        //$dateObj = DateTime::createFromFormat('!m', $month);
+        $data['year'] = date('Y');
+        $data['month'] = date('M');
+        if ($mon > $curmonth || $year >= $curYear) {
+            $date = 0;
+        }
+        $data['users'] = $this->users_model->getUsersByDate($date);
+        $data['rooms'] = $this->rooms_model->getRooms();
+        echo json_encode($data['users']);
+        //$data['payslip'] = [];
+            // echo $payslip;
+        
     }
     public function edit($id)
     {
@@ -100,23 +136,44 @@ class Payslip extends CI_Controller {
         $this->load->model('contracts_model');
         $data['contracts'] = $this->contracts_model->getContracts();
         $data['public_key'] = file_get_contents('./assets/keys/public.pem', TRUE);
-        $salary_id = $this->payslip_model->create();
         // update user
         $userid = $this->input->post('userid');
 		$sal =  $this->input->post('salary');
 		
 		$txtNumberOfDep = (int)$this->input->post('txtNumberOfDep');
+        $this->db->trans_start();
+        $salary_id = $this->payslip_model->create();
         $this->users_model->updateSalaryNNumberDependantById($userid, $sal, $txtNumberOfDep);
+        $this->db->trans_complete();
         //echo $salary_id; die();
         $data['payslip'] = [];
         if (isset($salary_id)) {
             $data['payslip'] = $this->payslip_model->getPayslip($salary_id);
             // echo $payslip;
             //$this->session->set_flashdata('msg', lang('users_create_flash_msg_success'));
-        }
-        
+        }        
         echo json_encode($data['payslip']);//die();
+    }
+    public function bulkCreate() {
+        $date = date('2019-12-10');
+        $query = $this->users_model->getUsers();
+        if(isset($query) && count($query) > 0) {
+            $this->db->trans_start();
+            foreach($query as $row) {
+                $this->payslip_model->CalcuateNETSalary($row['id'], $row['salary'], $row['number_dependant'], 1, $date);
+            }
+            $this->db->trans_complete();
+            $this->session->set_flashdata('msg', lang('users_edit_flash_msg_success'));
+        }
        
-        
+        $this->lang->load('datatable', $this->language);
+        $data = getUserContext($this);
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
+        $data['users'] = $this->users_model->getUsersByDate($date);
+        $data['rooms'] = $this->rooms_model->getRooms();
+        $this->load->view('templates/header', $data);
+        $this->load->view('menu/index', $data);
+        $this->load->view('payslip/index', $data);
+        $this->load->view('templates/footer');
     }
 }

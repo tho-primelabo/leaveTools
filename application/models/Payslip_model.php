@@ -104,90 +104,15 @@ class Payslip_model extends CI_Model {
         $userid = $this->input->post('userid');
 		$sal = (double)$this->input->post('salary');
 		$chkIncludedIns = (int)$this->input->post('chkIncludedIns');
-        $curDate = date('Y-m-d');
-        //$curMonth = date('m');
-        //$curYear = date('Y');
-		//$uid = $this->session->userdata('chkIncludedIns');
 		$txtNumberOfDep = (int)$this->input->post('txtNumberOfDep');
+        $curDate = date('Y-m-d'); 
 		//print_r($this->session->userdata); die();
-        $social_insurance = ($sal * 0.08);
-        $health_insurance = ($sal * 0.015);
-        $unEmployment_insurance = ($sal*0.01);
-        if ($chkIncludedIns == 0) {
-            $unEmployment_insurance = 0;
-        }
-        $income_before_tax = $sal - ($social_insurance + $health_insurance + $unEmployment_insurance);
-        $peson_tax_payer = $txtNumberOfDep*3600000;
-        if ($income_before_tax < 0) {
-            $income_before_tax = 0;
-        }
-       $personal_income_tax = 0;
-        $taxable_incom = $income_before_tax - (9000000 + $peson_tax_payer);
-         if ($taxable_incom <= 0 ) {
-           $taxable_incom = 0;
-         }
-         else {
-            if ($taxable_incom <= 5000000) {
-                $personal_income_tax = $taxable_incom * 0.05;
-            }
-            else if (5000000 < $taxable_incom  && $taxable_incom <= 10000000) {
-                $personal_income_tax = ($taxable_incom * 0.1) - 250000;
-            }
-            else if (10000000 < $taxable_incom && $taxable_incom <= 18000000) {
-                $personal_income_tax = ($taxable_incom * 0.15) - 750000;
-            }
-            else if (18000000 < $taxable_incom && $taxable_incom  <= 32000000) {
-                $personal_income_tax = ($taxable_incom * 0.2) - 1650000;
-            }
-            else if (32000000 < $taxable_incom && $taxable_incom <= 52000000) {
-                $personal_income_tax = ($taxable_incom * 0.25) - 3250000;
-            }
-            else if (52000000 < $taxable_incom && $taxable_incom  <= 80000000) {
-                $personal_income_tax = ($taxable_incom * 0.30) - 5850000;
-            }
-            else if (80000000 < $taxable_incom) {
-                $personal_income_tax = ($taxable_incom * 0.35) - 9850000;
-            }
-         }// end $taxable_incom
-       $salary_other = 0;
-       $salary_overtime = 0;
-       if ($personal_income_tax <= 0){ 
-           $personal_income_tax = 0;
-       }
-       
+        
+        return $this->CalcuateNETSalary($userid, $sal, $txtNumberOfDep, $chkIncludedIns, $curDate);
        // find userid and date
 
       // echo $personal_income_tax;
-		$data = array(
-            'employee_id' => $userid,
-            'salary_basic' => $sal,
-            'date' => $curDate,
-            'social_insurance'   => $social_insurance,
-			'health_insurance'=> $health_insurance,
-            'peson_tax_payer'   => $peson_tax_payer,
-			'unEmployment_insurance'=> $unEmployment_insurance,
-			'taxable_incom'   => $taxable_incom,
-            'unEmployment_insurance'=> $unEmployment_insurance,
-            'salary_overtime'   => $salary_overtime,
-            'income_before_tax'   => $income_before_tax,
-			'personal_income_tax'   => $personal_income_tax,
-            'salary_net'  => $income_before_tax - $personal_income_tax,
-			'salary_other'=> $salary_other);
-           // print_r($data); echo $data ;die();
-        $date = $this->getDateByUserIdnCurDate($userid, $curDate);
-        //echo $date; die();
-        if (isset($date)) {
-
-            $this->db->where('date', $date);
-            $this->db->where('employee_id', $userid);
-            $this->db->update('salary', $data);
-            return $this->getSalaryIDByUserIdnCurDate($userid, $curDate);
-        }
-        else {
-            $this->db->insert('salary', $data);
-            $insert_id = $this->db->insert_id();
-            return  $insert_id;
-        }
+		
     }
     
     /**
@@ -231,5 +156,82 @@ class Payslip_model extends CI_Model {
         $query = $this->db->get();
         $result = $query->row_array();
         return $result['COUNT(*)'];
+    }
+    public function CalcuateNETSalary($userid, $salaryGross, $txtNumberOfDep, $chkIncludedIns, $curDate) {
+        $social_insurance = ($salaryGross * 0.08);
+        $health_insurance = ($salaryGross * 0.015);
+        $unEmployment_insurance = ($salaryGross*0.01);
+        
+        if ($chkIncludedIns == 0) {
+            $unEmployment_insurance = 0;
+        }
+        $income_before_tax = $salaryGross - ($social_insurance + $health_insurance + $unEmployment_insurance);
+        $peson_tax_payer = $txtNumberOfDep*3600000;
+        if ($income_before_tax < 0) {
+            $income_before_tax = 0;
+        }
+         $personal_income_tax = 0;
+        $taxable_incom = $income_before_tax - (9000000 + $peson_tax_payer);
+         if ($taxable_incom <= 0 ) {
+           $taxable_incom = 0;
+         }
+         else {
+            if ($taxable_incom <= 5000000) {
+                $personal_income_tax = $taxable_incom * 0.05;
+            }
+            else if (5000000 < $taxable_incom  && $taxable_incom <= 10000000) {
+                $personal_income_tax = ($taxable_incom * 0.1) - 250000;
+            }
+            else if (10000000 < $taxable_incom && $taxable_incom <= 18000000) {
+                $personal_income_tax = ($taxable_incom * 0.15) - 750000;
+            }
+            else if (18000000 < $taxable_incom && $taxable_incom  <= 32000000) {
+                $personal_income_tax = ($taxable_incom * 0.2) - 1650000;
+            }
+            else if (32000000 < $taxable_incom && $taxable_incom <= 52000000) {
+                $personal_income_tax = ($taxable_incom * 0.25) - 3250000;
+            }
+            else if (52000000 < $taxable_incom && $taxable_incom  <= 80000000) {
+                $personal_income_tax = ($taxable_incom * 0.30) - 5850000;
+            }
+            else if (80000000 < $taxable_incom) {
+                $personal_income_tax = ($taxable_incom * 0.35) - 9850000;
+            }
+         }// end $taxable_incom
+       $salary_other = 0;
+       $salary_overtime = 0;
+       if ($personal_income_tax <= 0){ 
+           $personal_income_tax = 0;
+       }
+       $data = array(
+            'employee_id' => $userid,
+            'salary_basic' => $salaryGross,
+            'date' => $curDate,
+            'social_insurance'   => $social_insurance,
+			'health_insurance'=> $health_insurance,
+            'peson_tax_payer'   => $peson_tax_payer,
+			'unEmployment_insurance'=> $unEmployment_insurance,
+			'taxable_incom'   => $taxable_incom,
+            'unEmployment_insurance'=> $unEmployment_insurance,
+            'salary_overtime'   => $salary_overtime,
+            'income_before_tax'   => $income_before_tax,
+			'personal_income_tax'   => $personal_income_tax,
+            'salary_net'  => $income_before_tax - $personal_income_tax,
+			'salary_other'=> $salary_other);
+           // print_r($data); echo $data ;die();
+        $date = $this->getDateByUserIdnCurDate($userid, $curDate);
+        //echo $date; die();
+        if (isset($date)) {
+
+            $this->db->where('date', $date);
+            $this->db->where('employee_id', $userid);
+            $this->db->update('salary', $data);
+            return $this->getSalaryIDByUserIdnCurDate($userid, $curDate);
+        }
+        else {
+            $this->db->insert('salary', $data);
+            $insert_id = $this->db->insert_id();
+            return  $insert_id;
+        }
     }
 }

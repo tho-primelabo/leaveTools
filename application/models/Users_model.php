@@ -40,14 +40,22 @@ class Users_model extends CI_Model {
 
     public function getUsersByDate($date) {
         //$date = date('Y-m-d');
-        $this->db->select('users.id, users.lastname , users.firstname ,
-         users.number_dependant , users.salary , salary.salary_net as salaryNet');
-        $this->db->join('salary', 'salary.employee_id = users.id', 'left');
-        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        
+        
+        if ($date != 0) {
+            $this->db->select('users.id, users.lastname , users.firstname ,
+                 users.number_dependant , users.salary , salary.salary_net as salaryNet');
+            $this->db->join('salary', 'salary.employee_id = users.id', 'left');
+            $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        }
+        else {
+            $this->db->select('users.id, users.lastname , users.firstname ,
+            users.number_dependant , users.salary ');
+        }
         $this->db->group_by('users.id, users.lastname , users.firstname ,
          users.number_dependant , users.salary ');
         $query = $this->db->get('users');
-       //echo json_encode($query);
+       echo json_encode($query);
         //$query = $this->db->get_where('users', array('salary.date' => $date));
         return $query->result_array();
     }
