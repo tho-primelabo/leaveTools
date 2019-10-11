@@ -50,12 +50,25 @@ class Users_model extends CI_Model {
         }
         else {
             $this->db->select('users.id, users.lastname , users.firstname ,
-            users.number_dependant , users.salary ');
+            users.number_dependant , users.salary, salary.salary_net as salaryNet ');
+             $this->db->join('salary', 'salary.employee_id = users.id', 'left');
         }
-        $this->db->group_by('users.id, users.lastname , users.firstname ,
-         users.number_dependant , users.salary ');
+        $this->db->group_by('users.id');
         $query = $this->db->get('users');
-       echo json_encode($query);
+       //echo json_encode($query);
+        //$query = $this->db->get_where('users', array('salary.date' => $date));
+        return $query->result_array();
+    }
+    public function getUsersByMonth() {
+        //$date = date('Y-m-d');
+        
+        $this->db->select('users.id, users.lastname , users.firstname ,
+        users.number_dependant , users.salary');
+            
+        
+        $this->db->group_by('users.id');
+        $query = $this->db->get('users');
+       //echo json_encode($query);
         //$query = $this->db->get_where('users', array('salary.date' => $date));
         return $query->result_array();
     }

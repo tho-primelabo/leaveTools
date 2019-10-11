@@ -8,6 +8,7 @@
  */
 
 $lang['payslip_title'] = 'Payslip';
+$lang['payslip_title_detail'] = 'Detail Payslip';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Last Name';
@@ -23,6 +24,7 @@ $lang['payslip_taxable_income'] = 'Taxable income';
 $lang['payslip_personal_income_tax'] = 'Personal income tax';
 $lang['email_password_reset_title'] = 'Your password has been reset';
 $lang['payslip_index_thead_tip_edit'] = 'Calculate payslip';
+$lang['payslip_index_thead_tip_detail'] = 'Detail payslip';
 $lang['payslip_index_button_export'] = 'Export this list';
 $lang['payslip_index_button_payslip'] = 'Calculate Payslips';
 $lang['payslip_edit_field_salary'] = 'Input Salary';
@@ -37,3 +39,12 @@ $lang['payslip_insurance'] = 'Insurance';
 $lang['payslip_included_unEmployement_insurance'] = 'Included UnEmployement Insurance';
 $lang['payslip_reduction_family_circumstances'] = 'Reduction based on family circumstances';
 $lang['payslip_pay_for'] = 'Pay for';
+$lang['payslip_field_social_insurance'] = 'Social insurance';
+$lang['payslip_field_health_insurance'] = 'Health insurance';
+$lang['payslip_field_taxable_incom'] = 'Taxable Incom';
+$lang['payslip_field_personal_income_tax'] = 'PIT';
+$lang['payslip_field_unEmployment_insurance'] = 'UEI';
+$lang['payslip_field_income_before_tax'] = 'InComBTax';
+$lang['payslip_field_salary_overtime'] = 'Salary OT';
+$lang['payslip_field_salary_other'] = 'Salary other';
+$lang['payslip_field_reduction_family'] = 'Reduce Family';

@@ -421,6 +421,8 @@ $route['payslip'] = 'payslip/index';
 //$route['payslip/create'] = 'payslip/edit/$1';
 $route['payslip/edit/(:num)'] = 'payslip/edit/$1';
 $route['payslip/bydate/(:any)'] = 'payslip/bydate/$1';
+$route['payslip/bulkCreate/(:any)'] = 'payslip/bulkCreate/$1';
+$route['payslip/detail/(:num)'] = 'payslip/detail/$1/$2/$3';
 //_______________________________________________
 //Default controllers
 $route['default_controller'] = 'leaves';

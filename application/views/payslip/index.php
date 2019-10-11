@@ -42,6 +42,8 @@
             <?php echo $users_item['id'] ?>&nbsp;
             <div class="pull-right">                
                 <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-currency-usd nolink"></i></a>
+                &nbsp;
+                <a href="<?php echo base_url();?>payslip/detail/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_detail');?>"><i class="mdi mdi-details nolink"></i></a>
             </div>
         </td>
         <td><?php echo $users_item['firstname']; ?></td>
@@ -64,7 +66,7 @@
     <div class="span12">
       <a href="<?php echo base_url();?>payslip/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
       &nbsp;
-      <a href="<?php echo base_url();?>payslip/bulkCreate" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>
+      <a href="<?php echo base_url();?>payslip/bulkCreate/<?php echo date('Y-m-d')?>" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>
     </div>
 </div>
 
@@ -109,8 +111,8 @@
     var year = "<?php echo $year;?>";
     var currentDate = moment().year(year).month(month).date(1);
     //var table = $('#users').DataTable();
-    $(document).ready(function() {
-         
+   
+      
         <?php if ($this->config->item('csrf_protection') == TRUE) {?>
           $.ajaxSetup({
               data: {
@@ -146,13 +148,14 @@
             },
         });
         
-    });
+    
     $('#cmdNext').click(function() {
             currentDate = currentDate.add(1, 'M');
             month = currentDate.month() +1;
             year = currentDate.year();
             var fullDate = currentDate.format("MMMM") + ' ' + year;
             date = year + '-' + month + '-' +'01';
+            var table = $('#users').DataTable();
             $("#txtMonthYear").val(fullDate);
             $.ajax({
                             url: "<?php echo base_url(); ?>/payslip/bydate/" + date,
@@ -165,9 +168,9 @@
                             },
                             type: "POST",
                             success: function(json) {
-                                console.log(json);
+                                //console.log(json);
                                $('#frmModalAjaxWait').modal('hide');
-                               $('#users').DataTable().clear().draw();
+                                //table.ajax.reload(json);
                                 //$('#users').DataTable().rows.add(json).draw();
                                //Table.rows.add(result).draw();
                                 // console.log(json.salary_basic);

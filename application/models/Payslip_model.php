@@ -149,13 +149,14 @@ class Payslip_model extends CI_Model {
      * @param int $id identifier of the leave type record
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function usage($id) {
-        $this->db->select('COUNT(*)');
-        $this->db->from('leaves');
-        $this->db->where('type', $id);
+    public function getSalaryByUserId($id) {
+        $this->db->select('*');
+        $this->db->from('salary');
+        $this->db->where('employee_id', $id);
+        $this->db->group_by('employee_id');
         $query = $this->db->get();
-        $result = $query->row_array();
-        return $result['COUNT(*)'];
+        $result = $query->result_array();
+        return $result;
     }
     public function CalcuateNETSalary($userid, $salaryGross, $txtNumberOfDep, $chkIncludedIns, $curDate) {
         $social_insurance = ($salaryGross * 0.08);

@@ -8,6 +8,7 @@
  */
 
 $lang['payslip_title'] = 'Bảng Lương';
+$lang['payslip_title_detail'] = 'Bảng Lương Chi Tiết';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Tên';
@@ -22,6 +23,7 @@ $lang['payslip_unEmployment_insurance'] = 'Bảo Hiểm Thất Nghiệp';
 $lang['payslip_taxable_income'] = 'Thu Nhập Chịu Thuế';
 $lang['payslip_personal_income_tax'] = 'Thuế thu nhâp cá nhân';
 $lang['payslip_index_thead_tip_edit'] = 'Tính bảng lương';
+$lang['payslip_index_thead_tip_detail'] = 'Chi Tiết bảng lương';
 $lang['payslip_index_button_export'] = 'Export this list';
 $lang['payslip_index_button_payslip'] = 'Tính lương tất cả';
 $lang['payslip_edit_field_salary'] = 'Nhập số lương';
@@ -36,3 +38,13 @@ $lang['payslip_insurance'] = 'Bảo Hiểm';
 $lang['payslip_included_unEmployement_insurance'] = 'Bao gồm bảo hiểm thất nghiệp';
 $lang['payslip_reduction_family_circumstances'] = 'Giảm dựa trên hoàn cảnh gia đình';
 $lang['payslip_pay_for'] = 'Trả theo';
+$lang['payslip_field_social_insurance'] = 'Bảo hiểm xã hôi';
+$lang['payslip_field_health_insurance'] = 'Bảo hiểm y tế';
+$lang['payslip_field_taxable_incom'] = 'Thu nhập chịu thuế';
+$lang['payslip_field_personal_income_tax'] = 'Thuế thu nhập cá nhân';
+$lang['payslip_field_unEmployment_insurance'] = 'Bảo Hiểm Thất Nghiệp';
+$lang['payslip_field_income_before_tax'] = 'Thu nhập trước thuế';
+$lang['payslip_field_salary_overtime'] = 'Lương tăng ca';
+$lang['payslip_field_salary_other'] = 'Lương khác';
+$lang['payslip_field_reduction_family'] = 'Gia cảnh';
+
