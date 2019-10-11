@@ -79,7 +79,8 @@
                 <option value="2"><?php echo lang('Requested');?></option>
             </select>
             <br/><br/>
-            <button type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; Create</button> <a href="<?php echo base_url(); ?>leaves" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('leaves_create_button_cancel'); ?></a>
+            <button type="submit" class="btn btn-primary "><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('leaves_create_button_create'); ?></button> 
+            <a href="<?php echo base_url(); ?>leaves" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp; <?php echo lang('leaves_create_button_cancel'); ?></a>
             </form>
 
         </div>
