@@ -43,6 +43,7 @@
             <div class="pull-right">                
                 <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-currency-usd nolink"></i></a>
                 &nbsp;
+              
                 <a href="<?php echo base_url();?>payslip/detail/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_detail');?>"><i class="mdi mdi-details nolink"></i></a>
             </div>
         </td>
@@ -170,6 +171,9 @@
                             success: function(json) {
                                 //console.log(json);
                                $('#frmModalAjaxWait').modal('hide');
+                               $('#users').DataTable().destroy();
+                                //$('#users').find('tbody').append("<tr><td><value1></td><td><value1></td></tr>");
+                                $('#users').DataTable().draw();
                                 //table.ajax.reload(json);
                                 //$('#users').DataTable().rows.add(json).draw();
                                //Table.rows.add(result).draw();

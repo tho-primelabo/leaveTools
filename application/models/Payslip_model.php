@@ -94,6 +94,22 @@ class Payslip_model extends CI_Model {
         $salary = $this->getPayslipByDate($id, $curDate);
         return $salary['salary_id'];
     }
+
+     public function getAllSalByUserIdNFromDateToDate($id, $fromDate = 0, $toDate = 0) {
+       //echo $id; echo $fromDate; echo $toDate ;die();
+        if ($fromDate == 0 && $toDate == 0) {
+            return $this->getSalaryByUserId($id);
+        }
+        else if ($fromDate != 0 && $toDate == 0) {
+            //echo $id; echo $fromDate; echo $toDate; die();
+             return $this->getPayslipByDate($id, $fromDate);
+        }
+        else if ($fromDate == 0 && $toDate != 0) {
+             echo $id; echo $fromDate; echo $toDate ;die();
+            return $this->getPayslipByDate($id, $toDate);
+        }
+        //return $salary->result_array();
+    }
     
     /**
      * Insert a new payslip. Data are taken from HTML form.
@@ -153,9 +169,10 @@ class Payslip_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('salary');
         $this->db->where('employee_id', $id);
-        $this->db->group_by('employee_id');
+        //$this->db->group_by('employee_id');
         $query = $this->db->get();
         $result = $query->result_array();
+        //echo json_encode($result);
         return $result;
     }
     public function CalcuateNETSalary($userid, $salaryGross, $txtNumberOfDep, $chkIncludedIns, $curDate) {

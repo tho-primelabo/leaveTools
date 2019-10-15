@@ -1,7 +1,7 @@
 <?php
 
 $lang['contracttypes_type_title'] = 'Contract types';
-$lang['contracttypes_type_description'] = 'Contract type #0 is a system type reserved for overtime management. You should not use it for other requests.';
+$lang['contracttypes_type_description'] = 'Contract type #0 is a system type reserved for contract management. You should not use it for other requests.';
 $lang['contracttypes_type_confirm_rename'] = 'Contract type #0 is a system type reserved for overtime management. Are you sure that you want to rename it?';
 $lang['contracttypes_type_thead_id'] = 'ID';
 $lang['contracttypes_type_thead_acronym'] = 'Acronym';

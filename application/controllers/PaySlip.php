@@ -15,7 +15,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  * HR controller deals with employees.
  */
 class Payslip extends CI_Controller {
-
+ 
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -77,7 +77,7 @@ class Payslip extends CI_Controller {
         if ($mon > $curmonth || $year > $curYear) {
             $data['users'] = $this->users_model->getUsersByMonth();
             $date = 0;
-            //echo  $mon + ':' +$curmonth;die();
+           // echo  $mon ; echo $curmonth;die();
         }
         else {
             //echo  $mon; die();
@@ -187,18 +187,19 @@ class Payslip extends CI_Controller {
         $this->load->view('payslip/index', $data);
         $this->load->view('templates/footer');
     }
-      public function detail($uid, $fromDate, $toDate)
+    public function detail($uid)
     {
         $this->auth->checkIfOperationIsAllowed('list_contracts');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
+        $data['userid'] = $uid;
         $month = date('F');
         $year = date('Y');
         $data['month'] = $month;
         $data['year'] = $year;
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
-        //echo $date;
+        //echo  $fromDate."" + ":" + $toDate.""; die();
         //if ($date == 0) {
           //  $date = date('Y-m-d');
         //}
@@ -215,5 +216,22 @@ class Payslip extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('payslip/detail', $data);
         $this->load->view('templates/footer');
+    }
+      public function filterDate($date)
+    {
+        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->lang->load('datatable', $this->language);
+        $data = getUserContext($this);
+       
+        $data['title'] = lang('contract_index_title');
+        $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
+        //echo  $date;
+        $uid = $this->input->post('userid');
+        $data['salaries'] = $this->payslip_model->getAllSalByUserIdNFromDateToDate($uid, $date);
+        $data['rooms'] = $this->rooms_model->getRooms();
+        echo json_encode($data['salaries']);
+        //$data['payslip'] = [];
+            // echo $payslip;
+        
     }
 }

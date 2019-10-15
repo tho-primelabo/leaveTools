@@ -17,7 +17,7 @@
     </div>
     <div class="span12">
         <input type="text" name="salarydate" id="salarydate" autocomplete="off" required/>
-        <input type="hidden" name="startdate" id="startdate" />
+        <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>"/>
     </div>
 </div>
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="salary" width="100%">
@@ -44,7 +44,7 @@
        <?php foreach ($salaries as $salary): ?>
             <tr>
             <td><?php echo $salary['salary_id']; ?></td>
-            <td><?php echo $salary['date']; ?></td>            
+            <td><?php $date=date_create($salary['date']); echo date_format($date, 'm-d-Y'); ?></td>            
             <td><?php echo number_format($salary['salary_basic']); ?></td>
             <td><?php $sal = isset($salary['salary_basic']);
                     if($sal) echo number_format($salary['salary_net']);
@@ -88,7 +88,8 @@ if ($language_code != 'en') {
 
 
 <script type="text/javascript">
-    $('#salary').dataTable({
+   
+    var oTable = $('#salary').dataTable({
             stateSave: true,
             language: {
                 decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
@@ -142,21 +143,26 @@ if ($language_code != 'en') {
             $('#calendar').fullCalendar('gotoDate', currentDate);
             
         });
-
+        //$("#salarydate").datepicker().datepicker("setDate", new Date());
         $("#salarydate").datepicker({
-
+            dateFormat: '<?php echo lang('global_date_js_format');?>',
+            altFormat: "yyyy-mm-dd",
             onSelect: function(date, instance) {
-
-                $.ajax
-                ({
-                    type: "Post",
-                    url: "<?php echo base_url(); ?>/payslip/bydate/",
-                    data: "date="+date,
-                    success: function(result)
-                    {
-                        //do something
-                    }
-                });  
+                var date = new Date(date);
+                var myDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                $('#frmModalAjaxWait').modal('show');
+                $.ajax({
+                    url: "<?php echo base_url();?>payslip/filterdate/"+ myDate,
+                    type: "POST",
+                    data: {userid:$("#userid").val()}
+                   
+                }).done(function(json) {
+                    //oTable.api().ajax.reload(function ( json ) {
+                        console.log(json);
+                        $('#frmModalAjaxWait').modal('hide');
+                    //});
+                });
+                $("#frmSelectContract").modal('hide');
             }
         });
 </script>
