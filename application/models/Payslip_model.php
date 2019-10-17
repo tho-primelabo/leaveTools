@@ -45,7 +45,7 @@ class Payslip_model extends CI_Model {
         $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
         $query = $this->db->get('salary');
         //echo json_encode($query);die();
-        return $query->row_array();
+        return $query->result_array();
     }
     
     /**

@@ -19,7 +19,9 @@
         <input type="text" name="salarydate" id="salarydate" autocomplete="off" required/>
         <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>"/>
     </div>
+   
 </div>
+
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="salary" width="100%">
     <thead>
         <tr>
@@ -41,27 +43,10 @@
         </tr>
     </thead>
     <tbody>
-       <?php foreach ($salaries as $salary): ?>
-            <tr>
-            <td><?php echo $salary['salary_id']; ?></td>
-            <td><?php $date=date_create($salary['date']); echo date_format($date, 'm-d-Y'); ?></td>            
-            <td><?php echo number_format($salary['salary_basic']); ?></td>
-            <td><?php $sal = isset($salary['salary_basic']);
-                    if($sal) echo number_format($salary['salary_net']);
-                    else echo 0; ?></td>
-            <td><?php echo number_format($salary['social_insurance']); ?></td>
-            <td><?php echo number_format($salary['health_insurance']); ?></td>
-            <td><?php echo number_format($salary['taxable_incom']); ?></td>
-            <td><?php echo number_format($salary['personal_income_tax']); ?></td>
-            <td><?php echo number_format($salary['unEmployment_insurance']); ?></td>
-            <td><?php echo number_format($salary['income_before_tax']); ?></td>
-            <td><?php echo number_format($salary['peson_tax_payer']); ?></td>
-            <td><?php echo number_format($salary['salary_overtime']); ?></td>
-            <td><?php echo number_format($salary['salary_other']); ?></td>
-            </tr>
-        <?php endforeach ?>
+       
     </tbody>
 </table>
+</div>
 <div class="row">
      <div class="span0">
         <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
@@ -86,11 +71,22 @@ if ($language_code != 'en') {
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/select2-4.0.5/js/select2.full.min.js"></script>
 
-
 <script type="text/javascript">
-   
-    var oTable = $('#salary').dataTable({
-            stateSave: true,
+<?php if ($this->config->item('csrf_protection') == true) {?>
+    $.ajaxSetup({
+        data: {
+            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+        }
+    });
+    <?php }?>
+var table;
+
+$(document).ready(function() {
+
+    //datatables
+    table = $('#salary').DataTable({ 
+
+        stateSave: true,
             language: {
                 decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
                 processing:       "<?php echo lang('datatable_sProcessing');?>",
@@ -114,56 +110,38 @@ if ($language_code != 'en') {
                     sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
                 }
             },
-        });
-    $(function() {
-        <?php if ($this->config->item('csrf_protection') == true) {?>
-            $.ajaxSetup({
-                data: {
-                    <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
-                }
-            });
-            <?php }?>
-    });
-    //Intialize Month/Year selection
-        $("#").datepicker({
-            format: "MM yyyy",
-            startView: 1,
-            minViewMode: 1,
-            todayBtn: 'linked',
-            todayHighlight: true,
-            language: "<?php echo $language_code;?>",
-            autoclose: true
-        }).on("changeDate", function(e) {
-            month = new Date(e.date).getMonth();
-            //Doesn't work : year = new Date(e.date).getYear();
-            year = parseInt(String(e.date).split(" ")[3]);
-            currentDate = moment().year(year).month(month).date(1);
-            var fullDate = currentDate.format("MMMM") + ' ' + year;
-            $("#txtMonthYear").val(fullDate);
-            $('#calendar').fullCalendar('gotoDate', currentDate);
-            
-        });
-        //$("#salarydate").datepicker().datepicker("setDate", new Date());
-        $("#salarydate").datepicker({
-            dateFormat: '<?php echo lang('global_date_js_format');?>',
-            altFormat: "yyyy-mm-dd",
-            onSelect: function(date, instance) {
-                var date = new Date(date);
-                var myDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-                $('#frmModalAjaxWait').modal('show');
-                $.ajax({
-                    url: "<?php echo base_url();?>payslip/filterdate/"+ myDate,
-                    type: "POST",
-                    data: {userid:$("#userid").val()}
-                   
-                }).done(function(json) {
-                    //oTable.api().ajax.reload(function ( json ) {
-                        console.log(json);
-                        $('#frmModalAjaxWait').modal('hide');
-                    //});
-                });
-                $("#frmSelectContract").modal('hide');
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            url: "<?php echo base_url();?>payslip/filterdate/",
+            "type": "POST",
+            "data": function ( data ) {
+                data.userid = $('#userid').val();;
+                data.date = $('#salarydate').val();
+                
             }
-        });
+        },
+
+    });
+    
+   $("#salarydate").datepicker({
+        dateFormat: '<?php echo lang('global_date_js_format');?>',
+        altFormat: "yyyy-mm-dd",
+        onSelect: function(date, instance) {
+            //console.log(date);
+            var d = new Date(date);
+            selDate = [
+            d.getFullYear(),
+            ('0' + (d.getMonth() + 1)).slice(-2),
+            ('0' + d.getDate()).slice(-2)
+            ].join('-');
+            $('#salarydate').val(selDate);
+             table.ajax.reload();  //just reload table
+        }
+    });
+
+});
+
 </script>
+
 <!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/lms/leave.edit-1.0.js?v=<?= filemtime(dirname(BASEPATH) . '/assets/js/lms/leave.edit-1.0.js'); ?>" type="text/javascript"></script>-->

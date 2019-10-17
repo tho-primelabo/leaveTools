@@ -36,26 +36,7 @@
         </tr>
     </thead>
     <tbody>
-<?php foreach ($users as $users_item): ?>
-    <tr>
-        <td data-order="<?php echo $users_item['id']; ?>">
-            <?php echo $users_item['id'] ?>&nbsp;
-            <div class="pull-right">                
-                <a href="<?php echo base_url();?>payslip/edit/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_edit');?>"><i class="mdi mdi-currency-usd nolink"></i></a>
-                &nbsp;
-              
-                <a href="<?php echo base_url();?>payslip/detail/<?php echo $users_item['id'] ?>" title="<?php echo lang('payslip_index_thead_tip_detail');?>"><i class="mdi mdi-details nolink"></i></a>
-            </div>
-        </td>
-        <td><?php echo $users_item['firstname']; ?></td>
-        <td><?php echo $users_item['lastname']; ?></td>
-        <td><?php echo number_format($users_item['salary']); ?></td>
-        <td><?php $sal = isset($users_item['salaryNet']);
-                  if($sal) echo number_format($users_item['salaryNet']);
-                  else echo 0; ?></td>
-        <td><?php echo $users_item['number_dependant']; ?></td>
-    </tr>
-<?php endforeach ?>
+
             </tbody>
         </table>
     </div>
@@ -73,33 +54,7 @@
 
 <div class="row-fluid"><div class="span12">&nbsp;</div></div>
 
-<div id="frmConfirmDelete" class="modal hide fade">
-    <div class="modal-header">
-        <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="close">&times;</a>
-         <h3><?php echo lang('users_index_popup_delete_title');?></h3>
-    </div>
-    <div class="modal-body">
-        <p><?php echo lang('users_index_popup_delete_message');?></p>
-        <p><?php echo lang('users_index_popup_delete_question');?></p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn btn-danger" id="lnkDeleteUser"><?php echo lang('users_index_popup_delete_button_yes');?></a>
-        <a href="#" onclick="$('#frmConfirmDelete').modal('hide');" class="btn"><?php echo lang('users_index_popup_delete_button_no');?></a>
-    </div>
-</div>
 
-<div id="frmResetPwd" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-         <h3><?php echo lang('users_index_popup_password_title');?></h3>
-    </div>
-    <div class="modal-body">
-        <img src="<?php echo base_url();?>assets/images/loading.gif">
-    </div>
-    <div class="modal-footer">
-        <button class="btn" data-dismiss="modal"><?php echo lang('users_index_popup_password_button_cancel');?></button>
-    </div>
-</div>
 
 
 
@@ -108,22 +63,15 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
-    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
-    var year = "<?php echo $year;?>";
-    var currentDate = moment().year(year).month(month).date(1);
-    //var table = $('#users').DataTable();
-   
-      
-        <?php if ($this->config->item('csrf_protection') == TRUE) {?>
-          $.ajaxSetup({
-              data: {
-                  <?php echo $this->security->get_csrf_token_name();?>: "<?php echo $this->security->get_csrf_hash();?>",
-              }
-          });
-      <?php }?>
-        //Transform the HTML table in a fancy datatable
-        $('#users').dataTable({
-            stateSave: true,
+    <?php if ($this->config->item('csrf_protection') == true) {?>
+    $.ajaxSetup({
+        data: {
+            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+        }
+    });
+    <?php }?>
+    var table = $('#users').DataTable({
+        stateSave: true,
             language: {
                 decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
                 processing:       "<?php echo lang('datatable_sProcessing');?>",
@@ -147,7 +95,18 @@
                     sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
                 }
             },
-        });
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            url: "<?php echo base_url();?>payslip/ajax_list/",
+            "type": "POST",
+            "data": function ( data ) {
+                data.userid = 12;
+                data.date = $('#FirstName').val();
+                
+            }
+        },
+    });
         
     
     $('#cmdNext').click(function() {
@@ -158,30 +117,7 @@
             date = year + '-' + month + '-' +'01';
             var table = $('#users').DataTable();
             $("#txtMonthYear").val(fullDate);
-            $.ajax({
-                            url: "<?php echo base_url(); ?>/payslip/bydate/" + date,
-                             beforeSend: function(){
-                                $('#frmModalAjaxWait').modal('show');
-                                },
-                            data: {
-                                'userid': <?php echo $users_item['id'];?>,
-                                'date': year + '-' + month + '-' +'01'
-                            },
-                            type: "POST",
-                            success: function(json) {
-                                //console.log(json);
-                               $('#frmModalAjaxWait').modal('hide');
-                               $('#users').DataTable().destroy();
-                                //$('#users').find('tbody').append("<tr><td><value1></td><td><value1></td></tr>");
-                                $('#users').DataTable().draw();
-                                //table.ajax.reload(json);
-                                //$('#users').DataTable().rows.add(json).draw();
-                               //Table.rows.add(result).draw();
-                                // console.log(json.salary_basic);
-                            }
-                        });
-            //$('#calendar').fullCalendar('next');
-        });
+    })
 
         $('#cmdPrevious').click(function() {
             currentDate = currentDate.add(-1, 'M');

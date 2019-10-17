@@ -57,7 +57,7 @@ class Users_model extends CI_Model {
         $query = $this->db->get('users');
        //echo json_encode($query);
         //$query = $this->db->get_where('users', array('salary.date' => $date));
-        return $query->result_array();
+        return $query->result();
     }
     public function getUsersByMonth() {
         //$date = date('Y-m-d');
