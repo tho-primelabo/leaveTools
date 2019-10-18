@@ -82,7 +82,7 @@ if ($language_code != 'en') {
 var table;
 
 $(document).ready(function() {
-
+    //$('#salarydate').val(new Date().toISOString().slice(0,10));
     //datatables
     table = $('#salary').DataTable({ 
 
@@ -126,19 +126,20 @@ $(document).ready(function() {
     
    $("#salarydate").datepicker({
         dateFormat: '<?php echo lang('global_date_js_format');?>',
-        altFormat: "yyyy-mm-dd",
+        altFormat: "yy-mm-dd",
         onSelect: function(date, instance) {
             //console.log(date);
-            var d = new Date(date);
-            selDate = [
-            d.getFullYear(),
-            ('0' + (d.getMonth() + 1)).slice(-2),
-            ('0' + d.getDate()).slice(-2)
-            ].join('-');
-            $('#salarydate').val(selDate);
+            selectedDate = $.datepicker.formatDate("yy-mm-dd", $(this).datepicker('getDate'));
+            
+            $('#salarydate').val(selectedDate);
+
              table.ajax.reload();  //just reload table
+             if ($('#salarydate').val() == undefined) {
+                 alert('test');
+             }
         }
     });
+    
 
 });
 

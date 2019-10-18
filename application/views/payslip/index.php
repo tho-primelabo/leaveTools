@@ -9,18 +9,19 @@
 ?>
 
 <div class="row-fluid">
-    <div class="span12">
-
-
 <h2><?php echo lang('payslip_title');?> &nbsp;</h2>
 <?php echo $flash_partial_view;?>
 
-  <div class="span12">
-       
+  <div class="span8">
+        <div class="span1">
+        <label for="viz_startdate"><?php echo lang('payslip_employees_thead_date'); ?>:</label>
+            
+    </div>
         <div class="input-prepend input-append">
             <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
             <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
             <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
+            <input type ='hidden' id='monthYear'/>
         </div>
     </div>
 <br/>
@@ -35,10 +36,9 @@
             <th><?php echo lang('payslip_number_dependant');?></th>
         </tr>
     </thead>
-    <tbody>
-
-            </tbody>
-        </table>
+        <tbody>
+        </tbody>
+    </table>
     </div>
 </div>
 
@@ -55,14 +55,17 @@
 <div class="row-fluid"><div class="span12">&nbsp;</div></div>
 
 
-
-
-
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
+    $(document).ready(function() {
+        console.log($('#monthYear').val());
+    });
+    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
+    var year = "<?php echo $year;?>";
+    var currentDate = moment().year(year).month(month).date(1);
     <?php if ($this->config->item('csrf_protection') == true) {?>
     $.ajaxSetup({
         data: {
@@ -101,8 +104,8 @@
             url: "<?php echo base_url();?>payslip/ajax_list/",
             "type": "POST",
             "data": function ( data ) {
-                data.userid = 12;
-                data.date = $('#FirstName').val();
+                //data.userid = 12;
+                data.date = $('#monthYear').val();
                 
             }
         },
@@ -110,21 +113,32 @@
         
     
     $('#cmdNext').click(function() {
+            
             currentDate = currentDate.add(1, 'M');
             month = currentDate.month() +1;
             year = currentDate.year();
             var fullDate = currentDate.format("MMMM") + ' ' + year;
-            date = year + '-' + month + '-' +'01';
-            var table = $('#users').DataTable();
+            date = year + '-' + currentDate.format("M") + '-' +'01';
+            
             $("#txtMonthYear").val(fullDate);
+            $("#monthYear").val(date);
+             //console.log(date);
+             table.ajax.reload();  //just reload table
+            //alert(month+ ':' +year);
     })
 
         $('#cmdPrevious').click(function() {
+            
             currentDate = currentDate.add(-1, 'M');
             month = currentDate.month();
             year = currentDate.year();
             var fullDate = currentDate.format("MMMM") + ' ' + year;
+           
+            date = year + '-' + currentDate.format("M") + '-' +'01';
             $("#txtMonthYear").val(fullDate);
+            $("#monthYear").val(date);
+             //console.log(date);
+            table.ajax.reload();  //just reload table
             //$('#calendar').fullCalendar('prev');
         });
 </script>
