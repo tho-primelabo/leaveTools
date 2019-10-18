@@ -15,7 +15,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
  * HR controller deals with employees.
  */
 class Payslip extends CI_Controller {
-
+ 
     /**
      * Default constructor
      * @author Benjamin BALET <benjamin.balet@gmail.com>
@@ -28,6 +28,41 @@ class Payslip extends CI_Controller {
         $this->load->model('payslip_model');
         $this->load->model('users_model');
     }
+
+    public function ajax_list()
+	{
+		
+        $date = $this->input->post('date');
+        // echo $date; die();
+        if($date == '') {
+            $date = 0;
+            //echo 'null';
+        }
+        // else {
+        //     $users = $this->users_model->getUsersByDate($date);
+        // }
+        $users = $this->bydate($date);
+		$dataArray = array();
+        foreach ($users as $element) {
+            $sub_array  = array();  
+                
+            $sub_array[] = $element->id."<div style='text-align:right;float:right'><a href='".base_url()."payslip/edit/". $element->id."' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd nolink'></i></a></div>".
+            "<div style='text-align:right;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('<payslip_index_thead_tip_detail></payslip_index_thead_tip_detail>')."><i class='mdi mdi-details nolink'></i></a></div>" ;  
+            $sub_array[] = $element->firstname;  
+            $sub_array[] = $element->lastname;  
+            $sub_array[] = number_format($element->salary); 
+            
+            $sub_array[] = number_format($element->salaryNet); 
+            
+            $sub_array[] = $element->number_dependant;  
+            // $sub_array[] = '<button type="button" name="update" id="'.$element->id.'" class="btn btn-warning btn-xs">Update</button>
+            // <button type="button" name="delete" id="'.$element->id.'" class="btn btn-danger btn-xs">Delete</button>';  
+            
+            $dataArray[] = $sub_array; 
+        }
+        echo json_encode(array("data" => $dataArray)); die();
+	}
+
 
     public function index()
     {
@@ -43,7 +78,7 @@ class Payslip extends CI_Controller {
         //}
         //$dateObj = DateTime::createFromFormat('!m', $month);
         $data['year'] = date('Y');
-        $data['month'] = date('M');
+        $data['month'] = date('F');
         $data['users'] = $this->users_model->getUsersByDate(0);
         $data['rooms'] = $this->rooms_model->getRooms();
         //echo json_encode($data['users']);die();
@@ -74,19 +109,23 @@ class Payslip extends CI_Controller {
         //$dateObj = DateTime::createFromFormat('!m', $month);
         $data['year'] = date('Y');
         $data['month'] = date('M');
-        if ($mon > $curmonth || $year > $curYear) {
-            $data['users'] = $this->users_model->getUsersByMonth();
-            $date = 0;
-            //echo  $mon + ':' +$curmonth;die();
-        }
-        else {
+        //if ($mon > $curmonth || $year > $curYear) {
+           // return $this->users_model->getUsersByMonth();
+            //$date = 0;
+           // echo  $mon ; echo $curmonth;die();
+       // }
+       // else {
             //echo  $mon; die();
-            $data['users'] = $this->users_model->getUsersByDate($date);
-        }
-        $data['rooms'] = $this->rooms_model->getRooms();
-        echo json_encode($data['users']);
+            return $this->users_model->getUsersByDate($date);
+      //  }
+        //$data['rooms'] = $this->rooms_model->getRooms();
+        //echo json_encode($data['users']);
         //$data['payslip'] = [];
             // echo $payslip;
+        // $this->load->view('templates/header', $data);
+        // $this->load->view('menu/index', $data);
+        // $this->load->view('payslip/index', $data);
+        // $this->load->view('templates/footer');
         
     }
     public function edit($id)
@@ -161,6 +200,7 @@ class Payslip extends CI_Controller {
     }
     public function bulkCreate($date) {
         //$date = date('2019-12-10');
+        //echo $date;die();
         $query = $this->users_model->getUsers();
        if(isset($query) && count($query) > 0) {
             $this->db->trans_start();
@@ -171,34 +211,22 @@ class Payslip extends CI_Controller {
             $this->session->set_flashdata('msg', lang('users_edit_flash_msg_success'));
         }
         $dateValue = strtotime($date); 
-        //$mon = date("m", $dateValue)." "; 
-        //$year = date('y', $dateValue)."";
-       
-        //echo  $data['year']; die();
-        $this->lang->load('datatable', $this->language);
-        $data = getUserContext($this);
-        $data['year'] = date('Y', $dateValue)."";
-        $data['month'] = date('F', $dateValue)."";
-        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
-        $data['users'] = $this->users_model->getUsersByDate($date);
-        $data['rooms'] = $this->rooms_model->getRooms();
-        $this->load->view('templates/header', $data);
-        $this->load->view('menu/index', $data);
-        $this->load->view('payslip/index', $data);
-        $this->load->view('templates/footer');
+      
+         redirect('payslip/index');
     }
-      public function detail($uid, $fromDate, $toDate)
+    public function detail($uid)
     {
         $this->auth->checkIfOperationIsAllowed('list_contracts');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
+        $data['userid'] = $uid;
         $month = date('F');
         $year = date('Y');
         $data['month'] = $month;
         $data['year'] = $year;
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
-        //echo $date;
+        //echo  $fromDate."" + ":" + $toDate.""; die();
         //if ($date == 0) {
           //  $date = date('Y-m-d');
         //}
@@ -215,5 +243,43 @@ class Payslip extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('payslip/detail', $data);
         $this->load->view('templates/footer');
+    }
+      public function filterDate()
+    {
+        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->lang->load('datatable', $this->language);
+        $data = getUserContext($this);
+       
+        $data['title'] = lang('contract_index_title');
+        $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
+        //echo  $date;
+        $uid = $this->input->post('userid');
+        $date = $this->input->post('date');
+        $salaries = $this->payslip_model->getAllSalByUserIdNFromDateToDate($uid, $date);
+        $data['rooms'] = $this->rooms_model->getRooms();
+        $dataArray = array();
+        foreach ($salaries as $element) {            
+            $dataArray[] = array(
+                $element['salary_id'],
+                $element['date'],
+                number_format($element['salary_basic']),
+                number_format($element['salary_net']),
+                number_format($element['social_insurance']),
+                number_format($element['health_insurance']),
+                number_format($element['taxable_incom']),
+                number_format($element['personal_income_tax']),
+                number_format($element['income_before_tax']),
+                number_format($element['unEmployment_insurance']),
+                number_format($element['peson_tax_payer']),
+                number_format($element['salary_overtime']),
+                
+                
+                number_format($element['salary_other'])
+            );
+        }
+        echo json_encode(array("data" => $dataArray)); //die();
+        //$data['payslip'] = [];
+            // echo $payslip;
+        
     }
 }

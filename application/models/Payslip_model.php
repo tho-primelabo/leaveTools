@@ -43,11 +43,23 @@ class Payslip_model extends CI_Model {
                                                       "DATE_FORMAT(date, '%Y-%m')="=> "DATE_FORMAT($date, '%Y-%m')"));*/
         $this->db->where('employee_id', $id);
         $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        $this->db->group_by('employee_id');
+        $query = $this->db->get('salary');
+        //echo json_encode($query);die();
+        return $query->result_array();
+    }
+    
+    public function getRowPayslipByDate($id = 0, $date) {
+        /*
+        $query = $this->db->get_where('salary', array('employee_id' => $id,
+                                                      "DATE_FORMAT(date, '%Y-%m')="=> "DATE_FORMAT($date, '%Y-%m')"));*/
+        $this->db->where('employee_id', $id);
+        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        $this->db->group_by('employee_id');
         $query = $this->db->get('salary');
         //echo json_encode($query);die();
         return $query->row_array();
     }
-    
     /**
      * Get the list of types or one type
      * @param string $name type name
@@ -87,12 +99,29 @@ class Payslip_model extends CI_Model {
     }
     
     public function getDateByUserIdnCurDate($id, $curDate) {
-        $salary = $this->getPayslipByDate($id, $curDate);
+        $salary = $this->getRowPayslipByDate($id, $curDate);
+        //echo json_encode($salary['date']);die();
         return $salary['date'];
     }
     public function getSalaryIDByUserIdnCurDate($id, $curDate) {
-        $salary = $this->getPayslipByDate($id, $curDate);
+        $salary = $this->getRowPayslipByDate($id, $curDate);
         return $salary['salary_id'];
+    }
+
+     public function getAllSalByUserIdNFromDateToDate($id, $fromDate = 0, $toDate = 0) {
+       //echo $id; echo $fromDate; echo $toDate ;die();
+        if ($fromDate == 0 && $toDate == 0) {
+            return $this->getSalaryByUserId($id);
+        }
+        else if ($fromDate != 0 && $toDate == 0) {
+            //echo $id; echo $fromDate; echo $toDate; die();
+             return $this->getPayslipByDate($id, $fromDate);
+        }
+        else if ($fromDate == 0 && $toDate != 0) {
+             echo $id; echo $fromDate; echo $toDate ;die();
+            return $this->getPayslipByDate($id, $toDate);
+        }
+        //return $salary->result_array();
     }
     
     /**
@@ -153,9 +182,10 @@ class Payslip_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('salary');
         $this->db->where('employee_id', $id);
-        $this->db->group_by('employee_id');
+        //$this->db->group_by('employee_id');
         $query = $this->db->get();
         $result = $query->result_array();
+        //echo json_encode($result);
         return $result;
     }
     public function CalcuateNETSalary($userid, $salaryGross, $txtNumberOfDep, $chkIncludedIns, $curDate) {

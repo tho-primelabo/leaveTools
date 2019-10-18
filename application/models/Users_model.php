@@ -46,7 +46,7 @@ class Users_model extends CI_Model {
             $this->db->select('users.id, users.lastname , users.firstname ,
                  users.number_dependant , users.salary , salary.salary_net as salaryNet');
             $this->db->join('salary', 'salary.employee_id = users.id', 'left');
-            $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+            $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m') or date is null");
         }
         else {
             $this->db->select('users.id, users.lastname , users.firstname ,
@@ -57,7 +57,7 @@ class Users_model extends CI_Model {
         $query = $this->db->get('users');
        //echo json_encode($query);
         //$query = $this->db->get_where('users', array('salary.date' => $date));
-        return $query->result_array();
+        return $query->result();
     }
     public function getUsersByMonth() {
         //$date = date('Y-m-d');
@@ -70,7 +70,7 @@ class Users_model extends CI_Model {
         $query = $this->db->get('users');
        //echo json_encode($query);
         //$query = $this->db->get_where('users', array('salary.date' => $date));
-        return $query->result_array();
+        return $query->result();
     }
     /**
      * Get the list of users and their roles
