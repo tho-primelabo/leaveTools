@@ -3,7 +3,7 @@
  * This view allows an HR admin to modify a position (occupied by an employee).
  * @copyright  Copyright (c) 2014-2019 Benjamin BALET
  * @license      http://opensource.org/licenses/AGPL-3.0 AGPL-3.0
- * @link            https://github.com/bbalet/jorani
+ * @link            https://github.com/leavetool/tho-primelabo
  * @since         0.2.0
  */
 ?>

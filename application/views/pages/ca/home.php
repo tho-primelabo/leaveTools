@@ -16,3 +16,9 @@
     <li>Validar <a href="<?php echo base_url();?>overtime">peticions d'hores extra que has rebut</a>.</li>
     <?php } ?>
 </ul>
+<br/>
+<p>If you are an human resource or administrator, you could now:</p>
+<ul>
+    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+    
+</ul>

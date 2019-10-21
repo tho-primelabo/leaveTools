@@ -16,3 +16,9 @@
     <li>پذیرش/رد <a href="<?php echo base_url();?>overtime">درخواست های اضافه کاری داده شده به شما</a>.</li>
     <?php } ?>
 </ul>
+<br/>
+<p>If you are an human resource or administrator, you could now:</p>
+<ul>
+    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+    
+</ul>

@@ -18,3 +18,9 @@
     <li>Schvaľovanie <a href="<?php echo base_url();?>overtime">žiadostí o nadčasy Vám bolo postúpené</a>.</li>
     <?php } ?>
 </ul>
+<br/>
+<p>If you are an human resource or administrator, you could now:</p>
+<ul>
+    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+    
+</ul>

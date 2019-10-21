@@ -60,7 +60,7 @@ class Payslip extends CI_Controller {
             
             $dataArray[] = $sub_array; 
         }
-        echo json_encode(array("data" => $dataArray)); die();
+        echo json_encode(array("data" => $dataArray));
 	}
 
 
@@ -155,14 +155,7 @@ class Payslip extends CI_Controller {
         $this->load->view('menu/index', $data);
         $this->load->view('payslip/edit', $data);
         $this->load->view('templates/footer');
-    
-        //$this->users_model->updateUsers();
-       // $this->session->set_flashdata('msg', lang('users_edit_flash_msg_success'));
-        /*if (isset($_GET['source'])) {
-            redirect($_GET['source']);
-        } else {
-            redirect('payslip');
-        }*/
+        
         
     }
     public function create () {
@@ -198,8 +191,9 @@ class Payslip extends CI_Controller {
         }        
         echo json_encode($data['payslip']);//die();
     }
-    public function bulkCreate($date) {
+    public function bulkCreate() {
         //$date = date('2019-12-10');
+        $date = $this->input->post('date');
         //echo $date;die();
         $query = $this->users_model->getUsers();
        if(isset($query) && count($query) > 0) {
@@ -208,10 +202,11 @@ class Payslip extends CI_Controller {
                 $this->payslip_model->CalcuateNETSalary($row['id'], $row['salary'], $row['number_dependant'], 1, $date);
             }
             $this->db->trans_complete();
+            //echo json_encode(lang('users_edit_flash_msg_success'));//die();
             $this->session->set_flashdata('msg', lang('users_edit_flash_msg_success'));
         }
         $dateValue = strtotime($date); 
-      
+        
          redirect('payslip/index');
     }
     public function detail($uid)
