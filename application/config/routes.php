@@ -422,7 +422,7 @@ $route['payslip'] = 'payslip/index';
 $route['payslip/edit/(:num)'] = 'payslip/edit/$1';
 $route['payslip/bydate/(:any)'] = 'payslip/bydate/$1';
 $route['payslip/filterdate/(:any)/(:any)'] = 'payslip/filterdate/$1/$2';
-$route['payslip/bulkCreate/(:any)'] = 'payslip/bulkCreate/$1';
+$route['payslip/bulkCreate'] = 'payslip/bulkCreate';
 $route['payslip/detail/(:num)/(:any)/(:any)'] = 'payslip/detail/$1/$2/$3';
 
 //_______________________________________________

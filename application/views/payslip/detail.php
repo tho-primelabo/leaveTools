@@ -9,16 +9,24 @@
 ?>
 
 <h2><?php echo lang('payslip_title_detail'); ?> &nbsp;</h2>
+<div class="row-fluid">
+    <div class="span12">
+        <?php echo lang('payslip_description'); ?>
+    </div>
+</div> 
 <br/>
 <div class="row">
      <div class="span0">
         <label for="viz_startdate"><?php echo lang('payslip_employees_thead_date'); ?>:</label>
-            
     </div>
+    
+    
+         
     <div class="span12">
         <input type="text" name="salarydate" id="salarydate" autocomplete="off" required/>
         <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>"/>
     </div>
+
    
 </div>
 

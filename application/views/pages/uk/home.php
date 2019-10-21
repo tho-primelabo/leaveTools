@@ -16,3 +16,9 @@
     <li>Переглянути <a href="<?php echo base_url();?>overtime">список заяв на понаднормові</a>, що очікують вашого розгляду.</li>
     <?php } ?>
 </ul>
+<br/>
+<p>If you are an human resource or administrator, you could now:</p>
+<ul>
+    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+    
+</ul>

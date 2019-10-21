@@ -153,10 +153,9 @@ $this->lang->load('menu', $language);
               <?php
                 if (isset($rooms)) {
                     foreach ($rooms as $room): ?>
-                              <li><a href="<?php echo base_url(); ?>booking/<?php $room['id']?>"><?php echo $room['name']; ?></a>
-                              <?php endforeach;
+                    <li><a href="<?php echo base_url(); ?>booking/<?php echo $room['id']?>"><?php echo $room['name']; ?></a></li>
+                <?php endforeach;
                 }?>
-                </li>
               </ul>
             </li>
 

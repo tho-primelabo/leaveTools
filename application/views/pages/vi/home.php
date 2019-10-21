@@ -1,6 +1,6 @@
 <h1>Hệ thống quản lý nghỉ phép và làm thêm giờ</h1>
 
-<p>Chào mừng đến với Jorani. Nếu bạn là nhân viên, ngay bây giờ bạn có thể:</p>
+<p>Chào mừng đến với LMS. Nếu bạn là nhân viên, ngay bây giờ bạn có thể:</p>
 <ul>
     <li>Xem <a href="<?php echo base_url();?>leaves/counters">số ngày phép còn lại</a> của bạn.</li>
     <li>Xem <a href="<?php echo base_url();?>leaves">danh sách đề nghị nghỉ phép bạn đã gửi</a>.</li>
@@ -16,3 +16,11 @@
     <li>Duyệt <a href="<?php echo base_url();?>overtime">đề nghị làm thêm giờ đã gửi đến bạn</a>.</li>
     <?php } ?>
 </ul>
+<br />
+<p>Nếu bạn là quản lý nhân sự hoặc quản trị viên, ngay bây giờ bạn có thể:</p>
+<ul>
+    <li>Xem hoặc <a href="<?php echo base_url();?>payslip">tính bảng lương </a> của mọi người.</li>
+    
+</ul>
+
+

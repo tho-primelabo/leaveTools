@@ -9,6 +9,7 @@
 
 $lang['payslip_title'] = 'Payslip';
 $lang['payslip_title_detail'] = 'Detail Payslip';
+$lang['payslip_description'] = 'Fillter by month';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Last Name';
@@ -32,7 +33,7 @@ $lang['payslip_employees_thead_date'] = 'Date';
 $lang['payslip_employees_input_salary'] = 'Enter number to salary';
 $lang['payslip_button_back'] = 'Back';
 $lang['payslip_income'] = 'Income';
-$lang['payslip_description'] = 'Description';
+
 $lang['payslip_exchange_rate'] = 'Exchange rate';
 $lang['payslip_full_wage'] = 'Full wage';
 $lang['payslip_insurance'] = 'Insurance';

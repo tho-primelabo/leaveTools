@@ -9,6 +9,7 @@
 
 $lang['payslip_title'] = 'Bảng Lương';
 $lang['payslip_title_detail'] = 'Bảng Lương Chi Tiết';
+$lang['payslip_description'] = 'Xem bảng lương theo tháng đươc chọn';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Tên';
@@ -31,7 +32,6 @@ $lang['payslip_employees_thead_date'] = 'Ngày';
 $lang['payslip_employees_input_salary'] = 'Nhập số lương';
 $lang['payslip_button_back'] = 'Trở lại';
 $lang['payslip_income'] = 'Thu nhập';
-$lang['payslip_description'] = 'Mô tả';
 $lang['payslip_exchange_rate'] = 'Exchange rate';
 $lang['payslip_full_wage'] = 'Lương đầy đủ';
 $lang['payslip_insurance'] = 'Bảo Hiểm';

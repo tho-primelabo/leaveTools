@@ -16,3 +16,9 @@ Als U een manager bent van andere medewerkers kunt u:
   <li>Valideren van bij U ingediende <a href="<?php echo base_url();?>overtime">overuren meldingen</a>.</li>
   <?php } ?>
 </ul>
+<br/>
+<p>If you are an human resource or administrator, you could now:</p>
+<ul>
+    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+    
+</ul>

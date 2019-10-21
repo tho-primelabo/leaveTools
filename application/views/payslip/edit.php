@@ -5,6 +5,11 @@
 
         <?php echo validation_errors(); ?>
     </div>
+    <div class="row-fluid">
+    <div class="span12">
+        <?php echo lang('payslip_edit_description'); ?>
+    </div>
+</div> 
 </div>
 <?php
 $attributes = array('class' => 'form-horizontal');
@@ -14,7 +19,7 @@ if (isset($_GET['source'])) {
     echo form_open('users/edit/' . $users_item['id'], $attributes);
 } ?>
 
-    <input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
+<input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
 
 <div class="wrapper">
     <div class="row box-auto">
@@ -81,101 +86,18 @@ if (isset($_GET['source'])) {
                     <input id="clientNet" onclick="clickso2()" class="form-control btn-primary bg-orange"  type="hidden" value="Net To Gross">
                     
                 </div>
-              <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
+              <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false"/>
                 <div class="modal-header">
                     <h1><?php echo lang('global_msg_wait');?></h1>
                 </div>
                 <div class="modal-body">
                     <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
                 </div>
-        </div>
-                <script>
-                  
-                    $(function() {
-                        <?php if ($this->config->item('csrf_protection') == true) {?>
-                            $.ajaxSetup({
-                                data: {
-                                    <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
-                                }
-                            });
-                            <?php }?>
-                            });
-                    function CheckLuong() {
-                        var strLuong = $('input[id*="txtSalary"]').val();
-                        if ($.trim(strLuong) == "") {
-                            var title = $('#idNhapLuong').attr("data-title");
-                            $('#idNhapLuong').attr('title', title);
-                            $('#idNhapLuong').tooltip('show');
-                            return false;
-                        }
-                        // neu nhap la so 
-                        if (isNaN(strLuong)) {
-                            var title = $('#idNhapLuong').attr("data-title");
-
-                            $('#idNhapLuong').attr('title', title);
-                            $('#idNhapLuong').tooltip('show');
-                            return false;
-                        }
-                        return true;
-                    }
-                    function go2Net() {
-                        var sal = $('#txtSalary').val();
-                        var chkIncludedIns = 0;
-                        var txtNumberOfDep = $('#txtNumberOfDep').val();
-                        //var date = new Date();
-                        if ($('#chkIncludedIns').is(":checked")) {
-                            chkIncludedIns  = 1;
-                        }
-                        console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep);
-                        $.ajax({
-                            url: "<?php echo base_url(); ?>/payslip/create",
-                             beforeSend: function(){
-                                $('#frmModalAjaxWait').modal('show');
-                                },
-                            data: {
-                                'userid': <?php echo $users_item['id'];?>,
-                                'salary': sal,
-                                'chkIncludedIns': chkIncludedIns,
-                                'txtNumberOfDep': txtNumberOfDep
-                            },
-                            type: "POST",
-                            success: function(json) {
-                                //console.log(JSON.parse(json));
-                               $('#frmModalAjaxWait').modal('hide');
-                                json = JSON.parse(json);
-                                $('#lblGrossSalary').html(accounting.formatNumber(json.salary_basic));
-                                $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));
-                                $('#lblHealthInsurance').html(accounting.formatNumber(json.health_insurance));
-                                $('#lblThatNghiep').html(accounting.formatNumber(json.unEmployment_insurance));
-                                $('#lblGiamTruPhuThuoc').html(accounting.formatNumber(json.peson_tax_payer));
-                                $('#lblTaxableIncome').html(accounting.formatNumber(json.taxable_incom));
-                                $('#lblIncomeTax').html(accounting.formatNumber(json.personal_income_tax));
-                                $('#lblNetSalary').html(accounting.formatNumber(json.salary_net));
-                                // console.log(json.salary_basic);
-                            }
-                        });
-                        
-                    }
-                    function clickso1() {
-                        var bCheck = CheckLuong();
-                        if (bCheck == true) {
-                            //$('input[id*="btnCalculator"]').click();
-                            go2Net();
-                        }
-                    }
-                    function clickso2() {
-                        //$('input[id*="btnNetToGross"]').click();
-                        var bCheck = CheckLuong();
-                        if (bCheck == true) {
-                            $('input[id*="btnNetToGross"]').click();
-                        }
-                    }
-                </script>
+            </div>
+                
             </div>
         </div>
-        <?php
-            // var_dump($payslip); exit();
-        ?>
+       
         <div class="column">
             <div id="blockUI">
                 <div class="title" style="text-align: center"><?php echo lang('payslip_description')?> (VND)</div>
@@ -240,17 +162,17 @@ if (isset($_GET['source'])) {
                 <div id="salary_comment">
                     <span>(*) GROSS:</span>
                     <span>
-                        <span id="lblGrossVnd">0</span>
+                        <span id="lblGrossVnd"></span>
                     </span>
                     <span>(VND) ≈ </span>
                     <span>
-                            <span id="lblGrossUsd">0.00</span>
+                            <span id="lblGrossUsd"></span>
                     </span>
                     <span>(USD)</span>
                     <div style="clear: both;"></div>
                     <span>(**) NET:</span>
                     <span>
-                        <span id="lblNetVnd">0</span>
+                        <span id="lblNetVnd"></span>
                     </span>
                     <span>(VND) ≈</span>
                     <span>
@@ -288,4 +210,4 @@ if (isset($_GET['source'])) {
         }
         
     })
-<script>
+</script>
