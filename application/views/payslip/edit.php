@@ -128,7 +128,7 @@ if (isset($_GET['source'])) {
                             </td>
                         </tr>
                         <tr style="background-color: #E6E6E6;">
-                            <th><?php echo lang('payslip_health_insurance')?>For the tax payer</th>
+                            <th><?php echo lang('payslip_youself_dependant')?></th>
                             <td>
                                 <span id="lblGiamTruCaNhan">9.000.000</span>
                             </td>
@@ -176,10 +176,10 @@ if (isset($_GET['source'])) {
                     </span>
                     <span>(VND) ≈</span>
                     <span>
-                        <span id="lblNetUsd">0.00</span>
+                        <span id="lblNetUsd"></span>
                     </span>
                     <span>(USD)</span>
-                    <span id="lblNetUsd">0.00</span>
+                    <span id="lblNetUsd"></span>
                     </span>
                     <br/>
                     <span>
@@ -200,6 +200,92 @@ if (isset($_GET['source'])) {
 
 <script src="<?php echo base_url();?>assets/payslip/js/accounting.js"></script>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/payslip/css/payslip.css">
+<script>
+                  
+    $(function() {
+        <?php if ($this->config->item('csrf_protection') == true) {?>
+            $.ajaxSetup({
+                data: {
+                    <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+                }
+            });
+            <?php }?>
+            });
+    function CheckLuong() {
+        var strLuong = $('input[id*="txtSalary"]').val();
+        if ($.trim(strLuong) == "") {
+            var title = $('#idNhapLuong').attr("data-title");
+            $('#idNhapLuong').attr('title', title);
+            $('#idNhapLuong').tooltip('show');
+            return false;
+        }
+        // neu nhap la so 
+        if (isNaN(strLuong)) {
+            var title = $('#idNhapLuong').attr("data-title");
+
+            $('#idNhapLuong').attr('title', title);
+            $('#idNhapLuong').tooltip('show');
+            return false;
+        }
+        return true;
+    }
+    function go2Net() {
+        var sal = $('#txtSalary').val();
+        var chkIncludedIns = 0;
+        var txtNumberOfDep = $('#txtNumberOfDep').val();
+        //var date = new Date();
+        if ($('#chkIncludedIns').is(":checked")) {
+            chkIncludedIns  = 1;
+        }
+        console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep);
+        $.ajax({
+            url: "<?php echo base_url(); ?>/payslip/create",
+                beforeSend: function(){
+                $('#frmModalAjaxWait').modal('show');
+                },
+            data: {
+                'userid': <?php echo $users_item['id'];?>,
+                'salary': sal,
+                'chkIncludedIns': chkIncludedIns,
+                'txtNumberOfDep': txtNumberOfDep
+            },
+            type: "POST",
+            success: function(json) {
+                //console.log(JSON.parse(json));
+                $('#frmModalAjaxWait').modal('hide');
+                json = JSON.parse(json);
+                $('#lblGrossVnd').html(accounting.formatNumber(json.salary_basic));
+                $('#lblGrossUsd').html(accounting.formatNumber(json.salary_basic/23260));
+                $('#lblGrossSalary').html(accounting.formatNumber(json.salary_basic));
+                $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));
+                $('#lblHealthInsurance').html(accounting.formatNumber(json.health_insurance));
+                $('#lblThatNghiep').html(accounting.formatNumber(json.unEmployment_insurance));
+                $('#lblGiamTruPhuThuoc').html(accounting.formatNumber(json.peson_tax_payer));
+                $('#lblTaxableIncome').html(accounting.formatNumber(json.taxable_incom));
+                $('#lblIncomeTax').html(accounting.formatNumber(json.personal_income_tax));
+                $('#lblNetSalary').html(accounting.formatNumber(json.salary_net));
+                $('#lblNetVnd').html(accounting.formatNumber(json.salary_net));
+                $('#lblNetUsd').html(accounting.formatNumber(json.salary_net/23260));
+                // console.log(json.salary_basic);
+            }
+        });
+        
+    }
+    function clickso1() {
+        var bCheck = CheckLuong();
+        if (bCheck == true) {
+            //$('input[id*="btnCalculator"]').click();
+            go2Net();
+        }
+    }
+    function clickso2() {
+        //$('input[id*="btnNetToGross"]').click();
+        var bCheck = CheckLuong();
+        if (bCheck == true) {
+            $('input[id*="btnNetToGross"]').click();
+        }
+    }
+</script>
 <script type="text/javascript">
     
      $(function MoveNextTextBox(_key) {

@@ -16,6 +16,7 @@ $lang['payslip_field_firstname'] = 'Last Name';
 $lang['payslip_field_lastname'] = 'First Name';
 $lang['payslip_gross_salary'] = 'Gross salary';
 $lang['payslip_number_dependant'] = 'Number of dependant';
+$lang['payslip_youself_dependant'] = 'Reduction of family';
 $lang['payslip_number_dependant_tax'] = 'For per person that depends on the tax payer';
 $lang['payslip_net_salary'] = 'NET salary';
 $lang['payslip_health_insurance'] = 'Health insurance';
