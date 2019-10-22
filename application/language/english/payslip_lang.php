@@ -9,13 +9,14 @@
 
 $lang['payslip_title'] = 'Payslip';
 $lang['payslip_title_detail'] = 'Detail Payslip';
-$lang['payslip_description'] = 'Fillter by month';
+$lang['payslip_description'] = 'Fillter by month and year';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Last Name';
 $lang['payslip_field_lastname'] = 'First Name';
 $lang['payslip_gross_salary'] = 'Gross salary';
 $lang['payslip_number_dependant'] = 'Number of dependant';
+$lang['payslip_youself_dependant'] = 'Reduction of family';
 $lang['payslip_number_dependant_tax'] = 'For per person that depends on the tax payer';
 $lang['payslip_net_salary'] = 'NET salary';
 $lang['payslip_health_insurance'] = 'Health insurance';
@@ -28,6 +29,7 @@ $lang['payslip_index_thead_tip_edit'] = 'Calculate payslip';
 $lang['payslip_index_thead_tip_detail'] = 'Detail payslip';
 $lang['payslip_index_button_export'] = 'Export this list';
 $lang['payslip_index_button_payslip'] = 'Calculate Payslips';
+$lang['payslip_index_button_hint_payslip'] = 'Calculate Payslip for all employee';
 $lang['payslip_edit_field_salary'] = 'Input Salary';
 $lang['payslip_employees_thead_date'] = 'Date';
 $lang['payslip_employees_input_salary'] = 'Enter number to salary';

@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="row-fluid">
     <div class="span12">
-        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo $users_item['lastname']; ?></h2>
+        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo $date ?></h2>
 
         <?php echo validation_errors(); ?>
     </div>
@@ -14,13 +14,13 @@
 <?php
 $attributes = array('class' => 'form-horizontal');
 if (isset($_GET['source'])) {
-    echo form_open('payslip/edit/' . $users_item['id'] .'?source=' . $_GET['source'], $attributes);
+    echo form_open('payslip/edit/' . $users_item['employee_id'] .'?source=' . $_GET['source'], $attributes);
 } else {
-    echo form_open('users/edit/' . $users_item['id'], $attributes);
+    echo form_open('users/edit/' . $users_item['employee_id'], $attributes);
 } ?>
 
-<input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
-
+<input type="hidden" name="id" value="<?php echo $users_item['employee_id']; ?>" />
+<input type="hidden" name="date" id="date" value="<?php echo $date; ?>" />
 <div class="wrapper">
     <div class="row box-auto">
         <div class="column border-right">
@@ -30,7 +30,7 @@ if (isset($_GET['source'])) {
                     <div class="clearfix">
                         <span class="margin-top-5"><?php echo lang('payslip_gross_salary')?> </span>
                         <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="<?php echo lang('payslip_employees_input_salary');?>">
-                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
+                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary_basic']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
                         </span>
                         <span>
                             <select name="ddlUnit" id="ddlUnit" class="selectaspx w70" onchange="chonTienTe()">
@@ -110,27 +110,27 @@ if (isset($_GET['source'])) {
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th><?php echo lang('payslip_social_insurance')?>    (8 %)</th>
+                            <th><?php echo lang('payslip_social_insurance')?>    (<?=LMS_SOCIAL_INSURANCE?> %)</th>
                             <td>
                                 <span id="lblSocialInsurance"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th><?php echo lang('payslip_health_insurance')?>    (1.5 %)</th>
+                            <th><?php echo lang('payslip_health_insurance')?>    (<?=LMS_HEALTH_INSURANCE?> %)</th>
                             <td>
                                 <span id="lblHealthInsurance"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th><?php echo lang('payslip_unEmployment_insurance')?>   (1 %)</th>
+                            <th><?php echo lang('payslip_unEmployment_insurance')?>   (<?=LMS_UNEMPLOYMENT_INSURANCE?> %)</th>
                             <td>
                                 <span id="lblThatNghiep"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #E6E6E6;">
-                            <th><?php echo lang('payslip_health_insurance')?>For the tax payer</th>
+                            <th><?php echo lang('payslip_youself_dependant')?></th>
                             <td>
-                                <span id="lblGiamTruCaNhan">9.000.000</span>
+                                <span id="lblGiamTruCaNhan"><?=number_format(LMS_TAX_PERSON)?></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CCCCCC;">
@@ -176,10 +176,10 @@ if (isset($_GET['source'])) {
                     </span>
                     <span>(VND) ≈</span>
                     <span>
-                        <span id="lblNetUsd">0.00</span>
+                        <span id="lblNetUsd"></span>
                     </span>
                     <span>(USD)</span>
-                    <span id="lblNetUsd">0.00</span>
+                    <span id="lblNetUsd"></span>
                     </span>
                     <br/>
                     <span>
@@ -200,6 +200,94 @@ if (isset($_GET['source'])) {
 
 <script src="<?php echo base_url();?>assets/payslip/js/accounting.js"></script>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/payslip/css/payslip.css">
+<script>
+                  
+    $(function() {
+        <?php if ($this->config->item('csrf_protection') == true) {?>
+            $.ajaxSetup({
+                data: {
+                    <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+                }
+            });
+            <?php }?>
+            });
+    function CheckLuong() {
+        var strLuong = $('input[id*="txtSalary"]').val();
+        if ($.trim(strLuong) == "") {
+            var title = $('#idNhapLuong').attr("data-title");
+            $('#idNhapLuong').attr('title', title);
+            $('#idNhapLuong').tooltip('show');
+            return false;
+        }
+        // neu nhap la so 
+        if (isNaN(strLuong)) {
+            var title = $('#idNhapLuong').attr("data-title");
+
+            $('#idNhapLuong').attr('title', title);
+            $('#idNhapLuong').tooltip('show');
+            return false;
+        }
+        return true;
+    }
+    function go2Net() {
+        var sal = $('#txtSalary').val();
+        var chkIncludedIns = 0;
+        var txtNumberOfDep = $('#txtNumberOfDep').val();
+        var txtDate = $('#date').val();
+        //var date = new Date();
+        if ($('#chkIncludedIns').is(":checked")) {
+            chkIncludedIns  = 1;
+        }
+        console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep+ ":" + txtDate);
+        $.ajax({
+            url: "<?php echo base_url(); ?>/payslip/create",
+                beforeSend: function(){
+                $('#frmModalAjaxWait').modal('show');
+                },
+            data: {
+                'userid': <?php echo $users_item['employee_id'];?>,
+                'salary': sal,
+                'chkIncludedIns': chkIncludedIns,
+                'txtNumberOfDep': txtNumberOfDep,
+                'date': txtDate
+            },
+            type: "POST",
+            success: function(json) {
+                //console.log(JSON.parse(json));
+                $('#frmModalAjaxWait').modal('hide');
+                json = JSON.parse(json);
+                $('#lblGrossVnd').html(accounting.formatNumber(json.salary_basic));
+                $('#lblGrossUsd').html(accounting.formatNumber(json.salary_basic/23260));
+                $('#lblGrossSalary').html(accounting.formatNumber(json.salary_basic));
+                $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));
+                $('#lblHealthInsurance').html(accounting.formatNumber(json.health_insurance));
+                $('#lblThatNghiep').html(accounting.formatNumber(json.unEmployment_insurance));
+                $('#lblGiamTruPhuThuoc').html(accounting.formatNumber(json.peson_tax_payer));
+                $('#lblTaxableIncome').html(accounting.formatNumber(json.taxable_incom));
+                $('#lblIncomeTax').html(accounting.formatNumber(json.personal_income_tax));
+                $('#lblNetSalary').html(accounting.formatNumber(json.salary_net));
+                $('#lblNetVnd').html(accounting.formatNumber(json.salary_net));
+                $('#lblNetUsd').html(accounting.formatNumber(json.salary_net/23260));
+                // console.log(json.salary_basic);
+            }
+        });
+        
+    }
+    function clickso1() {
+        var bCheck = CheckLuong();
+        if (bCheck == true) {
+            //$('input[id*="btnCalculator"]').click();
+            go2Net();
+        }
+    }
+    function clickso2() {
+        //$('input[id*="btnNetToGross"]').click();
+        var bCheck = CheckLuong();
+        if (bCheck == true) {
+            $('input[id*="btnNetToGross"]').click();
+        }
+    }
+</script>
 <script type="text/javascript">
     
      $(function MoveNextTextBox(_key) {

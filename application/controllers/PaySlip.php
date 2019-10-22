@@ -35,7 +35,7 @@ class Payslip extends CI_Controller {
         $date = $this->input->post('date');
         // echo $date; die();
         if($date == '') {
-            $date = 0;
+            $date = date('Y-m-d');
             //echo 'null';
         }
         // else {
@@ -46,11 +46,11 @@ class Payslip extends CI_Controller {
         foreach ($users as $element) {
             $sub_array  = array();  
                 
-            $sub_array[] = $element->id."<div style='text-align:right;float:right'><a href='".base_url()."payslip/edit/". $element->id."' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd nolink'></i></a></div>".
+            $sub_array[] = $element->id."<div style='text-align:right;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd nolink'></i></a></div>".
             "<div style='text-align:right;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('<payslip_index_thead_tip_detail></payslip_index_thead_tip_detail>')."><i class='mdi mdi-details nolink'></i></a></div>" ;  
             $sub_array[] = $element->firstname;  
             $sub_array[] = $element->lastname;  
-            $sub_array[] = number_format($element->salary); 
+            $sub_array[] = number_format($element->salary_basic); 
             
             $sub_array[] = number_format($element->salaryNet); 
             
@@ -64,7 +64,7 @@ class Payslip extends CI_Controller {
 	}
 
 
-    public function index()
+    public function index($date = 0)
     {
         $this->auth->checkIfOperationIsAllowed('list_contracts');
         $this->lang->load('datatable', $this->language);
@@ -73,13 +73,13 @@ class Payslip extends CI_Controller {
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
         //echo $date;
-        //if ($date == 0) {
-          //  $date = date('Y-m-d');
-        //}
+        if ($date == 0) {
+            $date = date('Y-m-d');
+        }
         //$dateObj = DateTime::createFromFormat('!m', $month);
         $data['year'] = date('Y');
         $data['month'] = date('F');
-        $data['users'] = $this->users_model->getUsersByDate(0);
+        $data['users'] = $this->users_model->getUsersByDate($date);
         $data['rooms'] = $this->rooms_model->getRooms();
         //echo json_encode($data['users']);die();
         $data['payslip'] = [];
@@ -128,22 +128,26 @@ class Payslip extends CI_Controller {
         // $this->load->view('templates/footer');
         
     }
-    public function edit($id)
+    public function edit($id, $date=0)
     {
         $this->auth->checkIfOperationIsAllowed('edit_user');
         $data = getUserContext($this);
-        //echo $id;die();
+        //echo $date;die();
+        if ($date == 0) {
+            $date = date('Y-m-d');
+        }
         $this->load->helper('form');
         $this->load->library('form_validation');
         $this->load->library('polyglot');
         $data['title'] = lang('users_edit_html_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_create_user');
-
+        $data['date'] = $date;
         $this->form_validation->set_rules('txtSalary', lang('payslip_edit_field_salary'), 'required|strip_tags');
         
         if ($this->config->item('ldap_basedn_db')) $this->form_validation->set_rules('ldap_path', lang('users_edit_field_ldap_path'), 'strip_tags');
         //$uid = $this->session->userdata('id');
-        $data['users_item'] = $this->users_model->getUsers($id);
+        //$data['users_item'] = $this->users_model->getUsers($id);
+        $data['users_item'] = $this->payslip_model->getRowPayslipByDate($id, $date);
         //echo json_encode($data['users_item']);die();
         $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['users_item'])) {
@@ -158,7 +162,7 @@ class Payslip extends CI_Controller {
         
         
     }
-    public function create () {
+    public function create ($date = 0) {
         $this->auth->checkIfOperationIsAllowed('create_user');
         $data = getUserContext($this);
         $this->load->helper('form');
@@ -168,6 +172,7 @@ class Payslip extends CI_Controller {
         $data['help'] = $this->help->create_help_link('global_link_doc_page_create_user');
 
         $this->load->model('roles_model');
+       
         $data['rooms'] = $this->rooms_model->getRooms();
         $data['roles'] = $this->roles_model->getRoles();
         $this->load->model('contracts_model');
@@ -178,8 +183,9 @@ class Payslip extends CI_Controller {
 		$sal =  $this->input->post('salary');
 		
 		$txtNumberOfDep = (int)$this->input->post('txtNumberOfDep');
+        $date = $this->input->post('date');
         $this->db->trans_start();
-        $salary_id = $this->payslip_model->create();
+        $salary_id = $this->payslip_model->create($date);
         $this->users_model->updateSalaryNNumberDependantById($userid, $sal, $txtNumberOfDep);
         $this->db->trans_complete();
         //echo $salary_id; die();
