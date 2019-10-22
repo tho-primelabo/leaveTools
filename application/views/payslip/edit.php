@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="row-fluid">
     <div class="span12">
-        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo $users_item['lastname']; ?></h2>
+        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo $date ?></h2>
 
         <?php echo validation_errors(); ?>
     </div>
@@ -14,13 +14,13 @@
 <?php
 $attributes = array('class' => 'form-horizontal');
 if (isset($_GET['source'])) {
-    echo form_open('payslip/edit/' . $users_item['id'] .'?source=' . $_GET['source'], $attributes);
+    echo form_open('payslip/edit/' . $users_item['employee_id'] .'?source=' . $_GET['source'], $attributes);
 } else {
-    echo form_open('users/edit/' . $users_item['id'], $attributes);
+    echo form_open('users/edit/' . $users_item['employee_id'], $attributes);
 } ?>
 
-<input type="hidden" name="id" value="<?php echo $users_item['id']; ?>" />
-
+<input type="hidden" name="id" value="<?php echo $users_item['employee_id']; ?>" />
+<input type="hidden" name="date" id="date" value="<?php echo $date; ?>" />
 <div class="wrapper">
     <div class="row box-auto">
         <div class="column border-right">
@@ -30,7 +30,7 @@ if (isset($_GET['source'])) {
                     <div class="clearfix">
                         <span class="margin-top-5"><?php echo lang('payslip_gross_salary')?> </span>
                         <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="<?php echo lang('payslip_employees_input_salary');?>">
-                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
+                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary_basic']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
                         </span>
                         <span>
                             <select name="ddlUnit" id="ddlUnit" class="selectaspx w70" onchange="chonTienTe()">
@@ -110,19 +110,19 @@ if (isset($_GET['source'])) {
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th><?php echo lang('payslip_social_insurance')?>    (8 %)</th>
+                            <th><?php echo lang('payslip_social_insurance')?>    (<?=LMS_SOCIAL_INSURANCE?> %)</th>
                             <td>
                                 <span id="lblSocialInsurance"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th><?php echo lang('payslip_health_insurance')?>    (1.5 %)</th>
+                            <th><?php echo lang('payslip_health_insurance')?>    (<?=LMS_HEALTH_INSURANCE?> %)</th>
                             <td>
                                 <span id="lblHealthInsurance"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CDCDCD;">
-                            <th><?php echo lang('payslip_unEmployment_insurance')?>   (1 %)</th>
+                            <th><?php echo lang('payslip_unEmployment_insurance')?>   (<?=LMS_UNEMPLOYMENT_INSURANCE?> %)</th>
                             <td>
                                 <span id="lblThatNghiep"></span>
                             </td>
@@ -130,7 +130,7 @@ if (isset($_GET['source'])) {
                         <tr style="background-color: #E6E6E6;">
                             <th><?php echo lang('payslip_youself_dependant')?></th>
                             <td>
-                                <span id="lblGiamTruCaNhan">9.000.000</span>
+                                <span id="lblGiamTruCaNhan"><?=number_format(LMS_TAX_PERSON)?></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CCCCCC;">
@@ -233,21 +233,23 @@ if (isset($_GET['source'])) {
         var sal = $('#txtSalary').val();
         var chkIncludedIns = 0;
         var txtNumberOfDep = $('#txtNumberOfDep').val();
+        var txtDate = $('#date').val();
         //var date = new Date();
         if ($('#chkIncludedIns').is(":checked")) {
             chkIncludedIns  = 1;
         }
-        console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep);
+        console.log(sal + ":" + chkIncludedIns +":" + txtNumberOfDep+ ":" + txtDate);
         $.ajax({
             url: "<?php echo base_url(); ?>/payslip/create",
                 beforeSend: function(){
                 $('#frmModalAjaxWait').modal('show');
                 },
             data: {
-                'userid': <?php echo $users_item['id'];?>,
+                'userid': <?php echo $users_item['employee_id'];?>,
                 'salary': sal,
                 'chkIncludedIns': chkIncludedIns,
-                'txtNumberOfDep': txtNumberOfDep
+                'txtNumberOfDep': txtNumberOfDep,
+                'date': txtDate
             },
             type: "POST",
             success: function(json) {

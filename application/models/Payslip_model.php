@@ -60,6 +60,18 @@ class Payslip_model extends CI_Model {
         //echo json_encode($query);die();
         return $query->row_array();
     }
+
+      public function getResultPayslipByDate($id = 0, $date) {
+        /*
+        $query = $this->db->get_where('salary', array('employee_id' => $id,
+                                                      "DATE_FORMAT(date, '%Y-%m')="=> "DATE_FORMAT($date, '%Y-%m')"));*/
+        $this->db->where('employee_id', $id);
+        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        $this->db->group_by('employee_id');
+        $query = $this->db->get('salary');
+        //echo json_encode($query);die();
+        return $query->result_array();
+    }
     /**
      * Get the list of types or one type
      * @param string $name type name
@@ -129,13 +141,15 @@ class Payslip_model extends CI_Model {
      * @return int number of affected rows
      * @author Tho Le <thole419@gmail.com>
      */
-    public function create() {
+    public function create($curDate = 0) {
         $userid = $this->input->post('userid');
 		$sal = (double)$this->input->post('salary');
 		$chkIncludedIns = (int)$this->input->post('chkIncludedIns');
 		$txtNumberOfDep = (int)$this->input->post('txtNumberOfDep');
-        $curDate = date('Y-m-d'); 
-		//print_r($this->session->userdata); die();
+        if ($curDate == 0) {
+            $curDate = date('Y-m-d'); 
+        }
+		//print_r($curDate); die();
         
         return $this->CalcuateNETSalary($userid, $sal, $txtNumberOfDep, $chkIncludedIns, $curDate);
        // find userid and date
@@ -162,15 +176,17 @@ class Payslip_model extends CI_Model {
      * @return int number of affected rows
      * @author Benjamin BALET <benjamin.balet@gmail.com>
      */
-    public function updateTypes($id, $name, $deduct, $acronym) {
-        $deduct = ($deduct == 'on')?TRUE:FALSE;
-        $data = array(
-            'acronym' => $acronym,
-            'name' => $name,
-            'deduct_days_off' => $deduct
+    public function update($uid, $salary, $salary_net, $numDependant, $date) {
+        $data = array(            
+            'salary_basic'=>$salary,
+            'salary_net' => $salary_net,
+            'number_dependant' => $numDependant
         );
-        $this->db->where('id', $id);
-        return $this->db->update('types', $data);
+        $this->db->where('id', $uid);
+        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        $result = $this->db->update('salary', $data);
+        return $result;
+    
     }
     
     /**
@@ -189,20 +205,20 @@ class Payslip_model extends CI_Model {
         return $result;
     }
     public function CalcuateNETSalary($userid, $salaryGross, $txtNumberOfDep, $chkIncludedIns, $curDate) {
-        $social_insurance = ($salaryGross * 0.08);
-        $health_insurance = ($salaryGross * 0.015);
-        $unEmployment_insurance = ($salaryGross*0.01);
+        $social_insurance = ($salaryGross * (LMS_SOCIAL_INSURANCE/100));
+        $health_insurance = ($salaryGross * (LMS_HEALTH_INSURANCE)/100);
+        $unEmployment_insurance = ($salaryGross*(LMS_UNEMPLOYMENT_INSURANCE)/100);
         
         if ($chkIncludedIns == 0) {
             $unEmployment_insurance = 0;
         }
         $income_before_tax = $salaryGross - ($social_insurance + $health_insurance + $unEmployment_insurance);
-        $peson_tax_payer = $txtNumberOfDep*3600000;
+        $peson_tax_payer = $txtNumberOfDep*LMS_TAX_REDUCE_FAMILY;
         if ($income_before_tax < 0) {
             $income_before_tax = 0;
         }
          $personal_income_tax = 0;
-        $taxable_incom = $income_before_tax - (9000000 + $peson_tax_payer);
+        $taxable_incom = $income_before_tax - (LMS_TAX_PERSON + $peson_tax_payer);
          if ($taxable_incom <= 0 ) {
            $taxable_incom = 0;
          }
@@ -247,6 +263,7 @@ class Payslip_model extends CI_Model {
             'salary_overtime'   => $salary_overtime,
             'income_before_tax'   => $income_before_tax,
 			'personal_income_tax'   => $personal_income_tax,
+            'number_dependant' =>$txtNumberOfDep,
             'salary_net'  => $income_before_tax - $personal_income_tax,
 			'salary_other'=> $salary_other);
            // print_r($data); echo $data ;die();
@@ -254,9 +271,12 @@ class Payslip_model extends CI_Model {
         //echo $date; die();
         if (isset($date)) {
 
-            $this->db->where('date', $date);
+            //$this->db->where('date', $date);
+            $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$curDate', '%Y-%m')");
             $this->db->where('employee_id', $userid);
-            $this->db->update('salary', $data);
+            
+            $query = $this->db->update('salary', $data);
+            //print_r($this->db->last_query());die();
             return $this->getSalaryIDByUserIdnCurDate($userid, $curDate);
         }
         else {

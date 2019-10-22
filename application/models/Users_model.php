@@ -44,18 +44,19 @@ class Users_model extends CI_Model {
         
         if ($date != 0) {
             $this->db->select('users.id, users.lastname , users.firstname ,
-                 users.number_dependant , users.salary , salary.salary_net as salaryNet');
+                 salary.number_dependant , salary_basic , salary.salary_net as salaryNet');
             $this->db->join('salary', 'salary.employee_id = users.id', 'left');
             $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m') or date is null");
         }
         else {
             $this->db->select('users.id, users.lastname , users.firstname ,
-            users.number_dependant , users.salary, salary.salary_net as salaryNet ');
+            users.number_dependant , salary_basic, salary.salary_net as salaryNet ');
              $this->db->join('salary', 'salary.employee_id = users.id', 'left');
         }
         $this->db->group_by('users.id');
+        $this->db->order_by("date", "asc");
         $query = $this->db->get('users');
-       //echo json_encode($query);
+        //echo json_encode($query);die();
         //$query = $this->db->get_where('users', array('salary.date' => $date));
         return $query->result();
     }

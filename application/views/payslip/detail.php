@@ -42,8 +42,8 @@
             <th><?php echo lang('payslip_field_health_insurance');?></th>
             <th><?php echo lang('payslip_field_taxable_incom');?></th>
             <th><?php echo lang('payslip_field_personal_income_tax');?></th>
-            <th><?php echo lang('payslip_field_unEmployment_insurance');?></th>            
             <th><?php echo lang('payslip_field_income_before_tax');?></th>
+            <th><?php echo lang('payslip_field_unEmployment_insurance');?></th>  
             <th><?php echo lang('payslip_field_reduction_family');?></th>
             <th><?php echo lang('payslip_field_salary_overtime');?></th>
             <th><?php echo lang('payslip_field_salary_other');?></th>
@@ -53,17 +53,17 @@
     <tbody>
        
     </tbody>
-</table>
-</div>
-<div class="row">
-     <div class="span0">
-        <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
-            <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
-        </a>
+    </table>
+
+    <div class="row">
+        <div class="span0">
+            <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
+                <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
+            </a>
+        </div>
+        
     </div>
-    
-</div>
- 
+ </div>
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/flick/jquery-ui.custom.min.css">
 <script src="<?php echo base_url(); ?>assets/js/jquery-ui.custom.min.js"></script>
