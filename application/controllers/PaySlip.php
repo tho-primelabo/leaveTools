@@ -236,7 +236,7 @@ class Payslip extends CI_Controller {
         //$data['month'] = date('M');
         $data['salaries'] = $this->payslip_model->getSalaryByUserId($uid);
         $data['rooms'] = $this->rooms_model->getRooms();
-        //echo json_encode($data['users']);die();
+        //echo json_encode($data['salaries']);die();
         //$data['payslip'] = [];
             // echo $payslip;
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
@@ -257,6 +257,7 @@ class Payslip extends CI_Controller {
         $uid = $this->input->post('userid');
         $date = $this->input->post('date');
         $salaries = $this->payslip_model->getAllSalByUserIdNFromDateToDate($uid, $date);
+        //echo json_encode($salaries);die();
         $data['rooms'] = $this->rooms_model->getRooms();
         $dataArray = array();
         foreach ($salaries as $element) {            
@@ -267,9 +268,9 @@ class Payslip extends CI_Controller {
                 number_format($element['salary_net']),
                 number_format($element['social_insurance']),
                 number_format($element['health_insurance']),
-                number_format($element['taxable_incom']),
-                number_format($element['personal_income_tax']),
                 number_format($element['income_before_tax']),
+                number_format($element['personal_income_tax']),
+                number_format($element['taxable_incom']),
                 number_format($element['unEmployment_insurance']),
                 number_format($element['peson_tax_payer']),
                 number_format($element['salary_overtime']),
@@ -278,9 +279,22 @@ class Payslip extends CI_Controller {
                 number_format($element['salary_other'])
             );
         }
-        echo json_encode(array("data" => $dataArray)); //die();
+        echo json_encode(array("data" => $dataArray)); die();
         //$data['payslip'] = [];
             // echo $payslip;
         
+    }
+
+    public function export() {
+        $this->auth->checkIfOperationIsAllowed('export_user');
+        $this->load->view('payslip/export');
+    }
+
+    public function exportDetail($userid) {
+        //echo $this->user_id; die();
+        $this->user_id  = $userid;
+        //echo $this->user_id; die();
+        $this->auth->checkIfOperationIsAllowed('export_user');
+        $this->load->view('payslip/exportDetail');
     }
 }

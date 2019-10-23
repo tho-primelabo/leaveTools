@@ -196,12 +196,13 @@ class Payslip_model extends CI_Model {
      */
     public function getSalaryByUserId($id) {
         $this->db->select('*');
-        $this->db->from('salary');
+        //$this->db->from('salary');
         $this->db->where('employee_id', $id);
-        //$this->db->group_by('employee_id');
-        $query = $this->db->get();
+        $this->db->order_by("date", "desc");
+        $query = $this->db->get('salary');
+        //echo json_encode($query); die();
         $result = $query->result_array();
-        //echo json_encode($result);
+        
         return $result;
     }
     public function CalcuateNETSalary($userid, $salaryGross, $txtNumberOfDep, $chkIncludedIns, $curDate) {
@@ -284,5 +285,19 @@ class Payslip_model extends CI_Model {
             $insert_id = $this->db->insert_id();
             return  $insert_id;
         }
+    }
+
+    public function exportPayslips() {
+        //$date = date('Y-m-d');
+        $this->db->select('users.id, users.lastname , users.firstname ,
+        users.number_dependant , salary_basic, salary.salary_net as salaryNet ');
+        $this->db->join('salary', 'salary.employee_id = users.id', 'left');
+       
+        $this->db->group_by('users.id');
+        $this->db->order_by("date", "asc");
+        $query = $this->db->get('users');
+        //echo json_encode($query);die();
+        //$query = $this->db->get_where('users', array('salary.date' => $date));
+        return $query->result_array();
     }
 }
