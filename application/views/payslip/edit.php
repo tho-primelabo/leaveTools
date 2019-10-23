@@ -1,7 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div class="row-fluid">
     <div class="span12">
-        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo $date ?></h2>
+        <h2><?php echo lang('payslip_title');?>: &nbsp;<?php echo date("m-Y", strtotime($date)) ?></h2>
 
         <?php echo validation_errors(); ?>
     </div>

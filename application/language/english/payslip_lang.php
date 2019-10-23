@@ -51,3 +51,11 @@ $lang['payslip_field_income_before_tax'] = 'InComBTax';
 $lang['payslip_field_salary_overtime'] = 'Salary OT';
 $lang['payslip_field_salary_other'] = 'Salary other';
 $lang['payslip_field_reduction_family'] = 'Reduce Family';
+
+$lang['payslip_export_title'] = 'List of users';
+$lang['payslip_export_thead_id'] = 'ID';
+$lang['payslip_export_thead_firstname'] = 'Firstname';
+$lang['payslip_export_thead_lastname'] = 'Lastname';
+$lang['payslip_export_thead_gross_salary'] = 'Gross Salary';
+$lang['payslip_export_thead_net_salary'] = 'NET Salary';
+$lang['payslip_export_thead_number_depend'] = 'Number dependant';

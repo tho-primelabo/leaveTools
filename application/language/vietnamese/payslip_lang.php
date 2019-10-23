@@ -50,3 +50,11 @@ $lang['payslip_field_salary_overtime'] = 'Lương tăng ca';
 $lang['payslip_field_salary_other'] = 'Lương khác';
 $lang['payslip_field_reduction_family'] = 'Gia cảnh';
 
+$lang['payslip_export_title'] = 'Danh sách nhân viên';
+$lang['payslip_export_thead_id'] = 'ID';
+$lang['payslip_export_thead_firstname'] = 'Họ';
+$lang['payslip_export_thead_lastname'] = 'Tên';
+$lang['payslip_export_thead_gross_salary'] = 'Lương Gross';
+$lang['payslip_export_thead_net_salary'] = 'Lương NET';
+$lang['payslip_export_thead_number_depend'] = 'Số người phụ thuộc';
+

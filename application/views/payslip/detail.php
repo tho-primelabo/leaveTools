@@ -60,6 +60,8 @@
             <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
                 <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
             </a>
+            &nbsp;
+            <a href="<?php echo base_url();?>payslip/exportDetail/<?php echo $userid ?>" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
         </div>
         
     </div>
@@ -142,9 +144,9 @@ $(document).ready(function() {
             $('#salarydate').val(selectedDate);
 
              table.ajax.reload();  //just reload table
-             if ($('#salarydate').val() == undefined) {
-                 alert('test');
-             }
+            //  if ($('#salarydate').val() == undefined) {
+            //      alert('test');
+            //  }
         }
     });
     
