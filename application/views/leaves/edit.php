@@ -8,7 +8,7 @@
  */
 ?>
 <div class="container h-100 d-flex justify-content-center">
-    <h2><?php echo lang('leaves_edit_title');?><?php echo $leave['id']; ?> <?php echo $help;?>&nbsp;<span class="muted">(<?php echo $name ?>)</span></h2>
+    <h2><?php echo lang('leaves_edit_title');?><?php echo $leave['id']; ?> &nbsp;<span class="muted">(<?php echo $name ?>)</span></h2>
     <?php
     $attributes = array('id' => 'frmLeaveForm');
     if (isset($_GET['source'])) {
@@ -33,22 +33,26 @@
             <option value="<?php echo $typeId; ?>" <?php if ($typeId == $leave['type']) echo "selected"; ?>><?php echo $TypeName; ?></option>
         <?php endforeach ?>
         </select>
-
-        <label for="viz_startdate"><?php echo lang('leaves_edit_field_start');?></label>
-        <input type="text" name="viz_startdate" id="viz_startdate" value="<?php $date = new DateTime($leave['startdate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
-        <input type="hidden" name="startdate" id="startdate" value="<?php echo $leave['startdate'];?>" />
-        <select name="startdatetype" id="startdatetype">
-            <option value="Morning" <?php if ($leave['startdatetype'] == "Morning") {echo "selected";}?>><?php echo lang('Morning');?></option>
-            <option value="Afternoon" <?php if ($leave['startdatetype'] == "Afternoon") {echo "selected";}?>><?php echo lang('Afternoon');?></option>
-        </select><br />
-
+        <div class="input-append date" >
+            <label for="viz_startdate"><?php echo lang('leaves_edit_field_start');?></label>
+            <input type="text" name="viz_startdate" id="viz_startdate" value="<?php $date = new DateTime($leave['startdate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
+            <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+            <input type="hidden" name="startdate" id="startdate" value="<?php echo $leave['startdate'];?>" />
+            <select name="startdatetype" id="startdatetype">
+                <option value="Morning" <?php if ($leave['startdatetype'] == "Morning") {echo "selected";}?>><?php echo lang('Morning');?></option>
+                <option value="Afternoon" <?php if ($leave['startdatetype'] == "Afternoon") {echo "selected";}?>><?php echo lang('Afternoon');?></option>
+            </select><br />
+        </div>
+        <div class="input-append date" >
         <label for="viz_enddate"><?php echo lang('leaves_edit_field_end');?></label>
         <input type="text" name="viz_enddate" id="viz_enddate" value="<?php $date = new DateTime($leave['enddate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
+        <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
         <input type="hidden" name="enddate" id="enddate" value="<?php echo $leave['enddate'];?>" />
         <select name="enddatetype" id="enddatetype">
             <option value="Morning" <?php if ($leave['enddatetype'] == "Morning") {echo "selected";}?>><?php echo lang('Morning');?></option>
             <option value="Afternoon" <?php if ($leave['enddatetype'] == "Afternoon") {echo "selected";}?>><?php echo lang('Afternoon');?></option>
         </select><br />
+        </div>
         <label for="duration"><?php echo lang('leaves_edit_field_duration');?> <span id="tooltipDayOff"></span></label>
 
         <?php if ($this->config->item('disable_edit_leave_duration') == TRUE) { ?>

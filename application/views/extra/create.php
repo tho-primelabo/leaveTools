@@ -18,13 +18,14 @@
     <?php
     $attributes = array('id' => 'frmCreateExtra');
     echo form_open('extra/create', $attributes) ?>
-
-        <label for="viz_date" required><?php echo lang('extra_create_field_date');?></label>
-        <input type="text" name="viz_date" id="viz_date" value="<?php echo set_value('date'); ?>" />
-        <input type="hidden" name="date" id="date" />
-        
+        <div class="input-append date">
+            <label for="viz_date" ><?php echo lang('extra_create_field_date');?></label>
+            <input type="text" name="viz_date" required id="viz_date" value="<?php echo set_value('date'); ?>" />
+             <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+            <input type="hidden" name="date" id="date" />
+        </div>
         <label for="duration" required><?php echo lang('extra_create_field_duration');?></label>
-        <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" />&nbsp;<span><?php echo lang('extra_create_field_duration_description');?></span>
+        <input type="text" name="duration" id="duration"  required />&nbsp;<span><?php echo lang('extra_create_field_duration_description');?></span>
         
         <label for="cause"><?php echo lang('extra_create_field_cause');?></label>
         <textarea name="cause" id="cause"><?php echo set_value('cause'); ?></textarea>
@@ -96,11 +97,11 @@ if ($language_code != 'en') { ?>
             changeMonth: true,
             changeYear: true,
             dateFormat: '<?php echo lang('global_date_js_format');?>',
-            altFormat: "yy-mm-dd",
+            altFormat: "dd-mm-yyyy",
             altField: "#date",
 			minDate: dateToday
 			
-        }, $.datepicker.regional['<?php echo $language_code;?>']);
+        }, $.datepicker.regional['<?php echo $language_code;?>']).datepicker({ dateFormat: 'dd-mm-yy'}).datepicker("setDate", new Date());
         
         //Force decimal separator whatever the locale is
         $("#duration").keyup(function() {

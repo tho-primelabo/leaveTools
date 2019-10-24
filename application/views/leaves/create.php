@@ -8,11 +8,11 @@
  */
 ?>
 <div class="container h-100 d-flex justify-content-center">
-    <h2><?php echo lang('leaves_create_title'); ?> &nbsp;<?php echo $help; ?></h2>
+    <h2><?php echo lang('leaves_create_title'); ?> &nbsp;</h2>
 
     <div class="row">
         <div class="span8">
-
+            
             <?php echo validation_errors(); ?>
 
             <?php
@@ -29,23 +29,34 @@
                     <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
                 <?php endforeach ?>
             </select>
-
-            <label for="viz_startdate"><?php echo lang('leaves_create_field_start'); ?></label>
-            <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
-            <input type="hidden" name="startdate" id="startdate" />
-            <select name="startdatetype" id="startdatetype">
-                <option value="Morning" selected><?php echo lang('Morning'); ?></option>
-                <option value="Afternoon"><?php echo lang('Afternoon'); ?></option>
-            </select><br />
-
-            <label for="viz_enddate"><?php echo lang('leaves_create_field_end'); ?></label>
-            <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
-            <input type="hidden" name="enddate" id="enddate" />
-            <select name="enddatetype" id="enddatetype">
-                <option value="Morning"><?php echo lang('Morning'); ?></option>
-                <option value="Afternoon" selected><?php echo lang('Afternoon'); ?></option>
-            </select><br />
-
+            
+            <br/>
+            
+           <div class="input-append date" >
+                <label for="viz_enddate"><?php echo lang('leaves_create_field_start'); ?></label>
+                <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
+                <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+            
+                <input type="hidden" name="startdate" id="startdate" />
+               
+                <select name="startdatetype" id="startdatetype">
+                    <option value="Morning"><?php echo lang('Morning'); ?></option>
+                    <option value="Afternoon" selected><?php echo lang('Afternoon'); ?></option>
+                </select><br />
+            </div>
+            <br />
+            <div class="input-append date" >
+                <label for="viz_enddate"><?php echo lang('leaves_create_field_end'); ?></label>
+                <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
+                <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+            
+                <input type="hidden" name="enddate" id="enddate" />
+               
+                <select name="enddatetype" id="enddatetype">
+                    <option value="Morning"><?php echo lang('Morning'); ?></option>
+                    <option value="Afternoon" selected><?php echo lang('Afternoon'); ?></option>
+                </select><br />
+            </div>
             <label for="duration"><?php echo lang('leaves_create_field_duration'); ?> <span id="tooltipDayOff"></span></label>
             <?php if ($this->config->item('disable_edit_leave_duration') == TRUE) { ?>
                 <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" readonly />

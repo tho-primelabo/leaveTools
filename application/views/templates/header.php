@@ -20,7 +20,7 @@
     <meta name="version" content="0.6.0">
     <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
-    <link href="<?php echo base_url(); ?>assets/css/jorani-0.6.6.css" rel="stylesheet" />
+    <!--<link href="<?php echo base_url(); ?>assets/css/jorani-0.6.6.css" rel="stylesheet" />-->
     <link href="<?php echo base_url(); ?>assets/css/jorani-1.0.css" rel="stylesheet" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/MDI-3.4.93/css/materialdesignicons.min.css">
     <?php CI_Controller::get_instance()->load->helper('language');

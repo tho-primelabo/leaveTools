@@ -242,7 +242,7 @@ function showOverlappingDayOffMessage(leaveInfo) {
 
 $(function () {
     getLeaveLength(false);
-
+    
     //Init the start and end date picker and link them (end>=date)
     $("#viz_startdate").datepicker({
         changeMonth: true,
@@ -250,7 +250,7 @@ $(function () {
         dateFormat: dateJsFormat,
         altFormat: "yy-mm-dd",
         altField: "#startdate",
-        minDate: +1,
+        minDate: new Date(),
         numberOfMonths: 1,
               onClose: function( selectedDate ) {
                 $( "#viz_enddate" ).datepicker( "option", "minDate", selectedDate );

@@ -19,25 +19,27 @@
             $attributes = array('id' => 'frmLeaveForm');
             echo form_open('contracts/create', $attributes)
             ?>
-
+            
            <label for="name"><?php echo lang('contract_edit_field_name');?></label>
             <input type="text" name="name" id="name" value="<?php echo $contract['name']; ?>" autofocus required /><br />         
-
-            <label for="viz_startdate"><?php echo lang('contract_create_field_start_day'); ?></label>
-            
-            <input type="text" name="viz_startdate" id="viz_startdate" required value="<?php $date = new DateTime($contract['startentdate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
-            <input type="hidden" name="startdate" id="startdate" value="<?php echo $contract['startentdate'];?>"/>
-
+            <div class="input-append date" >
+                <label for="viz_startdate"><?php echo lang('contract_create_field_start_day'); ?></label>                
+                <input type="text" name="viz_startdate" id="viz_startdate" required value="<?php $date = new DateTime($contract['startentdate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
+                <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+                <input type="hidden" name="startdate" id="startdate" value="<?php echo $contract['startentdate'];?>"/>
+            </div>
             <label for="default_contract_type"><?php echo lang('contract_edit_default_contract_type');?></label>
             <select class="" name="default_leave_type" id="default_leave_type">
             <?php foreach ($contract_types as $typeId => $TypeName): ?>
                 <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
             <?php endforeach ?>
             </select> <br />
-            <label for="viz_enddate"><?php echo lang('contract_create_field_end_day'); ?></label>
-            
-            <input type="text" name="viz_enddate" id="viz_enddate" required value="<?php $date = new DateTime($contract['endentdate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
-            <input type="hidden" name="enddate" id="enddate" value="<?php echo $contract['endentdate'];?>"/>
+            <div class="input-append date" >
+                <label for="viz_enddate"><?php echo lang('contract_create_field_end_day'); ?></label>                
+                <input type="text" name="viz_enddate" id="viz_enddate" required value="<?php $date = new DateTime($contract['endentdate']); echo $date->format(lang('global_date_format'));?>" autocomplete="off" />
+                <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+                <input type="hidden" name="enddate" id="enddate" value="<?php echo $contract['endentdate'];?>"/>
+            </div>
             <br/><br/>
             <button id="send" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('contract_edit_button_update');?></button>
                 &nbsp;

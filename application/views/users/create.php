@@ -204,10 +204,11 @@ echo form_open('users/create', $attributes); ?>
 <div class="row">
     <div class="span4">
         <input type="hidden" name="datehired" id="datehired" />
-        <div class="control-group">
+        <div class="control-group input-append date">
             <label class="control-label" for="viz_datehired"><?php echo lang('users_create_field_hired');?></label>
-            <div class="controls">
+            <div class="controls ">
                 <input type="text" id="viz_datehired" name="viz_datehired" />
+                <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
             </div>
         </div>
     </div>
@@ -493,11 +494,11 @@ echo form_open('users/create', $attributes); ?>
         $("#viz_datehired").datepicker({
           format: '<?php echo lang('global_date_js_format');?>',
           language: "<?php echo $language_code;?>",
-          startDate: "01/01/1970",
-          autoclose: true
+        
+          autoclose: true,
         }).on('changeDate', function(e){
           $('#datehired').val(e.format('yyyy-mm-dd'));
-        });
+        }).datepicker("setDate", new Date());
 
         //Transform SELECT tags in richer controls
         $('#timezone').select2();
