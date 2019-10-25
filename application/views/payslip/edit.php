@@ -14,12 +14,12 @@
 <?php
 $attributes = array('class' => 'form-horizontal');
 if (isset($_GET['source'])) {
-    echo form_open('payslip/edit/' . $users_item['employee_id'] .'?source=' . $_GET['source'], $attributes);
+    echo form_open('payslip/edit/' . $id .'?source=' . $_GET['source'], $attributes);
 } else {
-    echo form_open('users/edit/' . $users_item['employee_id'], $attributes);
+    echo form_open('users/edit/' . $id, $attributes);
 } ?>
 
-<input type="hidden" name="id" value="<?php echo $users_item['employee_id']; ?>" />
+<input type="hidden" name="id" value="<?php echo $id; ?>" />
 <input type="hidden" name="date" id="date" value="<?php echo $date; ?>" />
 <div class="wrapper">
     <div class="row box-auto">
@@ -30,7 +30,7 @@ if (isset($_GET['source'])) {
                     <div class="clearfix">
                         <span class="margin-top-5"><?php echo lang('payslip_gross_salary')?> </span>
                         <span id="idNhapLuong" data-toggle="tooltip" data-placement="top" data-title="<?php echo lang('payslip_employees_input_salary');?>">
-                            <input name="txtSalary" type="text" value="<?php echo $users_item['salary_basic']; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
+                            <input name="txtSalary" type="text" value="<?php echo $salary; ?>" maxlength="14" id="txtSalary" class="inputaspx w150" onkeydown="return MoveNextTextBox(event.keyCode);">
                         </span>
                         <span>
                             <select name="ddlUnit" id="ddlUnit" class="selectaspx w70" onchange="chonTienTe()">
@@ -73,14 +73,14 @@ if (isset($_GET['source'])) {
                         <span class="margin-top-5"><?php echo lang('payslip_number_dependant')?> :</span>
                         <span>
                             
-                            <input name="txtNumberOfDep" id="txtNumberOfDep" value="<?php echo $users_item['number_dependant']; ?>" 
+                            <input name="txtNumberOfDep" id="txtNumberOfDep" value="<?php echo $NoDepend; ?>" 
                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                 type = "number"
                                 maxlength = "2"
                              />
                         </span>
                     </div>
-                </div>
+                </div><br/><br/>
                 <div class="style-btn clearfix">
                     <input id="clienGrossi" onclick="clickso1()" class="form-control btn-primary bg-orange" type="button" value="Gross to Net">
                     <input id="clientNet" onclick="clickso2()" class="form-control btn-primary bg-orange"  type="hidden" value="Net To Gross">
@@ -99,7 +99,7 @@ if (isset($_GET['source'])) {
         </div>
        
         <div class="column">
-            <div id="blockUI">
+            <div id="form_convert">
                 <div class="title" style="text-align: center"><?php echo lang('payslip_description')?> (VND)</div>
                 <table class="datalist">
                     <tbody>
@@ -181,15 +181,12 @@ if (isset($_GET['source'])) {
                     <span>(USD)</span>
                     <span id="lblNetUsd"></span>
                     </span>
-                    <br/>
-                    <span>
-                        <div style="clear: both;"></div>
-                        <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
+                        <div class="style-btn clearfix">
+                            <input id="back" class="form-control btn-primary bg-orange" type="button"  value="<?php echo lang('payslip_button_back')?>">
+                        <!--<a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
                             <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
-                        </a>
-                    </span>
-                  
-                   
+                        </a>-->
+                        </div>
                 </div>
                 
             </div>
@@ -245,7 +242,7 @@ if (isset($_GET['source'])) {
                 $('#frmModalAjaxWait').modal('show');
                 },
             data: {
-                'userid': <?php echo $users_item['employee_id'];?>,
+                'userid': <?php echo $id;?>,
                 'salary': sal,
                 'chkIncludedIns': chkIncludedIns,
                 'txtNumberOfDep': txtNumberOfDep,
@@ -287,6 +284,31 @@ if (isset($_GET['source'])) {
             $('input[id*="btnNetToGross"]').click();
         }
     }
+    $('#back').on('click', function() {
+        // Load data for the table's content from an Ajax source
+        $.ajax({
+            url: "<?php echo base_url();?>payslip/",
+            type: 'POST',
+            data: {
+                date: '<?php echo $date ?>'
+               
+            },
+            dataType : 'json',
+            beforeSend: function() {
+                // setting a timeout
+               $('#frmModalAjaxWait').modal('show');
+            },
+            complete: function() {
+                $('#frmModalAjaxWait').modal('hide');
+               
+            },
+        })
+   
+    });
+      
+    
+        
+    
 </script>
 <script type="text/javascript">
     

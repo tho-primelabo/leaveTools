@@ -40,9 +40,10 @@ class Users_model extends CI_Model {
 
     public function getUsersByDate($date) {
         //$date = date('Y-m-d');
-        
-        
-        if ($date != 0) {
+      
+        //$date = date("Y-m-d", strtotime($date.''));
+        //print_R ($date); die();
+        if ($date != "") {
             $this->db->select('users.id, users.lastname , users.firstname ,
                  salary.number_dependant , salary_basic , salary.salary_net as salaryNet');
             $this->db->join('salary', 'salary.employee_id = users.id', 'left');
@@ -54,7 +55,7 @@ class Users_model extends CI_Model {
              $this->db->join('salary', 'salary.employee_id = users.id', 'left');
         }
         $this->db->group_by('users.id');
-        $this->db->order_by("date", "asc");
+        $this->db->order_by("date", "desc");
         $query = $this->db->get('users');
         //echo json_encode($query);die();
         //$query = $this->db->get_where('users', array('salary.date' => $date));

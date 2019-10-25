@@ -66,8 +66,8 @@
     padding: 5px 10px;
 }
 #form_convert input[type='button'] {
-    float: left;
-    margin-right: 10px;
+    /*float: left;*/
+    /*margin-right: 10px;*/
     width: 150px;
     background-color: #459a1d;
     padding: 9px 5px;
@@ -160,6 +160,7 @@ body {
 }
 .style-btn {
     margin-top: 50px;
+    text-align: center;
 }
 .border-right {
     border-right: 1px solid #1b435d;
