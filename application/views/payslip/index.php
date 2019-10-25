@@ -15,9 +15,10 @@
         <?php echo lang('payslip_description'); ?>
     </div>
 </div> 
+<br/>
 <?php echo $flash_partial_view;?>
 
-  <div class="span12">
+  <div class="row-fluid">
         <div class="span1">
         <label for="viz_startdate"><?php echo lang('payslip_employees_thead_date'); ?>:</label>
             

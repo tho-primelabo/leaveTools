@@ -7,7 +7,7 @@
  * @since         0.2.0
  */
 ?>
-
+<div class="container h-100 d-flex justify-content-center">
 <h2><?php echo lang('hr_leaves_create_title');?>
 </h2>
 
@@ -28,23 +28,27 @@ echo form_open($form_action, $attributes) ?>
         <option value="<?php echo $typeId; ?>" <?php if ($typeId == $defaultType) echo "selected"; ?>><?php echo $TypeName; ?></option>
     <?php endforeach ?>
     </select>
+     <div class="input-append date">
+        <label for="viz_startdate" required><?php echo lang('hr_leaves_create_field_start');?></label>
+        <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" />
+        <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+        <input type="hidden" name="startdate" id="startdate" />
+        <select name="startdatetype" id="startdatetype">
+            <option value="Morning" selected><?php echo lang('Morning');?></option>
+            <option value="Afternoon"><?php echo lang('Afternoon');?></option>
+        </select><br />
+    </div>
 
-    <label for="viz_startdate" required><?php echo lang('hr_leaves_create_field_start');?></label>
-    <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" />
-    <input type="hidden" name="startdate" id="startdate" />
-    <select name="startdatetype" id="startdatetype">
-        <option value="Morning" selected><?php echo lang('Morning');?></option>
-        <option value="Afternoon"><?php echo lang('Afternoon');?></option>
-    </select><br />
-
-    <label for="viz_enddate" required><?php echo lang('hr_leaves_create_field_end');?></label>
-    <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" />
-    <input type="hidden" name="enddate" id="enddate" />
-    <select name="enddatetype" id="enddatetype">
-        <option value="Morning"><?php echo lang('Morning');?></option>
-        <option value="Afternoon" selected><?php echo lang('Afternoon');?></option>
-    </select><br />
-
+     <div class="input-append date">
+        <label for="viz_enddate" required><?php echo lang('hr_leaves_create_field_end');?></label>
+        <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" />
+        <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+        <input type="hidden" name="enddate" id="enddate" />
+        <select name="enddatetype" id="enddatetype">
+            <option value="Morning"><?php echo lang('Morning');?></option>
+            <option value="Afternoon" selected><?php echo lang('Afternoon');?></option>
+        </select><br />
+    </div>
     <label for="duration" required><?php echo lang('hr_leaves_create_field_duration');?> <span id="tooltipDayOff"></span></label>
     <input type="text" name="duration" id="duration" value="<?php echo set_value('duration'); ?>" />
 
@@ -94,7 +98,7 @@ echo form_open($form_action, $attributes) ?>
             <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
         </div>
  </div>
-
+</div>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui.custom.min.css">
 <script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>
 <?php //Prevent HTTP-404 when localization isn't needed
@@ -163,7 +167,7 @@ $(function () {
             altField: "#date",
 			minDate: 0
 			
-        }, $.datepicker.regional['<?php echo $language_code;?>']);
+        }, $.datepicker.regional['<?php echo $language_code;?>']).datepicker({ dateFormat: 'dd-mm-yy'}).datepicker("setDate", new Date());
 	$("#viz_enddate").datepicker({
             changeMonth: true,
             changeYear: true,

@@ -41,20 +41,21 @@ class Payslip extends CI_Controller {
         // else {
         //     $users = $this->users_model->getUsersByDate($date);
         // }
+        
         $users = $this->bydate($date);
 		$dataArray = array();
         foreach ($users as $element) {
             $sub_array  = array();  
                 
-            $sub_array[] = $element->id."<div style='text-align:right;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd nolink'></i></a></div>".
-            "<div style='text-align:right;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('<payslip_index_thead_tip_detail></payslip_index_thead_tip_detail>')."><i class='mdi mdi-details nolink'></i></a></div>" ;  
+            $sub_array[] = $element->id."<div style='text-align:right;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd'></i></a></div>".
+            "<div style='text-align:right;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('payslip_index_thead_tip_detail')."><i class='mdi mdi-blur'></i></a></div>" ;  
             $sub_array[] = $element->firstname;  
             $sub_array[] = $element->lastname;  
             $sub_array[] = number_format($element->salary_basic); 
             
             $sub_array[] = number_format($element->salaryNet); 
             
-            $sub_array[] = $element->number_dependant;  
+            $sub_array[] = $element->number_dependant; 
             // $sub_array[] = '<button type="button" name="update" id="'.$element->id.'" class="btn btn-warning btn-xs">Update</button>
             // <button type="button" name="delete" id="'.$element->id.'" class="btn btn-danger btn-xs">Delete</button>';  
             
@@ -64,24 +65,36 @@ class Payslip extends CI_Controller {
 	}
 
 
-    public function index($date = 0)
+    public function index()
     {
         $this->auth->checkIfOperationIsAllowed('list_contracts');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
+        $date = $this->input->post('date');
         $month = date('m');
         $data['title'] = lang('contract_index_title');
         $data['help'] = $this->help->create_help_link('global_link_doc_page_contracts_list');
         //echo $date;
         if ($date == 0) {
             $date = date('Y-m-d');
+            $data['year'] = date('Y');
+            $data['month'] = date('F');
         }
         //$dateObj = DateTime::createFromFormat('!m', $month);
-        $data['year'] = date('Y');
-        $data['month'] = date('F');
+        //$date=date_create($date);
+        //echo date_format($date, 'Y-m-d');
+        //print_r($date); die();
+        else {
+            $mydate = DateTime::createFromFormat("Y-m-d", $date);
+            //echo $date->format("F");
+            
+            $data['year'] = $mydate->format('Y');
+            $data['month'] = $mydate->format('F');
+            //print_r($data['year']); die();
+        }
         $data['users'] = $this->users_model->getUsersByDate($date);
         $data['rooms'] = $this->rooms_model->getRooms();
-        //echo json_encode($data['users']);die();
+        //echo json_encode($data['users']); echo $data['month'];die();
         $data['payslip'] = [];
             // echo $payslip;
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
@@ -116,7 +129,9 @@ class Payslip extends CI_Controller {
        // }
        // else {
             //echo  $mon; die();
-            return $this->users_model->getUsersByDate($date);
+        // check salary date exist or not
+        //$salDate = $this->getRowPayslipByDate($id, $date);
+        return $this->users_model->getUsersByDate($date);
       //  }
         //$data['rooms'] = $this->rooms_model->getRooms();
         //echo json_encode($data['users']);
@@ -151,7 +166,19 @@ class Payslip extends CI_Controller {
         //echo json_encode($data['users_item']);die();
         $data['rooms'] = $this->rooms_model->getRooms();
         if (empty($data['users_item'])) {
-            redirect('notfound');
+            $data['users_item'] = $this->users_model->getUsers($id);
+            $data['id'] = $data['users_item']['id'];
+            $data['salary'] = $data['users_item']['salary'];
+            $data['NoDepend'] = $data['users_item']['number_dependant'];
+             //echo json_encode($data['users_item']['salary']);die();
+            if (empty($data['users_item'])) {
+                redirect('notfound');
+            }
+        }
+        else {
+            $data['id'] = $data['users_item']['employee_id'];
+            $data['salary'] = $data['users_item']['salary_basic'];
+            $data['NoDepend'] = $data['users_item']['number_dependant'];
         }
 
                

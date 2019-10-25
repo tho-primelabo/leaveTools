@@ -22,10 +22,12 @@
 
            <label for="name"><?php echo lang('contract_create_field_name');?></label>
             <input type="text" name="name" id="name" autofocus required /><br />         
-
-            <label for="viz_startdate"><?php echo lang('contract_create_field_start_day'); ?></label>
-            <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
-            <input type="hidden" name="startdate" id="startdate" />
+            <div class="input-append date" >
+                <label for="viz_startdate"><?php echo lang('contract_create_field_start_day'); ?></label>
+                <input type="text" name="viz_startdate" id="viz_startdate" value="<?php echo set_value('startdate'); ?>" autocomplete="off" required/>
+                <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+                <input type="hidden" name="startdate" id="startdate" />
+            </div>
             <br/>
             <label for="default_contract_type"><?php echo lang('contract_edit_default_contract_type');?></label>
            
@@ -35,11 +37,12 @@
             <?php endforeach ?>
             </select>
             <br/>
-
-            <label for="viz_enddate"><?php echo lang('contract_create_field_end_day'); ?></label>
-            <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
-            <input type="hidden" name="enddate" id="enddate" />
-
+            <div class="input-append date" >
+                <label for="viz_enddate"><?php echo lang('contract_create_field_end_day'); ?></label>
+                <input type="text" name="viz_enddate" id="viz_enddate" value="<?php echo set_value('enddate'); ?>" autocomplete="off" required/>
+                <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+                <input type="hidden" name="enddate" id="enddate" />
+            </div>
             
             <br/><br/>
             <button id="send" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp;<?php echo lang('contract_create_button_create');?></button>

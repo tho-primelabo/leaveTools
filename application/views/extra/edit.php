@@ -19,42 +19,43 @@
     } else {
         echo form_open('extra/edit/' . $id, $attributes);
     } ?>
-
+    <div class="input-append date">
         <label for="viz_date"><?php echo lang('extra_edit_field_date');?></label>
         <input type="text" name="viz_date" id="viz_date" value="<?php $date = new DateTime($extra['date']); echo $date->format(lang('global_date_format'));?>" required />
+        <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
         <input type="hidden" name="date" id="date" value="<?php echo $extra['date']; ?>" />
-        
-        <label for="duration"><?php echo lang('extra_edit_field_duration');?></label>
-        <input type="text" name="duration" id="duration" value="<?php echo $extra['duration']; ?>" required />&nbsp;<span><?php echo lang('extra_edit_field_duration_description');?></span>
-        
-        <label for="cause"><?php echo lang('extra_edit_field_cause');?></label>
-        <textarea name="cause" required><?php echo $extra['cause']; ?></textarea>
-        
-        <label for="status"><?php echo lang('extra_edit_field_status');?></label>
-        <select name="status" required>
-            <option value="1" <?php if ($extra['status'] == 1) echo 'selected'; ?>><?php echo lang('Planned');?></option>
-            <option value="2" <?php if (($extra['status'] == 2) || $this->config->item('extra_status_requested')) echo 'selected'; ?>><?php echo lang('Requested');?></optio
-    n>
-            <?php if ($is_hr) {?>
-            <option value="3" <?php if ($extra['status'] == 3) echo 'selected'; ?>><?php echo lang('Accepted');?></option>
-            <option value="4" <?php if ($extra['status'] == 4) echo 'selected'; ?>><?php echo lang('Rejected');?></option>        
-            <?php } ?>
-        </select><br />
-    </form>
-        
-        <div class="row-fluid"><div class="span12">&nbsp;</div></div>
-        <div class="row-fluid"><div class="span12">
-            <button id="cmdEditExtra" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('extra_edit_button_update');?></button>
-            &nbsp;
-        <?php if (isset($_GET['source'])) {?>
-            <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('extra_edit_button_cancel');?></a>
-        <?php } else {?>
-            <a href="<?php echo base_url(); ?>extra" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('extra_edit_button_cancel');?></a>
+    </di>
+    <label for="duration"><?php echo lang('extra_edit_field_duration');?></label>
+    <input type="text" name="duration" id="duration" value="<?php echo $extra['duration']; ?>" required />&nbsp;<span><?php echo lang('extra_edit_field_duration_description');?></span>
+    
+    <label for="cause"><?php echo lang('extra_edit_field_cause');?></label>
+    <textarea name="cause" required><?php echo $extra['cause']; ?></textarea>
+    
+    <label for="status"><?php echo lang('extra_edit_field_status');?></label>
+    <select name="status" required>
+        <option value="1" <?php if ($extra['status'] == 1) echo 'selected'; ?>><?php echo lang('Planned');?></option>
+        <option value="2" <?php if (($extra['status'] == 2) || $this->config->item('extra_status_requested')) echo 'selected'; ?>><?php echo lang('Requested');?></optio
+n>
+        <?php if ($is_hr) {?>
+        <option value="3" <?php if ($extra['status'] == 3) echo 'selected'; ?>><?php echo lang('Accepted');?></option>
+        <option value="4" <?php if ($extra['status'] == 4) echo 'selected'; ?>><?php echo lang('Rejected');?></option>        
         <?php } ?>
-        </div></div>
-        <div class="row-fluid"><div class="span12">&nbsp;</div></div>
-        </div>
+    </select><br />
+</form>
+        
+    <div class="row-fluid"><div class="span12">&nbsp;</div></div>
+    <div class="row-fluid"><div class="span12">
+        <button id="cmdEditExtra" class="btn btn-primary"><i class="mdi mdi-check"></i>&nbsp; <?php echo lang('extra_edit_button_update');?></button>
+        &nbsp;
+    <?php if (isset($_GET['source'])) {?>
+        <a href="<?php echo base_url() . $_GET['source']; ?>" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('extra_edit_button_cancel');?></a>
+    <?php } else {?>
+        <a href="<?php echo base_url(); ?>extra" class="btn btn-danger"><i class="mdi mdi-close"></i>&nbsp;<?php echo lang('extra_edit_button_cancel');?></a>
+    <?php } ?>
+    </div></div>
+    <div class="row-fluid"><div class="span12">&nbsp;</div></div>
     </div>
+</div>
 </div>
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui.custom.min.css">
 <script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>

@@ -10,7 +10,7 @@
 ?>
 
 <div class="container h-100 d-flex justify-content-center text-center">
-    <div class="jumbotron my-auto">
+    <div class="jumbotron my-auto" style="background-color: #E7E7E7">
         <h2><?php echo lang('users_myprofile_title');?></h2>
         <div class="row-fluid">
             <div class="span6"><strong><?php echo lang('users_myprofile_field_firstname');?></strong></div>

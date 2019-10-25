@@ -8,13 +8,14 @@
  */
 ?>
 
-<h2><?php echo lang('reports_balance_title');?> &nbsp;<?php echo $help;?></h2>
+<h2><?php echo lang('reports_balance_title');?> &nbsp;</h2>
 
 <div class="row-fluid">
     <div class="span4">
         <label for="refdate"><?php echo lang('reports_balance_date_field');?></label>
-        <div class="input-append">
-        <input type="text" name="refdate" id="refdate" />
+        <div class="input-append date">
+            <input type="text" name="refdate" id="refdate" />
+            <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
         </div>
     </div>
     <div class="span4">

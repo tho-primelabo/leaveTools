@@ -22,9 +22,12 @@
     
     
          
-    <div class="span12">
-        <input type="text" name="salarydate" id="salarydate" autocomplete="off" required/>
-        <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>"/>
+    <div class="span4">
+        <div class="input-append date" >
+            <input type="text" name="salarydate" id="salarydate" autocomplete="off" required/>
+            <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+            <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>"/>
+        </div>
     </div>
 
    
@@ -137,6 +140,7 @@ $(document).ready(function() {
    $("#salarydate").datepicker({
         dateFormat: '<?php echo lang('global_date_js_format');?>',
         altFormat: "yy-mm-dd",
+        //uiLibrary: 'bootstrap4',
         onSelect: function(date, instance) {
             //console.log(date);
             selectedDate = $.datepicker.formatDate("yy-mm-dd", $(this).datepicker('getDate'));

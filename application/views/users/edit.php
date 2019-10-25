@@ -182,11 +182,12 @@ if (isset($_GET['source'])) {
         <input type="hidden" name="datehired" id="datehired"  value="<?php
             $date = new DateTime($users_item['datehired']);
             echo $date->format('Y-m-d');?>"/>
-        <div class="control-group">
+        <div class="control-group input-append date">
             <label class="control-label" for="viz_datehired"><?php echo lang('users_edit_field_hired');?></label>
-            <div class="controls">
+            <div class="controls ">
                 <input type="text" id="viz_datehired" name="viz_datehired" value="<?php
                     echo $date->format(lang('global_date_format'));?>" />
+                <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
             </div>
         </div>
     </div>

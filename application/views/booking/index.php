@@ -224,9 +224,9 @@
                    
                 }
                 else {
-                    element.disableResizing = true;
-                    element.draggable = true;
-                    element.editable= false;
+                    // element.disableResizing = true;
+                    // element.draggable = true;
+                    // element.editable= false;
                     $(element).addClass('btn-danger');
                     //$(this).addClass('hideClass');
                     //$(element).removeClass('fc-event-container');

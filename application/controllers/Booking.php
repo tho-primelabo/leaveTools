@@ -89,6 +89,7 @@ class Booking extends CI_Controller
         $this->auth->checkIfOperationIsAllowed('delete_booking');
         $uid = $this->booking_model->getUidById();
         $uidSession = $this->session->userdata('id');
+        //echo $uid;echo ' '.$uidSession;die();
         if ($uid == $uidSession) {
             $data = $this->booking_model->delete();
 
