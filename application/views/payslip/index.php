@@ -18,18 +18,17 @@
 <br/>
 <?php echo $flash_partial_view;?>
 
-  <div class="row-fluid">
-        <div class="span1">
+  <div class="input-prepend input-append">
+    <div>
         <label for="viz_startdate"><?php echo lang('payslip_employees_thead_date'); ?>:</label>
-            
+    <!--</div>
+    <div class="input-prepend input-append">-->
+        <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
+        <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
+        <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
+        <input type ='hidden' id='monthYear'/>
     </div>
-        <div class="input-prepend input-append">
-            <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
-            <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
-            <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
-            <input type ='hidden' id='monthYear'/>
-        </div>
-    </div>
+</div>
 <br/>
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
@@ -76,21 +75,10 @@
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
+    var table;
     $(document).ready(function() {
-        console.log($('#monthYear').val());
-    });
-    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
-    var year = "<?php echo $year;?>";
-    var currentDate = moment().year(year).month(month).date(1);
-    $('#monthYear').val(currentDate.format("Y-MM-D"));
-    <?php if ($this->config->item('csrf_protection') == true) {?>
-    $.ajaxSetup({
-        data: {
-            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
-        }
-    });
-    <?php }?>
-    var table = $('#users').DataTable({
+        //console.log($('#monthYear').val());
+        table = $('#users').DataTable({
         stateSave: true,
             language: {
                 decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
@@ -133,6 +121,19 @@
             },
         },
     });
+    });
+    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
+    var year = "<?php echo $year;?>";
+    var currentDate = moment().year(year).month(month).date(1);
+    $('#monthYear').val(currentDate.format("Y-MM-D"));
+    <?php if ($this->config->item('csrf_protection') == true) {?>
+    $.ajaxSetup({
+        data: {
+            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+        }
+    });
+    <?php }?>
+    
         
     
     $('#cmdNext').click(function() {

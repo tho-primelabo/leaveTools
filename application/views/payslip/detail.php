@@ -25,7 +25,7 @@
     <div class="span4">
         <div class="input-append date" >
             <input type="text" name="salarydate" id="salarydate" autocomplete="off" required/>
-            <span class="add-on"><i class="icon-calendar" id="cal2"></i></span>
+            <span class="add-on"><i class="icon-calendar" id="cal"></i></span>
             <input type="hidden" name="userid" id="userid" value="<?php echo $userid ?>"/>
         </div>
     </div>
@@ -63,6 +63,7 @@
             <a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
                 <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
             </a>
+            <!--<input id="back" class="btn btn-primary" type="button"  value="<?php echo lang('payslip_button_back')?>">-->
             &nbsp;
             <a href="<?php echo base_url();?>payslip/exportDetail/<?php echo $userid ?>" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
         </div>
@@ -153,7 +154,32 @@ $(document).ready(function() {
             //  }
         }
     });
+    $('#back').on('click', function() {
+            // Load data for the table's content from an Ajax source
+            $.ajax({
+                url: "<?php echo base_url();?>payslip/",
+                type: 'POST',
+                data: {
+                    date: '2019-10-1'
+                
+                },
+                dataType : 'json',
+                beforeSend: function() {
+                    // setting a timeout
+                $('#frmModalAjaxWait').modal('show');
+                },
+                complete: function() {
+                    $('#frmModalAjaxWait').modal('hide');
+                    table.ajax.reload();  //just reload table
+                
+                },
+            })
     
+        });
+
+    $("#cal").click(function(){
+         $("#salarydate").trigger("select");
+    });
 
 });
 

@@ -418,6 +418,7 @@ $route['booking/delete'] = 'booking/delete';
 //_______________________________________________
 //payslip requests
 $route['payslip'] = 'payslip/index';
+$route['payslip/back'] = 'payslip/back';
 //$route['payslip/create'] = 'payslip/edit/$1';
 $route['payslip/edit/(:num)'] = 'payslip/edit/$1';
 $route['payslip/bydate/(:any)'] = 'payslip/bydate/$1';
