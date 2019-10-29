@@ -280,7 +280,7 @@ class Payslip extends CI_Controller {
             $dataArray[] = array(
                 $element['salary_id'],
                 
-                $element['date']." &nbsp;<a title='Send Mail' href='".base_url()."payslip/detail/mail/$uid/$date'>"."<i class='mdi mdi-email nolink'></i></a>".
+                $element['date']." &nbsp;<a title='Send Mail' href='".base_url()."payslip/mail/$uid/$date'>"."<i class='mdi mdi-email nolink'></i></a>".
                 "&nbsp;<a href='/' "."title='history'"."<i class='mdi mdi-history nolink'></i></a>",
                 number_format($element['salary_basic']),
                 number_format($element['salary_net']),
@@ -321,14 +321,15 @@ class Payslip extends CI_Controller {
      * @param int $date of payslip
      * @author tho le <thole419.@gmail.com>
      */
-    private function sendMailOnPayslip($id, $date) {
+    public function mail($id, $date) {
+        //echo $id; echo $date; die();
         $this->load->model('users_model');
-        $this->load->model('types_model');
-        $this->load->model('delegations_model');
+       
         //We load everything from DB as the LR can be edited from HR/Employees
-        $leave = $this->leaves_model->getLeaves($id, $date);
-        $user = $this->users_model->getUsers($leave['employee']);
-        //$manager = $this->users_model->getUsers($user['manager']);
+        $payslip = $this->payslip_model->getPayslipByDate($id, $date);
+        $user = $this->users_model->getUsers($payslip[0]['employee_id']);
+        //print_r($user['email']);  die();
+        $manager = $this->users_model->getUsers($user['manager']);
         if (empty($user['email'])) {
             $this->session->set_flashdata('msg', lang('leaves_create_flash_msg_error'));
         } else {
@@ -341,14 +342,31 @@ class Payslip extends CI_Controller {
             $lang_mail = new CI_Lang();
             $lang_mail->load('email', $usr_lang);
             $lang_mail->load('global', $usr_lang);
+            $tmpDate = new DateTime($payslip[0]['date']);
+            $saldate = $tmpDate->format('d-m-Y');
 
-            if ($reminder) {
-                $this->sendGenericMail($leave, $user, $manager, $lang_mail, $lang_mail->line('email_leave_request_reminder') . ' ' .
-                        $lang_mail->line('email_leave_request_creation_title'), $lang_mail->line('email_leave_request_reminder') . ' ' .
-                        $lang_mail->line('email_leave_request_creation_subject'), 'request');
-            } else {
-                $this->sendGenericMail($leave, $user, $manager, $lang_mail, $lang_mail->line('email_leave_request_creation_title'), $lang_mail->line('email_leave_request_creation_subject'), 'request');
-            }
-        }
+            $cc = NULL;
+            $this->load->library('parser');
+            $data = array(
+                'Firstname'=>$user['firstname'],
+                'Lastname'=>$user['lastname'],
+                'date' =>$saldate,              
+                'GROSS' => number_format($payslip[0]['salary_basic']),
+                'NET'=>number_format($payslip[0]['salary_net']),
+                'social_insurance' => number_format($payslip[0]['social_insurance']),
+                'health_insurance' => number_format($payslip[0]['health_insurance']),
+                'taxable_incom' => number_format($payslip[0]['taxable_incom'])
+            
+             );
+        //$message = $payslip[0]['date'].'gross salary:'.$payslip[0]['salary_basic'];//$this->parser->parse( $data, TRUE);
+        $message = $this->parser->parse('emails/' . $manager['language'] . '/salary', $data, TRUE);
+        $to = $user['email'];
+        $subject = 'payslip';
+        $this->session->set_flashdata('msg', lang('paslip_email_flash_msg_success'));
+        sendMailByWrapper($this, $subject, $message, $to, $cc);
+        
+         //$this->load->view('payslip/detail');
+         $this->detail($payslip[0]['employee_id']);
     }
+}
 }

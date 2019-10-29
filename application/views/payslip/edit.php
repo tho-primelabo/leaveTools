@@ -7,7 +7,7 @@
     </div>
     <div class="row-fluid">
     <div class="span12">
-        <?php echo lang('payslip_edit_description'); ?>
+        <!--<?php echo lang('payslip_edit_description'); ?>-->
     </div>
 </div> 
 </div>
@@ -100,7 +100,7 @@ if (isset($_GET['source'])) {
        
         <div class="column">
             <div id="form_convert">
-                <div class="title" style="text-align: center"><?php echo lang('payslip_description')?> (VND)</div>
+                <div class="title" style="text-align: center"><?php echo lang('payslip_edit_description')?> (VND)</div>
                 <table class="datalist">
                     <tbody>
                         <tr class="rownote">

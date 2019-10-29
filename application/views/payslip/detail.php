@@ -9,6 +9,7 @@
 ?>
 
 <h2><?php echo lang('payslip_title_detail'); ?> &nbsp;</h2>
+<?php echo $flash_partial_view;?>
 <div class="row-fluid">
     <div class="span12">
         <?php echo lang('payslip_description'); ?>

@@ -10,6 +10,7 @@
 $lang['payslip_title'] = 'Bảng Lương';
 $lang['payslip_title_detail'] = 'Bảng Lương Chi Tiết';
 $lang['payslip_description'] = 'Xem bảng lương theo tháng và năm đươc chọn';
+$lang['payslip_edit_description'] = 'Xem chi tiết tiền đóng thuế';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Tên';
@@ -57,4 +58,5 @@ $lang['payslip_export_thead_lastname'] = 'Tên';
 $lang['payslip_export_thead_gross_salary'] = 'Lương Gross';
 $lang['payslip_export_thead_net_salary'] = 'Lương NET';
 $lang['payslip_export_thead_number_depend'] = 'Số người phụ thuộc';
+$lang['paslip_email_flash_msg_success'] = 'Bảng lương đã gửi email đến nhân viên';
 

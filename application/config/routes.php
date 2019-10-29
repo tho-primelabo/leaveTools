@@ -425,6 +425,7 @@ $route['payslip/bydate/(:any)'] = 'payslip/bydate/$1';
 $route['payslip/filterdate/(:any)/(:any)'] = 'payslip/filterdate/$1/$2';
 $route['payslip/bulkCreate'] = 'payslip/bulkCreate';
 $route['payslip/detail/(:num)/(:any)/(:any)'] = 'payslip/detail/$1/$2/$3';
+$route['payslip/mail(:num)/(:any)'] = 'payslip/mail/$1/$2';
 
 //_______________________________________________
 //cusomter requests

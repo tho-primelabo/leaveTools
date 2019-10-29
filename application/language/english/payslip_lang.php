@@ -10,6 +10,7 @@
 $lang['payslip_title'] = 'Payslip';
 $lang['payslip_title_detail'] = 'Detail Payslip';
 $lang['payslip_description'] = 'Fillter by month and year';
+$lang['payslip_edit_description'] = 'Detail of tax';
 $lang['payslip_index_thead_id'] = 'ID';
 $lang['payslip_create_title'] = 'Create a new user';
 $lang['payslip_field_firstname'] = 'Last Name';
@@ -59,3 +60,4 @@ $lang['payslip_export_thead_lastname'] = 'Lastname';
 $lang['payslip_export_thead_gross_salary'] = 'Gross Salary';
 $lang['payslip_export_thead_net_salary'] = 'NET Salary';
 $lang['payslip_export_thead_number_depend'] = 'Number dependant';
+$lang['paslip_email_flash_msg_success'] = 'The payslip email was sent to the employee';
