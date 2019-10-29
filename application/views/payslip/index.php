@@ -9,24 +9,24 @@
 ?>
 
 <div class="row-fluid">
-<h2><?php echo lang('payslip_title');?> &nbsp;</h2>
+<h2><?php echo lang('payslip_title'); ?> &nbsp;</h2>
 <div class="row-fluid">
     <div class="span12">
         <?php echo lang('payslip_description'); ?>
     </div>
-</div> 
+</div>
 <br/>
-<?php echo $flash_partial_view;?>
+<?php echo $flash_partial_view; ?>
 
   <div class="row-fluid">
         <div class="span1">
         <label for="viz_startdate"><?php echo lang('payslip_employees_thead_date'); ?>:</label>
-            
+
     </div>
         <div class="input-prepend input-append">
-            <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
-            <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
-            <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
+            <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous'); ?>"><i class="mdi mdi-chevron-left"></i></button>
+            <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year; ?>" class="input-medium" readonly />
+            <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next'); ?>"><i class="mdi mdi-chevron-right"></i></button>
             <input type ='hidden' id='monthYear'/>
         </div>
     </div>
@@ -34,12 +34,12 @@
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
         <tr>
-            <th><?php echo lang('payslip_index_thead_id');?></th>
-            <th><?php echo lang('payslip_field_firstname');?></th>
-            <th><?php echo lang('payslip_field_lastname');?></th>
-            <th><?php echo lang('payslip_gross_salary');?></th>
-            <th><?php echo lang('payslip_net_salary');?></th>
-            <th><?php echo lang('payslip_number_dependant');?></th>
+            <th><?php echo lang('payslip_index_thead_id'); ?></th>
+            <th><?php echo lang('payslip_field_firstname'); ?></th>
+            <th><?php echo lang('payslip_field_lastname'); ?></th>
+            <th><?php echo lang('payslip_gross_salary'); ?></th>
+            <th><?php echo lang('payslip_net_salary'); ?></th>
+            <th><?php echo lang('payslip_number_dependant'); ?></th>
         </tr>
     </thead>
         <tbody>
@@ -52,10 +52,10 @@
 
 <div class="row-fluid">
     <div class="span12">
-      <a href="<?php echo base_url();?>payslip/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
+      <a href="<?php echo base_url(); ?>payslip/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export'); ?></a>
       &nbsp;
-      <!--<a href="<?php echo base_url();?>payslip/bulkCreate/<?php echo date('Y-m-d')?>" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>-->
-    <button id="bulkCreate" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_payslip');?>"><i class="mdi mdi-currency-usd"></i><?php echo lang('payslip_index_button_payslip');?></button>
+      <!--<a href="<?php echo base_url(); ?>payslip/bulkCreate/<?php echo date('Y-m-d') ?>" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip'); ?></a>-->
+    <button id="bulkCreate" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_payslip'); ?>"><i class="mdi mdi-currency-usd"></i><?php echo lang('payslip_index_button_payslip'); ?></button>
     </div>
 </div>
 </div>
@@ -64,131 +64,126 @@
 <div class="row-fluid"><div class="span12">&nbsp;</div></div>
  <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
     <div class="modal-header">
-        <h1><?php echo lang('global_msg_wait');?></h1>
+        <h1><?php echo lang('global_msg_wait'); ?></h1>
     </div>
     <div class="modal-body">
-        <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
+        <img src="<?php echo base_url(); ?>assets/images/loading.gif"  align="middle">
     </div>
 </div>
 
-<link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
-<script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
+<link href="<?php echo base_url(); ?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
+    <?php if ($this->config->item('csrf_protection') == true) {?>
+        $.ajaxSetup({
+            data: {
+                <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+            }
+        });
+    <?php }?>
+
     $(document).ready(function() {
         console.log($('#monthYear').val());
     });
-    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
-    var year = "<?php echo $year;?>";
+    var month = "<?php echo $month; ?>"; //Momentjs uses a zero-based number
+    var year = "<?php echo $year; ?>";
     var currentDate = moment().year(year).month(month).date(1);
     $('#monthYear').val(currentDate.format("Y-MM-D"));
-    <?php if ($this->config->item('csrf_protection') == true) {?>
-    $.ajaxSetup({
-        data: {
-            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
-        }
-    });
-    <?php }?>
     var table = $('#users').DataTable({
-        stateSave: true,
-            language: {
-                decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
-                processing:       "<?php echo lang('datatable_sProcessing');?>",
-                search:              "<?php echo lang('datatable_sSearch');?>",
-                lengthMenu:     "<?php echo lang('datatable_sLengthMenu');?>",
-                info:                   "<?php echo lang('datatable_sInfo');?>",
-                infoEmpty:          "<?php echo lang('datatable_sInfoEmpty');?>",
-                infoFiltered:       "<?php echo lang('datatable_sInfoFiltered');?>",
-                infoPostFix:        "<?php echo lang('datatable_sInfoPostFix');?>",
-                loadingRecords: "<?php echo lang('datatable_sLoadingRecords');?>",
-                zeroRecords:    "<?php echo lang('datatable_sZeroRecords');?>",
-                emptyTable:     "<?php echo lang('datatable_sEmptyTable');?>",
-                paginate: {
-                    first:          "<?php echo lang('datatable_sFirst');?>",
-                    previous:   "<?php echo lang('datatable_sPrevious');?>",
-                    next:           "<?php echo lang('datatable_sNext');?>",
-                    last:           "<?php echo lang('datatable_sLast');?>"
-                },
-                aria: {
-                    sortAscending:  "<?php echo lang('datatable_sSortAscending');?>",
-                    sortDescending: "<?php echo lang('datatable_sSortDescending');?>"
-                }
-            },
-
-        // Load data for the table's content from an Ajax source
-        "ajax": {
-            url: "<?php echo base_url();?>payslip/ajax_list/",
-            "type": "POST",
-            "data": function ( data ) {
-                //data.userid = 12;
-                data.date = $('#monthYear').val();
-            },
-             beforeSend: function() {
-                // setting a timeout
-               $('#frmModalAjaxWait').modal('show');
-            },            
-            complete: function() {
-                $('#frmModalAjaxWait').modal('hide');
-            },
+    stateSave: true,
+    language: {
+        decimal: "<?php echo lang('datatable_sInfoThousands'); ?>",
+        processing: "<?php echo lang('datatable_sProcessing'); ?>",
+        search: "<?php echo lang('datatable_sSearch'); ?>",
+        lengthMenu: "<?php echo lang('datatable_sLengthMenu'); ?>",
+        info: "<?php echo lang('datatable_sInfo'); ?>",
+        infoEmpty: "<?php echo lang('datatable_sInfoEmpty'); ?>",
+        infoFiltered: "<?php echo lang('datatable_sInfoFiltered'); ?>",
+        infoPostFix: "<?php echo lang('datatable_sInfoPostFix'); ?>",
+        loadingRecords: "<?php echo lang('datatable_sLoadingRecords'); ?>",
+        zeroRecords: "<?php echo lang('datatable_sZeroRecords'); ?>",
+        emptyTable: "<?php echo lang('datatable_sEmptyTable'); ?>",
+        paginate: {
+            first: "<?php echo lang('datatable_sFirst'); ?>",
+            previous: "<?php echo lang('datatable_sPrevious'); ?>",
+            next: "<?php echo lang('datatable_sNext'); ?>",
+            last: "<?php echo lang('datatable_sLast'); ?>"
         },
-    });
-        
-    
-    $('#cmdNext').click(function() {
-            
-        currentDate = currentDate.add(1, 'M');
-        month = currentDate.month() +1;
-        year = currentDate.year();
-        var fullDate = currentDate.format("MMMM") + ' ' + year;
-        date = year + '-' + currentDate.format("M") + '-' +'01';
-        
-        $("#txtMonthYear").val(fullDate);
-        $("#monthYear").val(date);
-            //console.log(date);
-            table.ajax.reload();  //just reload table
-        //alert(month+ ':' +year);
-    })
+        aria: {
+            sortAscending: "<?php echo lang('datatable_sSortAscending'); ?>",
+            sortDescending: "<?php echo lang('datatable_sSortDescending'); ?>"
+        }
+    },
 
-    $('#cmdPrevious').click(function() {
-        
-        currentDate = currentDate.add(-1, 'M');
-        month = currentDate.month();
-        year = currentDate.year();
-        var fullDate = currentDate.format("MMMM") + ' ' + year;
-        
-        date = year + '-' + currentDate.format("M") + '-' +'01';
-        $("#txtMonthYear").val(fullDate);
-        $("#monthYear").val(date);
-            //console.log(date);
-        table.ajax.reload();  //just reload table
-        //$('#calendar').fullCalendar('prev');
-    });
-    
-    $('#bulkCreate').click(function() {
-   
-        //var Status = $(this).val();
-        //alert($("#monthYear").val());
-       // Load data for the table's content from an Ajax source
-       $.ajax({
-            url: "<?php echo base_url();?>payslip/bulkCreate/",
-            type: 'POST',
-            data: {
-                date: $("#monthYear").val()
-               
-            },
-            dataType : 'json',
-            beforeSend: function() {
-                // setting a timeout
-               $('#frmModalAjaxWait').modal('show');
-            },
-            complete: function() {
-                $('#frmModalAjaxWait').modal('hide');
-                table.ajax.reload();  //just reload table
-            },
-        })
-   
-    });
- 
- 
+    // Load data for the table's content from an Ajax source
+    "ajax": {
+        url: "<?php echo base_url(); ?>payslip/ajax_list/",
+        "type": "POST",
+        "data": function(data) {
+            //data.userid = 12;
+            data.date = $('#monthYear').val();
+        },
+        beforeSend: function() {
+            // setting a timeout
+            $('#frmModalAjaxWait').modal('show');
+        },
+        complete: function() {
+            $('#frmModalAjaxWait').modal('hide');
+        },
+    },
+});
+
+$('#cmdNext').click(function() {
+
+    currentDate = currentDate.add(1, 'M');
+    month = currentDate.month() + 1;
+    year = currentDate.year();
+    var fullDate = currentDate.format("MMMM") + ' ' + year;
+    date = year + '-' + currentDate.format("M") + '-' + '01';
+
+    $("#txtMonthYear").val(fullDate);
+    $("#monthYear").val(date);
+    //console.log(date);
+    table.ajax.reload(); //just reload table
+    //alert(month+ ':' +year);
+})
+
+$('#cmdPrevious').click(function() {
+    currentDate = currentDate.add(-1, 'M');
+    month = currentDate.month();
+    year = currentDate.year();
+    var fullDate = currentDate.format("MMMM") + ' ' + year;
+
+    date = year + '-' + currentDate.format("M") + '-' + '01';
+    $("#txtMonthYear").val(fullDate);
+    $("#monthYear").val(date);
+    //console.log(date);
+    table.ajax.reload(); //just reload table
+    //$('#calendar').fullCalendar('prev');
+});
+
+$('#bulkCreate').click(function() {
+    //var Status = $(this).val();
+    //alert($("#monthYear").val());
+    // Load data for the table's content from an Ajax source
+    $.ajax({
+        url: "<?php echo base_url(); ?>payslip/bulkCreate/",
+        type: 'POST',
+        data: {
+            date: $("#monthYear").val()
+
+        },
+        dataType: 'json',
+        beforeSend: function() {
+            // setting a timeout
+            $('#frmModalAjaxWait').modal('show');
+        },
+        complete: function() {
+            $('#frmModalAjaxWait').modal('hide');
+            table.ajax.reload(); //just reload table
+        },
+    })
+});
 </script>
