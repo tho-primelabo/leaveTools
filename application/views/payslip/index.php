@@ -16,7 +16,7 @@
     </div>
 </div> 
 <br/>
-<?php echo $flash_partial_view;?>
+<!--<?php echo $this->session->flashdata('dateSession');?>-->
 
   <div class="input-prepend input-append">
     <div>
@@ -70,14 +70,31 @@
     </div>
 </div>
 
+<div id="frmShowHistory" class="modal hide fade">
+    <div class="modal-body" id="frmShowHistoryBody">
+        <img src="<?php echo base_url();?>assets/images/loading.gif">
+    </div>
+    <div class="modal-footer">
+        <a href="#" onclick="$('#frmShowHistory').modal('hide');" class="btn"><?php echo lang('OK');?></a>
+    </div>
+</div>
+
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript">
     var table;
+     var dateS = "<?php echo $this->session->flashdata('dateSession');?>";
+     var day = new Date();
     $(document).ready(function() {
         //console.log($('#monthYear').val());
+       
+        
+        if (dateS != '') {
+             //$("#monthYear").val(dateS);
+             console.log(dateS);
+        }
         table = $('#users').DataTable({
         stateSave: true,
             language: {
@@ -118,6 +135,9 @@
             },            
             complete: function() {
                 $('#frmModalAjaxWait').modal('hide');
+                //dateBack = new Date(dateS);
+                
+                //$('#txtMonthYear').val(dateS);
             },
         },
     });
@@ -125,7 +145,8 @@
     var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
     var year = "<?php echo $year;?>";
     var currentDate = moment().year(year).month(month).date(1);
-    $('#monthYear').val(currentDate.format("Y-MM-D"));
+    //console.log(currentDate);
+    //$('#txtMonthYear').val(currentDate.format("MMMM Y"));
     <?php if ($this->config->item('csrf_protection') == true) {?>
     $.ajaxSetup({
         data: {
@@ -142,7 +163,7 @@
         month = currentDate.month() +1;
         year = currentDate.year();
         var fullDate = currentDate.format("MMMM") + ' ' + year;
-        date = year + '-' + currentDate.format("M") + '-' +'01';
+        date = year + '-' + currentDate.format("M") + '-' + day.getDate();
         
         $("#txtMonthYear").val(fullDate);
         $("#monthYear").val(date);
@@ -158,7 +179,7 @@
         year = currentDate.year();
         var fullDate = currentDate.format("MMMM") + ' ' + year;
         
-        date = year + '-' + currentDate.format("M") + '-' +'01';
+        date = year + '-' + currentDate.format("M") + '-' + day.getDate();
         $("#txtMonthYear").val(fullDate);
         $("#monthYear").val(date);
             //console.log(date);
@@ -191,5 +212,20 @@
    
     });
  
+    //Popup show history
+    $(".test").on('click',  function(){
+        alert('test');
+        // $("#frmShowHistory").modal('show');
+        // $("#frmShowHistoryBody").load('<?php echo base_url();?>payslip/' + $(this).data('id') +'/history', function(response, status, xhr) {
+        //     if (xhr.status == 401) {
+        //         $("#frmShowHistory").modal('hide');
+        //         bootbox.alert("<?php echo lang('global_ajax_timeout');?>", function() {
+        //             //After the login page, we'll be redirected to the current page
+        //            location.reload();
+        //         });
+        //     }
+        //   });
+    });
+   
  
 </script>

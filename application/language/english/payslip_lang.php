@@ -36,6 +36,7 @@ $lang['payslip_employees_thead_date'] = 'Date';
 $lang['payslip_employees_input_salary'] = 'Enter number to salary';
 $lang['payslip_button_back'] = 'Back';
 $lang['payslip_income'] = 'Income';
+$lang['payslip_index_thead_tip_history'] = 'History';
 
 $lang['payslip_exchange_rate'] = 'Exchange rate';
 $lang['payslip_full_wage'] = 'Full wage';

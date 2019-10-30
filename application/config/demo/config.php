@@ -368,8 +368,8 @@ else
 {
     $config['csrf_protection'] = TRUE;
 }
-$config['csrf_token_name'] = 'csrf_test_jorani';
-$config['csrf_cookie_name'] = 'csrf_cookie_jorani';
+$config['csrf_token_name'] = 'csrf_test_thole';
+$config['csrf_cookie_name'] = 'csrf_cookie_thole';
 $config['csrf_expire'] = 7200;
 
 /*
