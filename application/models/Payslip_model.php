@@ -66,7 +66,7 @@ class Payslip_model extends CI_Model {
                                                       "DATE_FORMAT(date, '%Y-%m')="=> "DATE_FORMAT($date, '%Y-%m')"));*/
         $this->db->where('employee_id', $id);
         $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
-        $this->db->group_by('employee_id');
+        //$this->db->group_by('employee_id');
         $query = $this->db->get('salary_history');
         //echo json_encode($query);die();
         return $query;

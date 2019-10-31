@@ -163,7 +163,7 @@
         month = currentDate.month() +1;
         year = currentDate.year();
         var fullDate = currentDate.format("MMMM") + ' ' + year;
-        date = year + '-' + currentDate.format("M") + '-' + day.getDate();
+        date = year + '-' + currentDate.format("M") + '-' + '01';//day.getDate();
         
         $("#txtMonthYear").val(fullDate);
         $("#monthYear").val(date);
@@ -179,7 +179,7 @@
         year = currentDate.year();
         var fullDate = currentDate.format("MMMM") + ' ' + year;
         
-        date = year + '-' + currentDate.format("M") + '-' + day.getDate();
+        date = year + '-' + currentDate.format("M") + '-' + '01';//day.getDate();
         $("#txtMonthYear").val(fullDate);
         $("#monthYear").val(date);
             //console.log(date);
@@ -227,5 +227,20 @@
         //   });
     });
    
- 
+    function displayDialog(id){
+    // a global function
+    console.log(id + " " + $("#monthYear").val());
+    var date = $("#monthYear").val();
+    $("#frmShowHistory").modal('show');
+        $("#frmShowHistoryBody").load('<?php echo base_url();?>payslip/history/' + id +'/'+ date, function(response, status, xhr) {
+            if (xhr.status == 401) {
+                $("#frmShowHistory").modal('hide');
+                bootbox.alert("<?php echo lang('global_ajax_timeout');?>", function() {
+                    //After the login page, we'll be redirected to the current page
+                   location.reload();
+                });
+            }
+          });
+    //alert(id + ":" + $("#monthYear").val());
+    }
 </script>

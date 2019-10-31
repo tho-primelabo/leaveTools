@@ -47,8 +47,9 @@ class Payslip extends CI_Controller {
             //print_r($salHistory);die();
             if ( $salHistory->num_rows() > 0 ) {
                 $sub_array[] = $element->id."<div style='padding-left: 5px;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd'></i></a></div>".
-                "<div style='float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('payslip_index_thead_tip_detail')."><i class='mdi mdi-blur'></i></a></div>".
-                "<div style='float:right'><a href='".base_url()."payslip/history/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_history')."><i class='mdi mdi-history'></i></a></div>" ;  
+                "<div style='padding-left: 5px;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('payslip_index_thead_tip_detail')."><i class='mdi mdi-blur'></i></a></div>".
+                // "<div style='float:right'><a href='".base_url()."payslip/history/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_history')."><i class='mdi mdi-history'></i></a></div>" ;  
+                "<div style='float:right'><a href='javascript:displayDialog($element->id);' title='history'><i class='mdi mdi-history'></i></a>";
             }
             else {
                 $sub_array[] = $element->id."<div style='padding-left: 5px;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd'></i></a></div>".
@@ -386,41 +387,66 @@ class Payslip extends CI_Controller {
             $this->detail($payslip[0]['employee_id']);
         }
     }
-    public function history($id, $date) {
+    public function history($id, $date=0) {
        // echo $id; echo $date;die();
+       if ($date == 0) {
+           $date = date ('Y-m-d');
+       }
+        //echo $id; echo $date;die();
         $result = $this->payslip_model->getRowPayslipHistoryByDate($id, $date);
-        $response = "<table border='0' width='100%'>";
-        while( $row = mysqli_fetch_array($result) ){
+       // print_r($result->result_array()); die();
+        $response = "<table class='table' border='0' width='100%'>";
+        $response .= "<thead>";
+        $response .= "<th>";
+            $response .= lang('payslip_index_thead_id');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_gross_salary');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_net_salary');
+        $response .= "</th>";
+         $response .= "<th>";
+            $response .= lang('payslip_field_taxable_incom');
+        $response .= "</th>";
+        $response .= "<th>";
+         $response .= lang('payslip_field_social_insurance');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_field_health_insurance');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_number_dependant');
+        $response .= "</th>";
+         $response .= "<th>";
+            $response .= lang('payslip_employees_thead_date');
+        $response .= "</th>";
+        
+        foreach ($result->result_array() as $row) { 
             $id = $row['id'];
-            $emp_name = $row['salary_basic'];
+            $salary_basic = $row['salary_basic'];
             $salary = $row['salary_net'];
-            $gender = $row['personal_income_tax'];
-            $city = $row['income_before_tax'];
-            $email = $row['taxable_incom'];
+            $social_insurance = $row['social_insurance'];
+            $health_insurance = $row['health_insurance'];
+            $income_before_tax = $row['income_before_tax'];
+            $number_dependant = $row['number_dependant'];
+            $date = $row['date'];
 
-            $response .= "<tr>";
-            $response .= "<td>Name : </td><td>".$emp_name."</td>";
-            $response .= "</tr>";
-
-            $response .= "<tr>";
-            $response .= "<td>Salary : </td><td>".$salary."</td>";
-            $response .= "</tr>";
-
-            $response .= "<tr>";
-            $response .= "<td>Gender : </td><td>".$gender."</td>";
-            $response .= "</tr>";
-
-            $response .= "<tr>";
-            $response .= "<td>City : </td><td>".$city."</td>";
-            $response .= "</tr>";
-
-            $response .= "<tr>"; 
-            $response .= "<td>Email : </td><td>".$email."</td>"; 
-            $response .= "</tr>";
+           
+            $response .= "<tr><td>".$id."</td>";
+            $response .= "<td>".number_format($salary_basic)."</td>";
+            $response .= "<td>".number_format($salary)."</td>";
+            $response .= "<td>".number_format($income_before_tax)."</td>";
+            $response .= "<td>".number_format($social_insurance)."</td>";
+            $response .= "<td>".number_format($health_insurance)."</td>";
+            $response .= "<td>".number_format($number_dependant)."</td>";
+            $response .= "<td>".$date."</td></tr>";
+         
 
             }
+       //$response .= "</table>";
+        $response .= "</thead>";
         $response .= "</table>";
-
         echo $response;
         exit;
     }
