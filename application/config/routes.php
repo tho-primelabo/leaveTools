@@ -428,6 +428,10 @@ $route['payslip/detail/(:num)/(:any)/(:any)'] = 'payslip/detail/$1/$2/$3';
 $route['payslip/mail(:num)/(:any)'] = 'payslip/mail/$1/$2';
 
 //_______________________________________________
+//payslip requests
+$route['timesheet'] = 'timesheet/index';
+
+//_______________________________________________
 //cusomter requests
 $route['customer'] = 'customers/index';
 $route['test'] = 'test/index';
