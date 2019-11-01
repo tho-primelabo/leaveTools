@@ -55,6 +55,8 @@
       &nbsp;
       <!--<a href="<?php echo base_url();?>payslip/bulkCreate/<?php echo date('Y-m-d')?>" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>-->
     <button id="bulkCreate" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_payslip');?>"><i class="mdi mdi-currency-usd"></i><?php echo lang('payslip_index_button_payslip');?></button>
+     &nbsp;
+    <button id="sendMail" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_senmail');?>"><i class="mdi mdi-email nolink"></i>&nbsp;<?php echo lang('payslip_index_button_sendmail');?></button>
     </div>
 </div>
 </div>
@@ -82,7 +84,7 @@
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
     var table;
      var dateS = "<?php echo $this->session->flashdata('dateSession');?>";
@@ -211,22 +213,31 @@
         })
    
     });
- 
-    //Popup show history
-    $(".test").on('click',  function(){
-        alert('test');
-        // $("#frmShowHistory").modal('show');
-        // $("#frmShowHistoryBody").load('<?php echo base_url();?>payslip/' + $(this).data('id') +'/history', function(response, status, xhr) {
-        //     if (xhr.status == 401) {
-        //         $("#frmShowHistory").modal('hide');
-        //         bootbox.alert("<?php echo lang('global_ajax_timeout');?>", function() {
-        //             //After the login page, we'll be redirected to the current page
-        //            location.reload();
-        //         });
-        //     }
-        //   });
-    });
+     $('#sendMail').click(function() {        
+       $.ajax({
+            url: "<?php echo base_url();?>payslip/sendMail2AllUsers/",
+            type: 'POST',
+            data: {
+                date: $("#monthYear").val()
+               
+            },
+            dataType : 'json',
+            beforeSend: function() {
+                // setting a timeout
+               $('#frmModalAjaxWait').modal('show');
+            },
+            complete: function() {
+                $('#frmModalAjaxWait').modal('hide');
+                bootbox.alert("<?php echo lang('paslip_email_flash_msg_all_success');?>", function() {
+                    //After the login page, we'll be redirected to the current page
+                   //location.reload();
+                });
+            },
+        })
    
+    });
+ 
+    
     function displayDialog(id){
     // a global function
     console.log(id + " " + $("#monthYear").val());
@@ -237,7 +248,7 @@
                 $("#frmShowHistory").modal('hide');
                 bootbox.alert("<?php echo lang('global_ajax_timeout');?>", function() {
                     //After the login page, we'll be redirected to the current page
-                   location.reload();
+                   //location.reload();
                 });
             }
           });

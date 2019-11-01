@@ -298,8 +298,8 @@ class Payslip extends CI_Controller {
             $dataArray[] = array(
                 $element['salary_id'],
                 
-                $element['date']." &nbsp;<a title='Send Mail' href='".base_url()."payslip/mail/$uid/$date'>"."<i class='mdi mdi-email nolink'></i></a>".
-                "&nbsp;<a href='/' "."title='history'"."<i class='mdi mdi-history nolink'></i></a>",
+                $element['date']." &nbsp;<a title='Send Mail' href='".base_url()."payslip/mail/$uid/$date'>"."<i class='mdi mdi-email nolink'></i></a>",
+                // "&nbsp;<a href='/' "."title='history'"."<i class='mdi mdi-history nolink'></i></a>",
                 number_format($element['salary_basic']),
                 number_format($element['salary_net']),
                 number_format($element['social_insurance']),
@@ -351,38 +351,8 @@ class Payslip extends CI_Controller {
         if (empty($user['email'])) {
             $this->session->set_flashdata('msg', lang('leaves_create_flash_msg_error'));
         } else {
-            //Send an e-mail to the manager
-            $this->load->library('email');
-            $this->load->library('polyglot');
-            $usr_lang = $this->polyglot->code2language($manager['language']);
-
-            //We need to instance an different object as the languages of connected user may differ from the UI lang
-            $lang_mail = new CI_Lang();
-            $lang_mail->load('email', $usr_lang);
-            $lang_mail->load('global', $usr_lang);
-            $tmpDate = new DateTime($payslip[0]['date']);
-            $saldate = $tmpDate->format('d-m-Y');
-
-            $cc = NULL;
-            $this->load->library('parser');
-            $data = array(
-                'Firstname'=>$user['firstname'],
-                'Lastname'=>$user['lastname'],
-                'date' =>$saldate,              
-                'GROSS' => number_format($payslip[0]['salary_basic']),
-                'NET'=>number_format($payslip[0]['salary_net']),
-                'social_insurance' => number_format($payslip[0]['social_insurance']),
-                'health_insurance' => number_format($payslip[0]['health_insurance']),
-                'taxable_incom' => number_format($payslip[0]['taxable_incom'])
             
-             );
-            //$message = $payslip[0]['date'].'gross salary:'.$payslip[0]['salary_basic'];//$this->parser->parse( $data, TRUE);
-            $message = $this->parser->parse('emails/' . $manager['language'] . '/salary', $data, TRUE);
-            $to = $user['email'];
-            $subject = 'payslip';
-            $this->session->set_flashdata('msg', lang('paslip_email_flash_msg_success'));
-            sendMailByWrapper($this, $subject, $message, $to, $cc);
-            
+            $this->sendMail($user['firstname'], $user['lastname'], $user['email'], $payslip[0], $manager['language']);
             //$this->load->view('payslip/detail');
             $this->detail($payslip[0]['employee_id']);
         }
@@ -395,7 +365,7 @@ class Payslip extends CI_Controller {
         //echo $id; echo $date;die();
         $result = $this->payslip_model->getRowPayslipHistoryByDate($id, $date);
        // print_r($result->result_array()); die();
-        $response = "<table class='table' border='0' width='100%'>";
+        $response = "<table class='table table-striped' border='0' width='100%'>";
         $response .= "<thead>";
         $response .= "<th>";
             $response .= lang('payslip_index_thead_id');
@@ -449,5 +419,64 @@ class Payslip extends CI_Controller {
         $response .= "</table>";
         echo $response;
         exit;
+    }
+     public function sendMail2AllUsers() {
+        //$date = date('2019-12-10');
+        $date = $this->input->post('date');
+        //echo $date;die();
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+        $user = $this->users_model->getUsers();
+       if(isset($user) && count($user) > 0) {
+            $this->db->trans_start();
+            
+            foreach($user as $row) {
+                $payslip = $this->payslip_model->getPayslipByDate($row['id'], $date);
+                
+                $manager = $this->users_model->getUsers($row['manager']);
+                $this->sendMail($row['firstname'], $row['lastname'], $row['email'], $payslip[0], $manager['language']);
+               
+            }
+            $this->db->trans_complete();
+            //echo json_encode(lang('users_edit_flash_msg_success'));//die();
+            $this->session->set_flashdata('msg', lang('paslip_email_flash_msg_success'));
+        }
+        //$dateValue = strtotime($date); 
+        
+        redirect('payslip/index');
+    }
+    private function sendMail($firstName, $lastName, $mail, $payslip, $language) {
+        //Send an e-mail to the manager
+            $this->load->library('email');
+            $this->load->library('polyglot');
+            $usr_lang = $this->polyglot->code2language($language);
+
+            //We need to instance an different object as the languages of connected user may differ from the UI lang
+            $lang_mail = new CI_Lang();
+            $lang_mail->load('email', $usr_lang);
+            $lang_mail->load('global', $usr_lang);
+            $tmpDate = new DateTime($payslip['date']);
+            $saldate = $tmpDate->format('d-m-Y');
+
+            $cc = NULL;
+            $this->load->library('parser');
+            $data = array(
+                'Firstname'=>$firstName,
+                'Lastname'=>$lastName,
+                'date' =>$saldate,              
+                'GROSS' => number_format($payslip['salary_basic']),
+                'NET'=>number_format($payslip['salary_net']),
+                'social_insurance' => number_format($payslip['social_insurance']),
+                'health_insurance' => number_format($payslip['health_insurance']),
+                'taxable_incom' => number_format($payslip['taxable_incom'])
+            
+             );
+            //$message = $payslip[0]['date'].'gross salary:'.$payslip[0]['salary_basic'];//$this->parser->parse( $data, TRUE);
+            $message = $this->parser->parse('emails/' . $language . '/salary', $data, TRUE);
+            $to = $mail;
+            $subject = 'payslip';
+            $this->session->set_flashdata('msg', lang('paslip_email_flash_msg_success'));
+            sendMailByWrapper($this, $subject, $message, $to, $cc);
     }
  }

@@ -30,6 +30,8 @@ $lang['payslip_index_thead_tip_detail'] = 'Chi Tiết bảng lương';
 $lang['payslip_index_button_export'] = 'Xuất ra file exel';
 $lang['payslip_index_button_payslip'] = 'Tính lương tất cả';
 $lang['payslip_index_button_hint_payslip'] = 'Tính lương cho tất cả nhân viên';
+$lang['payslip_index_button_sendmail'] = 'Gửi mail tất cả';
+$lang['payslip_index_button_hint_senmail'] = 'Gửi mail cho tất cả nhân viên';
 $lang['payslip_edit_field_salary'] = 'Nhập số lương';
 $lang['payslip_employees_thead_date'] = 'Ngày';
 $lang['payslip_employees_input_salary'] = 'Nhập số lương';
@@ -60,4 +62,5 @@ $lang['payslip_export_thead_gross_salary'] = 'Lương Gross';
 $lang['payslip_export_thead_net_salary'] = 'Lương NET';
 $lang['payslip_export_thead_number_depend'] = 'Số người phụ thuộc';
 $lang['paslip_email_flash_msg_success'] = 'Bảng lương đã gửi email đến nhân viên';
+$lang['paslip_email_flash_msg_all_success'] = 'Bảng lương đã gửi email đến tất cả nhân viên';
 
