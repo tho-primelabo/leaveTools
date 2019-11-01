@@ -49,6 +49,8 @@ $lang['users_myprofile_field_identifier'] = 'Mã cán bộ';
 $lang['users_myprofile_field_language'] = 'Ngôn ngữ';
 $lang['users_myprofile_field_phoneNo'] = 'Số Điện Thoại';
 $lang['users_myprofile_field_annualleave'] = 'Số Phép Còn Lại';
+$lang['users_myprofile_number_dependant'] = 'Số người phụ thuộc';
+$lang['users_myprofile_email'] = 'Email';
 
 $lang['users_edit_title'] = 'Sửa đổi thông tin user #';
 $lang['users_edit_html_title'] = 'Sửa đổi thông tin user';

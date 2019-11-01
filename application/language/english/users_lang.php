@@ -50,6 +50,8 @@ $lang['users_myprofile_field_language'] = 'Language';
 $lang['users_myprofile_field_annualleave'] = 'Annual Leave';
 $lang['users_myprofile_field_phoneNo'] = 'Phone Number';
 $lang['users_myprofile_field_GROSS'] = 'GROSS Salary';
+$lang['users_myprofile_number_dependant'] = 'Number of dependant';
+$lang['users_myprofile_email'] = 'Email';
 
 $lang['users_edit_title'] = 'Edit user #';
 $lang['users_edit_html_title'] = 'Edit user';

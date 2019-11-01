@@ -362,8 +362,8 @@ if (isset($_SERVER["REQUEST_URI"])) {
 } else {
     $config['csrf_protection'] = TRUE;
 }
-$config['csrf_token_name'] = 'csrf_test_jorani';
-$config['csrf_cookie_name'] = 'csrf_cookie_jorani';
+$config['csrf_token_name'] = 'csrf_test_thole';
+$config['csrf_cookie_name'] = 'csrf_cookie_thole';
 $config['csrf_expire'] = 7200;
 
 /*
@@ -542,7 +542,7 @@ $config['saml_enabled'] = FALSE;
 //____________________________________________________________________________
 //Enable public ICS feeds (global calendar, contract, personal information)
 $config['ics_enabled'] = FALSE;
-$config['default_timezone'] = 'Europe/Paris';
+$config['default_timezone'] = 'Asia/Ho_Chi_Minh';
 $config['legacy_feeds'] = FALSE;    //Maintain the unsecure URLs for ICS feeds
 
 //____________________________________________________________________________

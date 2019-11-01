@@ -30,25 +30,31 @@ class Payslip extends CI_Controller {
     }
 
     public function ajax_list()
-	{
-		
+	{		
         $date = $this->input->post('date');
         // echo $date; die();
         if($date == '') {
-            $date = date('Y-m-d');
-            //echo 'null';
+            $date = date('Y-m-d');            
         }
-        // else {
-        //     $users = $this->users_model->getUsersByDate($date);
-        // }
         
         $users = $this->bydate($date);
+        
+        //print_r($salHistory);die();
 		$dataArray = array();
         foreach ($users as $element) {
             $sub_array  = array();  
-                
-            $sub_array[] = $element->id."<div style='text-align:right;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd'></i></a></div>".
-            "<div style='text-align:right;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('payslip_index_thead_tip_detail')."><i class='mdi mdi-blur'></i></a></div>" ;  
+            $salHistory = $this->payslip_model->getRowPayslipHistoryByDate($element->id, $date);
+            //print_r($salHistory);die();
+            if ( $salHistory->num_rows() > 0 ) {
+                $sub_array[] = $element->id."<div style='padding-left: 5px;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd'></i></a></div>".
+                "<div style='padding-left: 5px;float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('payslip_index_thead_tip_detail')."><i class='mdi mdi-blur'></i></a></div>".
+                // "<div style='float:right'><a href='".base_url()."payslip/history/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_history')."><i class='mdi mdi-history'></i></a></div>" ;  
+                "<div style='float:right'><a href='javascript:displayDialog($element->id);' title='history'><i class='mdi mdi-history'></i></a>";
+            }
+            else {
+                $sub_array[] = $element->id."<div style='padding-left: 5px;float:right'><a href='".base_url()."payslip/edit/". $element->id."/".$date. "' title=".lang('payslip_index_thead_tip_edit')."><i class='mdi mdi-currency-usd'></i></a></div>".
+                "<div style='float:right'><a href='".base_url()."payslip/detail/". $element->id."' title=".lang('payslip_index_thead_tip_detail')."><i class='mdi mdi-blur'></i></a></div>";
+            }
             $sub_array[] = $element->firstname;  
             $sub_array[] = $element->lastname;  
             $sub_array[] = number_format($element->salary_basic); 
@@ -80,10 +86,7 @@ class Payslip extends CI_Controller {
             $data['year'] = date('Y');
             $data['month'] = date('F');
         }
-        //$dateObj = DateTime::createFromFormat('!m', $month);
-        //$date=date_create($date);
-        //echo date_format($date, 'Y-m-d');
-        //print_r($date); die();
+      
         else {
             $mydate = DateTime::createFromFormat("Y-m-d", $date);
             //echo $date->format("F");
@@ -95,7 +98,7 @@ class Payslip extends CI_Controller {
         $data['users'] = $this->users_model->getUsersByDate($date);
         $data['rooms'] = $this->rooms_model->getRooms();
         //echo json_encode($data['users']); echo $data['month'];die();
-        $data['payslip'] = [];
+        //$data['payslip'] = [];
             // echo $payslip;
         $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
@@ -122,25 +125,9 @@ class Payslip extends CI_Controller {
         //$dateObj = DateTime::createFromFormat('!m', $month);
         $data['year'] = date('Y');
         $data['month'] = date('M');
-        //if ($mon > $curmonth || $year > $curYear) {
-           // return $this->users_model->getUsersByMonth();
-            //$date = 0;
-           // echo  $mon ; echo $curmonth;die();
-       // }
-       // else {
-            //echo  $mon; die();
-        // check salary date exist or not
-        //$salDate = $this->getRowPayslipByDate($id, $date);
+       
         return $this->users_model->getUsersByDate($date);
-      //  }
-        //$data['rooms'] = $this->rooms_model->getRooms();
-        //echo json_encode($data['users']);
-        //$data['payslip'] = [];
-            // echo $payslip;
-        // $this->load->view('templates/header', $data);
-        // $this->load->view('menu/index', $data);
-        // $this->load->view('payslip/index', $data);
-        // $this->load->view('templates/footer');
+     
         
     }
     public function edit($id, $date=0)
@@ -242,6 +229,25 @@ class Payslip extends CI_Controller {
         
          redirect('payslip/index');
     }
+
+     public function back() {
+        //$date = date('2019-12-10');
+        $date = $this->input->post('date');
+        //$time = strtotime($date);
+        $date = date('Y-F-d', strtotime($date));
+        //echo ($date);die();
+        //$this->session->set_flashdata('msg', $date);
+        $this->session->set_flashdata('dateSession', $date);
+        $users = $this->bydate($date);
+        $tmpDate = new DateTime($date);
+        $data['month'] = $tmpDate->format('F');
+        $data['year'] = $tmpDate->format('Y');
+        //$query = $this->users_model->getUsers();
+        // echo json_encode($users);die();
+        // $dateValue = strtotime($date); 
+        echo json_encode(array("url" => '/payslip/index'));
+        //redirect('payslip/index');
+    }
     public function detail($uid)
     {
         $this->auth->checkIfOperationIsAllowed('list_contracts');
@@ -287,10 +293,13 @@ class Payslip extends CI_Controller {
         //echo json_encode($salaries);die();
         $data['rooms'] = $this->rooms_model->getRooms();
         $dataArray = array();
-        foreach ($salaries as $element) {            
+        foreach ($salaries as $element) {       
+            $date = $element['date'];     
             $dataArray[] = array(
                 $element['salary_id'],
-                $element['date'],
+                
+                $element['date']." &nbsp;<a title='Send Mail' href='".base_url()."payslip/mail/$uid/$date'>"."<i class='mdi mdi-email nolink'></i></a>",
+                // "&nbsp;<a href='/' "."title='history'"."<i class='mdi mdi-history nolink'></i></a>",
                 number_format($element['salary_basic']),
                 number_format($element['salary_net']),
                 number_format($element['social_insurance']),
@@ -324,4 +333,150 @@ class Payslip extends CI_Controller {
         $this->auth->checkIfOperationIsAllowed('export_user');
         $this->load->view('payslip/exportDetail');
     }
-}
+    /**
+     * Send a payslip request creation email to the employee
+     * @param int $id employee request identifier
+     * @param int $date of payslip
+     * @author tho le <thole419.@gmail.com>
+     */
+    public function mail($id, $date) {
+        //echo $id; echo $date; die();
+        $this->load->model('users_model');
+       
+        //We load everything from DB as the LR can be edited from HR/Employees
+        $payslip = $this->payslip_model->getPayslipByDate($id, $date);
+        $user = $this->users_model->getUsers($payslip[0]['employee_id']);
+        //print_r($user['email']);  die();
+        $manager = $this->users_model->getUsers($user['manager']);
+        if (empty($user['email'])) {
+            $this->session->set_flashdata('msg', lang('leaves_create_flash_msg_error'));
+        } else {
+            
+            $this->sendMail($user['firstname'], $user['lastname'], $user['email'], $payslip[0], $manager['language']);
+            //$this->load->view('payslip/detail');
+            $this->detail($payslip[0]['employee_id']);
+        }
+    }
+    public function history($id, $date=0) {
+       // echo $id; echo $date;die();
+       if ($date == 0) {
+           $date = date ('Y-m-d');
+       }
+        //echo $id; echo $date;die();
+        $result = $this->payslip_model->getRowPayslipHistoryByDate($id, $date);
+       // print_r($result->result_array()); die();
+        $response = "<table class='table table-striped' border='0' width='100%'>";
+        $response .= "<thead>";
+        $response .= "<th>";
+            $response .= lang('payslip_index_thead_id');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_gross_salary');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_net_salary');
+        $response .= "</th>";
+         $response .= "<th>";
+            $response .= lang('payslip_field_taxable_incom');
+        $response .= "</th>";
+        $response .= "<th>";
+         $response .= lang('payslip_field_social_insurance');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_field_health_insurance');
+        $response .= "</th>";
+        $response .= "<th>";
+            $response .= lang('payslip_number_dependant');
+        $response .= "</th>";
+         $response .= "<th>";
+            $response .= lang('payslip_employees_thead_date');
+        $response .= "</th>";
+        
+        foreach ($result->result_array() as $row) { 
+            $id = $row['id'];
+            $salary_basic = $row['salary_basic'];
+            $salary = $row['salary_net'];
+            $social_insurance = $row['social_insurance'];
+            $health_insurance = $row['health_insurance'];
+            $income_before_tax = $row['income_before_tax'];
+            $number_dependant = $row['number_dependant'];
+            $date = $row['date'];
+
+           
+            $response .= "<tr><td>".$id."</td>";
+            $response .= "<td>".number_format($salary_basic)."</td>";
+            $response .= "<td>".number_format($salary)."</td>";
+            $response .= "<td>".number_format($income_before_tax)."</td>";
+            $response .= "<td>".number_format($social_insurance)."</td>";
+            $response .= "<td>".number_format($health_insurance)."</td>";
+            $response .= "<td>".number_format($number_dependant)."</td>";
+            $response .= "<td>".$date."</td></tr>";
+         
+
+            }
+       //$response .= "</table>";
+        $response .= "</thead>";
+        $response .= "</table>";
+        echo $response;
+        exit;
+    }
+     public function sendMail2AllUsers() {
+        //$date = date('2019-12-10');
+        $date = $this->input->post('date');
+        //echo $date;die();
+        if (empty($date)) {
+            $date = date('Y-m-d');
+        }
+        $user = $this->users_model->getUsers();
+       if(isset($user) && count($user) > 0) {
+            $this->db->trans_start();
+            
+            foreach($user as $row) {
+                $payslip = $this->payslip_model->getPayslipByDate($row['id'], $date);
+                
+                $manager = $this->users_model->getUsers($row['manager']);
+                $this->sendMail($row['firstname'], $row['lastname'], $row['email'], $payslip[0], $manager['language']);
+               
+            }
+            $this->db->trans_complete();
+            //echo json_encode(lang('users_edit_flash_msg_success'));//die();
+            $this->session->set_flashdata('msg', lang('paslip_email_flash_msg_success'));
+        }
+        //$dateValue = strtotime($date); 
+        
+        redirect('payslip/index');
+    }
+    private function sendMail($firstName, $lastName, $mail, $payslip, $language) {
+        //Send an e-mail to the manager
+            $this->load->library('email');
+            $this->load->library('polyglot');
+            $usr_lang = $this->polyglot->code2language($language);
+
+            //We need to instance an different object as the languages of connected user may differ from the UI lang
+            $lang_mail = new CI_Lang();
+            $lang_mail->load('email', $usr_lang);
+            $lang_mail->load('global', $usr_lang);
+            $tmpDate = new DateTime($payslip['date']);
+            $saldate = $tmpDate->format('d-m-Y');
+
+            $cc = NULL;
+            $this->load->library('parser');
+            $data = array(
+                'Firstname'=>$firstName,
+                'Lastname'=>$lastName,
+                'date' =>$saldate,              
+                'GROSS' => number_format($payslip['salary_basic']),
+                'NET'=>number_format($payslip['salary_net']),
+                'social_insurance' => number_format($payslip['social_insurance']),
+                'health_insurance' => number_format($payslip['health_insurance']),
+                'taxable_incom' => number_format($payslip['taxable_incom'])
+            
+             );
+            //$message = $payslip[0]['date'].'gross salary:'.$payslip[0]['salary_basic'];//$this->parser->parse( $data, TRUE);
+            $message = $this->parser->parse('emails/' . $language . '/salary', $data, TRUE);
+            $to = $mail;
+            $subject = 'payslip';
+            $this->session->set_flashdata('msg', lang('paslip_email_flash_msg_success'));
+            sendMailByWrapper($this, $subject, $message, $to, $cc);
+    }
+ }

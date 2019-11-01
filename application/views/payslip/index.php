@@ -16,20 +16,19 @@
     </div>
 </div> 
 <br/>
-<?php echo $flash_partial_view;?>
+<!--<?php echo $this->session->flashdata('dateSession');?>-->
 
-  <div class="row-fluid">
-        <div class="span1">
+  <div class="input-prepend input-append">
+    <div>
         <label for="viz_startdate"><?php echo lang('payslip_employees_thead_date'); ?>:</label>
-            
+    <!--</div>
+    <div class="input-prepend input-append">-->
+        <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
+        <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
+        <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
+        <input type ='hidden' id='monthYear'/>
     </div>
-        <div class="input-prepend input-append">
-            <button id="cmdPrevious" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_previous');?>"><i class="mdi mdi-chevron-left"></i></button>
-            <input type="text" id="txtMonthYear" style="cursor:pointer;" value="<?php echo $month . ' ' . $year;?>" class="input-medium" readonly />
-            <button id="cmdNext" class="btn btn-primary" title="<?php echo lang('calendar_tabular_button_next');?>"><i class="mdi mdi-chevron-right"></i></button>
-            <input type ='hidden' id='monthYear'/>
-        </div>
-    </div>
+</div>
 <br/>
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
@@ -56,6 +55,8 @@
       &nbsp;
       <!--<a href="<?php echo base_url();?>payslip/bulkCreate/<?php echo date('Y-m-d')?>" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>-->
     <button id="bulkCreate" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_payslip');?>"><i class="mdi mdi-currency-usd"></i><?php echo lang('payslip_index_button_payslip');?></button>
+     &nbsp;
+    <button id="sendMail" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_senmail');?>"><i class="mdi mdi-email nolink"></i>&nbsp;<?php echo lang('payslip_index_button_sendmail');?></button>
     </div>
 </div>
 </div>
@@ -71,26 +72,32 @@
     </div>
 </div>
 
+<div id="frmShowHistory" class="modal hide fade">
+    <div class="modal-body" id="frmShowHistoryBody">
+        <img src="<?php echo base_url();?>assets/images/loading.gif">
+    </div>
+    <div class="modal-footer">
+        <a href="#" onclick="$('#frmShowHistory').modal('hide');" class="btn"><?php echo lang('OK');?></a>
+    </div>
+</div>
+
 <link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 <script type="text/javascript" src="<?php echo base_url();?>assets/fullcalendar-2.8.0/lib/moment.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
-
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/bootbox.min.js"></script>
 <script type="text/javascript">
+    var table;
+     var dateS = "<?php echo $this->session->flashdata('dateSession');?>";
+     var day = new Date();
     $(document).ready(function() {
-        console.log($('#monthYear').val());
-    });
-    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
-    var year = "<?php echo $year;?>";
-    var currentDate = moment().year(year).month(month).date(1);
-    $('#monthYear').val(currentDate.format("Y-MM-D"));
-    <?php if ($this->config->item('csrf_protection') == true) {?>
-    $.ajaxSetup({
-        data: {
-            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+        //console.log($('#monthYear').val());
+       
+        
+        if (dateS != '') {
+             //$("#monthYear").val(dateS);
+             console.log(dateS);
         }
-    });
-    <?php }?>
-    var table = $('#users').DataTable({
+        table = $('#users').DataTable({
         stateSave: true,
             language: {
                 decimal:            "<?php echo lang('datatable_sInfoThousands');?>",
@@ -130,9 +137,26 @@
             },            
             complete: function() {
                 $('#frmModalAjaxWait').modal('hide');
+                //dateBack = new Date(dateS);
+                
+                //$('#txtMonthYear').val(dateS);
             },
         },
     });
+    });
+    var month = "<?php echo $month;?>"; //Momentjs uses a zero-based number
+    var year = "<?php echo $year;?>";
+    var currentDate = moment().year(year).month(month).date(1);
+    //console.log(currentDate);
+    //$('#txtMonthYear').val(currentDate.format("MMMM Y"));
+    <?php if ($this->config->item('csrf_protection') == true) {?>
+    $.ajaxSetup({
+        data: {
+            <?php echo $this->security->get_csrf_token_name(); ?>: "<?php echo $this->security->get_csrf_hash(); ?>",
+        }
+    });
+    <?php }?>
+    
         
     
     $('#cmdNext').click(function() {
@@ -141,7 +165,7 @@
         month = currentDate.month() +1;
         year = currentDate.year();
         var fullDate = currentDate.format("MMMM") + ' ' + year;
-        date = year + '-' + currentDate.format("M") + '-' +'01';
+        date = year + '-' + currentDate.format("M") + '-' + '01';//day.getDate();
         
         $("#txtMonthYear").val(fullDate);
         $("#monthYear").val(date);
@@ -157,7 +181,7 @@
         year = currentDate.year();
         var fullDate = currentDate.format("MMMM") + ' ' + year;
         
-        date = year + '-' + currentDate.format("M") + '-' +'01';
+        date = year + '-' + currentDate.format("M") + '-' + '01';//day.getDate();
         $("#txtMonthYear").val(fullDate);
         $("#monthYear").val(date);
             //console.log(date);
@@ -189,6 +213,45 @@
         })
    
     });
+     $('#sendMail').click(function() {        
+       $.ajax({
+            url: "<?php echo base_url();?>payslip/sendMail2AllUsers/",
+            type: 'POST',
+            data: {
+                date: $("#monthYear").val()
+               
+            },
+            dataType : 'json',
+            beforeSend: function() {
+                // setting a timeout
+               $('#frmModalAjaxWait').modal('show');
+            },
+            complete: function() {
+                $('#frmModalAjaxWait').modal('hide');
+                bootbox.alert("<?php echo lang('paslip_email_flash_msg_all_success');?>", function() {
+                    //After the login page, we'll be redirected to the current page
+                   //location.reload();
+                });
+            },
+        })
+   
+    });
  
- 
+    
+    function displayDialog(id){
+    // a global function
+    console.log(id + " " + $("#monthYear").val());
+    var date = $("#monthYear").val();
+    $("#frmShowHistory").modal('show');
+        $("#frmShowHistoryBody").load('<?php echo base_url();?>payslip/history/' + id +'/'+ date, function(response, status, xhr) {
+            if (xhr.status == 401) {
+                $("#frmShowHistory").modal('hide');
+                bootbox.alert("<?php echo lang('global_ajax_timeout');?>", function() {
+                    //After the login page, we'll be redirected to the current page
+                   //location.reload();
+                });
+            }
+          });
+    //alert(id + ":" + $("#monthYear").val());
+    }
 </script>

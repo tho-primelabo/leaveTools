@@ -8,15 +8,19 @@
  */
 ?>
 
-<div class="row-fluid">
-    <div class="span12">
 
-        <h2><?php echo lang('leaves_summary_title');?><?php echo $help;?></h2>
-
-        <p><?php echo lang('leaves_summary_date_field');?>&nbsp;
-            <input type="text" id="refdate" />
-        </p>
-
+        
+        <h2><?php echo lang('leaves_summary_title');?></h2>
+        <div class="row-fluid">
+    <div class="span12 ">
+       
+            <p><?php echo lang('leaves_summary_date_field');?>&nbsp;
+                 <div class="input-append">
+                <input type="text" id="refdate" />
+                <span class="add-on"><i class="icon-calendar" id="cal"></i></span>
+                </div>
+            </p>
+        
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -120,5 +124,8 @@ $(function () {
         
     //Display tooltips
     $("[ data-toggle=tooltip]").tooltip({ placement: 'top'});
+    $("#cal").click(function(){
+         $("#refdate").trigger("select");
+    });
 });
 </script>
