@@ -15,8 +15,8 @@
     <div class="container">
         <h1 class="logo"><a href="" title="Heroku">Heroku</a></h1>
         <div class="content">
-            <div class="panel" id="login">
-                <h3><?php echo lang('session_login_title'); ?><?php echo $help; ?></h3>
+            <div class="panel">
+                <h3><?php echo lang('session_login_title'); ?></h3>
                 <?php echo $flash_partial_view; ?>
                 <?php echo validation_errors(); ?>
                 <?php
@@ -164,9 +164,11 @@
 
         //If the user has forgotten his password, send an e-mail
         $('#cmdForgetPassword').click(function() {
+            alert($('#login').val());
             if ($('#login').val() == "") {
                 bootbox.alert("<?php echo lang('session_login_msg_empty_login'); ?>");
             } else {
+                alert('test 2');
                 bootbox.confirm("<?php echo lang('session_login_msg_forget_password'); ?>",
                     "<?php echo lang('Cancel'); ?>",
                     "<?php echo lang('OK'); ?>",
