@@ -14,9 +14,9 @@
 | path to your installation.
 |
 */
-$config['base_url']    = '';
+$config['base_url']    = 'leavetool';
 
-if (($config['base_url'] == '')) {
+if (($config['base_url'] == 'leavetool')) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
     $root = $protocol . $_SERVER['HTTP_HOST'];
     $root .= dirname($_SERVER['SCRIPT_NAME']);
