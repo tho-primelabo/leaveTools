@@ -40,5 +40,71 @@ class Timesheet extends CI_Controller {
         $this->load->view('templates/footer');
        
     }
+    public function loadData()
+    {
+        //echo $this->input->get('id');die();
+        $timesheets = $this->timesheet_model->loadData($this->input->get('id'));
+        $data_events = array();
+
+        foreach($timesheets->result() as $r) {
+
+            $data_events[] = array(
+                "id" => $r->id,
+                "title" => $r->project_id,               
+                "end" => $r->date,
+                "start" => $r->date
+            );
+        }
+
+     echo json_encode($data_events);
+     exit();
+    }
+
+    public function update()
+    {
+        $this->timesheet_model->insert();
+       
+        exit();
+    }
+    public function insert()
+    {
+       $id = $this->timesheet_model->insert();
+       $uid = $this->session->userdata('id');
+      $timesheet = array(
+            'id' => $id,
+            'uid'=>$uid
+         );
+        if ($timesheet) {
+            echo json_encode($timesheet);
+        }
+       // exit();
+    }
+     public function getTimesheetByID()
+    {
+      
+        $id = $this->input->post('id');
+        $query = $this->timesheet_model->getTimesheetByID($id);
+        echo json_encode($query);
+        //print_r($query);die();
+        // $timesheet = array(
+        //         'id' => $id,
+        //         'uid'=>$uid
+        //     );
+        //     if ($timesheet) {
+        //         echo json_encode($timesheet);
+        //     }
+       // exit();
+    }
+    public function delete()
+    {
+        $uid = $this->timesheet_model->getUidById();
+        $uidSession = $this->session->userdata('id');
+        //echo $uid;echo ': '.$uidSession;die();
+        if ($uid == $uidSession) {
+            $data = $this->timesheet_model->delete();
+            //$this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
+            echo json_encode($data);
+        }
+    }
 
 }

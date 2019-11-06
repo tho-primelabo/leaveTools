@@ -22,5 +22,74 @@ class Timesheet_model extends CI_Model {
         
     }
 
-    
+    public function loadData($id=null){
+		if($id){
+			$query = $this->db->get_where('timesheet' ,array('employee_id' => $id));
+		}
+		else{
+		$query = $this->db->get_where('timesheet' );
+			
+		}
+		//print_r($query);die();
+        return $query;
+	}
+    public function getTimesheetByID($id) {
+        
+        $query = $this->db->get_where('timesheet' ,array('id' => $id));
+		//print_r($query);die();
+        return $query->row_array();
+	}
+    public function insert(){
+		$date = $this->input->post('date');
+		$curDate = $this->input->post('curDate');
+		$comments = $this->input->post('comments');
+        $employee_id = $this->input->post('id');
+		$project_id =  $this->input->post('project_id');
+        $activity_id =  $this->input->post('activity_id');
+		$hours = $this->input->post('hours');
+		//print_r($this->session->userdata); die();
+		$data = array(
+            'date' => $date,
+            'date_submitted' => $curDate,
+			'project_id'   => $project_id,
+            'activity_id'   => $activity_id,
+            'employee_id' =>$employee_id,
+			'hours'=> $hours,
+            'comments'   => $comments);
+       //print_r($data); die();
+		$this->db->insert('timesheet', $data);
+		$insert_id = $this->db->insert_id();
+
+		return  $insert_id;
+	
+		//return $this->db->insert('events');
+	}
+    public function update(){
+		$data = array(
+            'title' => $this->input->post('title'),
+            'start' => $this->input->post('start'),
+            'end' => $this->input->post('end'),
+			'roomid' =>$this->input->post('roomid')
+        );
+		//	print_r($this->db->where('id', $this->input->post('id'))); die;
+		$this->db->where('id', $this->input->post('id'));
+        return $this->db->update('timesheet', $data);
+	}
+	 public function delete(){
+		 $id = $this->input->post('id');
+		 //print_r($id);
+		return $this->db->delete('timesheet', array('id' => $id));
+	}
+    public function getUidById() {
+		$id = $this->input->post('id');
+		$query = $this->db->get_where('timesheet', array('id' => $id));
+		//print_r($query);die();
+		$record = $query->row_array();
+        if (!empty($record)) {
+            return $record['employee_id'];
+        } else {
+            return '';
+        }
+      
+	}
 }

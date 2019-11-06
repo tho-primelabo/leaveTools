@@ -12,7 +12,7 @@ if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 /**
  * This Class contains all the business logic and the persistence layer for the types of leave request.
  */
-class Project_model extends CI_Model {
+class Activity_model extends CI_Model {
 
     /**
      * Default constructor
@@ -24,10 +24,10 @@ class Project_model extends CI_Model {
 
     public function loadData($id=null){
 		if($id){
-			$query = $this->db->get_where('project' ,array('manager_id' => $id));
+			$query = $this->db->get_where('activity' ,array('id' => $id));
 		}
 		else{
-		$query = $this->db->get_where('project' );
+		$query = $this->db->get_where('activity' );
 			
 		}
 		//print_r($query);die();
@@ -35,7 +35,7 @@ class Project_model extends CI_Model {
 	}
 	 public function getAll(){
 		
-		$query = $this->db->get('project' );
+		$query = $this->db->get('activity' );
 			
 		
 		//print_r($query);die();

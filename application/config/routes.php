@@ -431,6 +431,12 @@ $route['payslip/mail(:num)/(:any)'] = 'payslip/mail/$1/$2';
 //payslip requests
 $route['timesheet'] = 'timesheet/index';
 $route['project/loadData'] = 'project/loadData';
+$route['timesheet/loadData'] = 'timesheet/loadData';
+$route['timesheet/update'] = 'timesheet/update';
+$route['timesheet/insert'] = 'timesheet/insert';
+$route['timesheet/delete'] = 'timesheet/delete';
+$route['timesheet/getActivities'] = 'activity/getActivities';
+$route['timesheet/getProjects'] = 'project/getProjects';
 
 //_______________________________________________
 //cusomter requests

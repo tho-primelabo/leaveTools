@@ -13,7 +13,7 @@ if (!defined('BASEPATH')) {exit('No direct script access allowed');}
  * This class serve default and cutom pages.
  * Please note that a page can be the implementation of a custom report (see Controller Report)
  */
-class Project extends CI_Controller
+class Activity extends CI_Controller
 {
 
     /**
@@ -24,7 +24,7 @@ class Project extends CI_Controller
     {
         parent::__construct();
         setUserContext($this);
-        $this->load->model('project_model');
+        $this->load->model('activity_model');
         $this->load->model('rooms_model');
 
     }
@@ -46,7 +46,7 @@ class Project extends CI_Controller
 
     public function loadData()
     {
-        $projects = $this->project_model->loadData($this->input->get('id'));
+        $projects = $this->activity_model->loadData($this->input->get('id'));
         $data_events = array();
 
         foreach($projects->result() as $r) {
@@ -62,18 +62,17 @@ class Project extends CI_Controller
      echo json_encode($data_events);
      exit();
     }
-    public function getProjects()
+    public function getActivities()
     {
-        $projects = $this->project_model->getAll();
+        $activity = $this->activity_model->getAll();
         //print_r($projects);die();
         $data_events = array();
 
-        foreach($projects->result() as $r) {
+        foreach($activity->result() as $r) {
 
             $data_events[] = array(
                 "id" => $r->id,
-                "name" => $r->name,               
-                "project_code" => $r->project_code
+                "code" => $r->code
             );
         }
 
