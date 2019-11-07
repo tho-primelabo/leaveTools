@@ -66,10 +66,11 @@ class Timesheet_model extends CI_Model {
 	}
     public function update(){
 		$data = array(
-            'title' => $this->input->post('title'),
-            'start' => $this->input->post('start'),
-            'end' => $this->input->post('end'),
-			'roomid' =>$this->input->post('roomid')
+            'project_id' => $this->input->post('project_id'),
+            'activity_id' => $this->input->post('activity_id'),
+            'comments' => $this->input->post('comments'),
+			'hours' =>$this->input->post('hours'),
+            'date_submitted' => date('Y-m-d')
         );
 		//	print_r($this->db->where('id', $this->input->post('id'))); die;
 		$this->db->where('id', $this->input->post('id'));

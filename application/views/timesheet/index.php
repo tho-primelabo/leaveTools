@@ -108,6 +108,7 @@
             <input type="hidden" id="eventID" />
             <div class="modal-footer">
                 <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                 <button type="submit" class="btn btn-danger" id="updateButton">Update</button>
                 <button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
             </div>
         </div>
