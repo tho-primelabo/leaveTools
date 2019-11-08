@@ -1,12 +1,16 @@
 $(document).ready(function(){
-		
-               
+    
        $('#submitButton').on('click', function(e){
            // We don't want this to act as a link so cancel the link action
            e.preventDefault();
            doSubmit();
        });
        
+        $('#updateButton').on('click', function(e){
+           // We don't want this to act as a link so cancel the link action
+           e.preventDefault();
+           doUpdate();
+       });
        $('#deleteButton').on('click', function(e){
            // We don't want this to act as a link so cancel the link action
            e.preventDefault();
@@ -61,12 +65,40 @@ $(document).ready(function(){
                        activity_id: activity_id
                    },
                    true);
+                   location.reload();
                   // console.louid: json.uid(json);
                    //doReload();
                }
            });
            
        }
+
+        function doUpdate(){
+           $("#createEventModal").modal('hide');
+           var activity_id = $( "#eactivity option:selected" ).val();          
+           var date = $('#date').val();
+           var eventID = $('#eventID').val();
+           var curDate = new Date().toISOString().slice(0, 10);
+           var comments = $('#ecomments').val();
+           var hours = $('#ehours').val();
+           var project_id = $( "#eproject option:selected" ).val();
+           $.ajax({
+               url  : "update",
+              async: false,
+               data: { 'curDate':curDate, 'comments':comments,'hours':hours,'date':date,
+                     'id':eventID, 'project_id': project_id,'activity_id':activity_id
+                     },
+               type: "POST",
+               success: function(json) {
+                   //console.log(json);
+                   location.reload();
+                  // console.louid: json.uid(json);
+                   //doReload();
+               }
+           });
+           
+       }
+
        function doReload(){
            $.ajax({
                url  : "loadData",              

@@ -139,8 +139,9 @@
     });
    
     $(document).ready(function() {
-       var userid = <?php echo $this->session->userdata('id');?>;
-        $("#userid").val(userid);
+       //var userid = <?php echo $this->session->userdata('id');?>;
+       //console.log(userid);
+        //$("#userid").val(userid);
        showWeekend(1)
         $('#weekend').on('click', function(){
             $("#calendar").fullCalendar( 'destroy' ); // Destroy the calendar
@@ -162,11 +163,12 @@
            
         });
 
-        function getProjects (name) {
+        function getProjects (name, id) {
           
             $.ajax({
                url  : "getProjects",
-               type: "GET",
+               type: "POST",
+               data: { id : id },
                success: function(json) {
                    //console.log(json);
                     projects = JSON.parse(json);
@@ -186,6 +188,7 @@
              $.ajax({
                url  : "getActivities",
                type: "GET",
+               async: false,
                success: function(json) {
                   
                    //console.log(json);
@@ -210,6 +213,7 @@
                url  : "getTimesheetByID",
                type: "POST",
                data: { id : id },
+               async: false,
                success: function(json) {
                    //console.log(json.comments);
                     json = JSON.parse(json);
@@ -225,7 +229,8 @@
         }
         function showWeekend(value) {
            // alert(value);
-          
+            userid = <?php echo $this->session->userdata('id');?>;
+            $("#userid").val(userid);
             $("#calendar").fullCalendar( 'destroy' ); // Destroy the calendar
             if (value == 1 ) {
                 $('#calendar').fullCalendar({
@@ -242,7 +247,7 @@
                     
                         $('#eventID').val(event.id);
                         $("#date").val(start);
-                        getProjects("eproject");
+                        getProjects("eproject", userid);
                         getActivities("eactivity");
                         getTimesheetById(event.id);
                         $('#calendarModal').modal();
@@ -252,10 +257,11 @@
                     //header and other values
                     select: function (start, end, jsEvent, view) {
                         
-                        $("#date").val(new Date(start).toISOString().slice(0, 10));
+                        //$("#date").val(start.format());
                         //alert(start);
-                        //alert(end);
-                        getProjects("project");
+                        //alert(start.format()+ ":"+end.format());
+                        $("#date").val(start.format()+ ":"+end.format());
+                        getProjects("project", userid);
                         getActivities("activity");
                         $('#createEventModal').modal();
                         
@@ -263,11 +269,18 @@
                     eventDrop: function(event, delta, revertFunc) {
                     
                         var start= moment(event.start).format();
-                        var end = moment(event.end).format();
-                        var txt = start + ":" + end;
-                        $('#eventID').val(event.id);
-                        $("#date").val(start);
-                        console.log(event.id+":"+start);               
+                        
+                        console.log(event.id+":"+start);
+                        $.ajax({
+                            url  : "updateByDrop",
+                            async: false,
+                            data: { 'id':event.id, 'date':start
+                                    },
+                            type: "POST",
+                            success: function(json) {
+                                
+                            }
+                        });     
                     
                     },
                     header: {
@@ -293,7 +306,7 @@
                     
                         $('#eventID').val(event.id);
                         $("#date").val(start);
-                        getProjects("eproject");
+                        getProjects("eproject", userid);
                         getActivities("eactivity");
                         getTimesheetById(event.id);
                         $('#calendarModal').modal();
@@ -306,7 +319,7 @@
                         $("#date").val(new Date(start).toISOString().slice(0, 10));
                         //alert(start);
                         //alert(end);
-                        getProjects("project");
+                        getProjects("project", userid);
                         getActivities("activity");
                         $('#createEventModal').modal();
                         

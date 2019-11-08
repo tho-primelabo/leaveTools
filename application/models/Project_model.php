@@ -35,7 +35,8 @@ class Project_model extends CI_Model {
 	}
 	 public function getAll(){
 		
-		$query = $this->db->get('project' );
+		$id = $this->input->post('id');
+		$query = $this->db->get_where('project' ,array('manager_id' => $id));
 			
 		
 		//print_r($query);die();

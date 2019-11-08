@@ -33,7 +33,8 @@ class Timesheet extends CI_Controller {
         $data = getUserContext($this);
         $data['rooms'] = $this->rooms_model->getRooms();
         $this->auth->checkIfOperationIsAllowed('booking');
-        $data['title'] = lang('contract_index_title');       
+        $data['title'] = lang('contract_index_title');
+        $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
         $this->load->view('templates/header', $data);
         $this->load->view('menu/index', $data);
         $this->load->view("timesheet/index.php");
@@ -62,9 +63,17 @@ class Timesheet extends CI_Controller {
 
     public function update()
     {
-        $this->timesheet_model->insert();
-       
-        exit();
+        $this->timesheet_model->update();
+        $this->session->set_flashdata('msg', lang('contract_update_msg_success'));
+        //$data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
+        //exit();
+    }
+    public function updateByDrop()
+    {
+        $this->timesheet_model->updateByDrop();
+        $this->session->set_flashdata('msg', lang('contract_update_msg_success'));
+       // $data['flash_partial_view'] = $this->load->view('templates/flash', $data, TRUE);
+        //exit();
     }
     public function insert()
     {
@@ -85,15 +94,7 @@ class Timesheet extends CI_Controller {
         $id = $this->input->post('id');
         $query = $this->timesheet_model->getTimesheetByID($id);
         echo json_encode($query);
-        //print_r($query);die();
-        // $timesheet = array(
-        //         'id' => $id,
-        //         'uid'=>$uid
-        //     );
-        //     if ($timesheet) {
-        //         echo json_encode($timesheet);
-        //     }
-       // exit();
+       
     }
     public function delete()
     {
