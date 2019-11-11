@@ -36,6 +36,8 @@ CREATE TABLE `timesheet` (
   `time_to` time DEFAULT NULL,
   `comments` varchar(255) DEFAULT NULL,
   `activity_id` int(11) UNSIGNED DEFAULT NULL,
+  `hours` int(11) UNSIGNED DEFAULT 0,
+  `project_id` varchar(100) DEFAULT NULL,
   `date_submitted` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -44,12 +46,12 @@ CREATE TABLE `timesheet` (
 --
 
 INSERT INTO `timesheet` (`id`, `employee_id`, `date`, `time_from`, `time_to`, `comments`, `activity_id`, `date_submitted`) VALUES
-(1, 1, '2018-01-10', '09:00:00', '16:00:00', '', 1, '2018-01-13'),
-(2, 1, '2018-01-11', '01:46:00', '05:38:00', 'over time!!', 2, '2018-01-11'),
-(3, 1, '2018-01-12', '12:30:00', '22:12:00', 'party time', 3, '2018-01-13'),
-(4, 3, '2018-01-10', '12:00:00', '18:22:00', NULL, 1, '2018-01-11'),
-(5, 3, '2018-01-11', '14:12:00', '16:23:00', 'meeting', 2, '2018-01-12'),
-(6, 3, '2018-01-12', '08:00:00', '17:00:00', 'Cinco de Mayo!', 2, '2018-01-14');
+(1, 1, '2019-11-10', '09:00:00', '16:00:00', '', 1, '2018-01-13'),
+(2, 1, '2019-11-11', '01:46:00', '05:38:00', 'over time!!', 2, '2018-01-11'),
+(3, 1, '2019-11-12', '12:30:00', '22:12:00', 'party time', 3, '2018-01-13'),
+(4, 2, '2019-11-10', '12:00:00', '18:22:00', NULL, 1, '2018-01-11'),
+(5, 2, '2019-11-11', '14:12:00', '16:23:00', 'meeting', 2, '2018-01-12'),
+(6, 2, '2019-11-12', '08:00:00', '17:00:00', 'Cinco de Mayo!', 2, '2018-01-14');
 
 --
 -- Indexes for dumped tables

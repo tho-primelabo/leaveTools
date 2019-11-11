@@ -10,9 +10,11 @@
 <?php echo $flash_partial_view;?>
 <div class="row-fluid">
     <div class="span12">
-        <div class = "span12">
+        <div class = "span10">
             <h2><?php echo lang('timesheet_title'); ?></h2>
-            <input type = "checkbox" id = "weekend" class ="span6">Weekend </input>
+            <div class = "span2">
+                 <input type = "checkbox" id = "weekend" class ="span6">Weekend </input>
+            </div>
         </div>
         <div class="row-fluid">
             <div class="span12">
@@ -76,9 +78,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Timesheet Details</h4>
+               
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Timesheet Details</h4>
+               
             </div>
+            
             <div id="modalBody" class="modal-body">
                 <h4 id="modalTitle" class="modal-title"></h4>
                  <div class="control-group">
@@ -142,26 +147,13 @@
        //var userid = <?php echo $this->session->userdata('id');?>;
        //console.log(userid);
         //$("#userid").val(userid);
-       showWeekend(1)
+       showWeekend()
         $('#weekend').on('click', function(){
-            $("#calendar").fullCalendar( 'destroy' ); // Destroy the calendar
-            if ($('#weekend').is(':checked') ) {
-                 //userid = <?php echo $this->session->userdata('id');?>;
-                 showWeekend(0)
-            }
-            else {
-                //userid = <?php echo $this->session->userdata('id');?>;
-                  showWeekend(1)
-            }
+            //$("#calendar").fullCalendar( 'destroy' ); // Destroy the calendar
+          showWeekend();
         });
 
-      
-            
-  
-        
-       
-           
-        });
+    });
 
         function getProjects (name, id) {
           
@@ -227,122 +219,84 @@
                }
            })
         }
-        function showWeekend(value) {
+        function showWeekend() {
            // alert(value);
+           activeInactiveWeekends = false;
+           if ($('#weekend').is(':checked')) {
+            activeInactiveWeekends = true;
+            $('#calendar').fullCalendar('option', {
+                weekends: activeInactiveWeekends
+            });
+            } else {
+            activeInactiveWeekends = false;
+            $('#calendar').fullCalendar('option', {
+                weekends: activeInactiveWeekends
+            });
+            }
             userid = <?php echo $this->session->userdata('id');?>;
             $("#userid").val(userid);
-            $("#calendar").fullCalendar( 'destroy' ); // Destroy the calendar
-            if (value == 1 ) {
-                $('#calendar').fullCalendar({
-                    editable: true,
-                    selectable: true,
-                    droppable: true,
-                    hiddenDays: [0,6], // hide Tuesdays and Thursdays
-                    events: "<?php echo base_url();?>timesheet/loadData?id=" + userid,
+            //$("#calendar").fullCalendar( 'destroy' ); // Destroy the calendar
+            
+            $('#calendar').fullCalendar({
+                editable: true,
+                selectable: true,
+                droppable: true,
+                weekends: activeInactiveWeekends,
+                //hiddenDays: [0,6], // hide Tuesdays and Thursdays
+                events: "<?php echo base_url();?>timesheet/loadData?id=" + userid,
+            
+                eventClick: function(event, jsEvent, view) {
+                    //console.log(jsEvent );
+                    end = moment(event.end).format();
+                    start = moment(event.start).format();
                 
-                    eventClick: function(event, jsEvent, view) {
-                        //console.log(jsEvent );
-                        end = moment(event.end).format();
-                        start = moment(event.start).format();
+                    $('#eventID').val(event.id);
+                    $("#date").val(start);
+                    getProjects("eproject", userid);
+                    getActivities("eactivity");
+                    getTimesheetById(event.id);
+                    $('#calendarModal').modal();
                     
-                        $('#eventID').val(event.id);
-                        $("#date").val(start);
-                        getProjects("eproject", userid);
-                        getActivities("eactivity");
-                        getTimesheetById(event.id);
-                        $('#calendarModal').modal();
-                        
-                    //alert(mywhen);
-                    },
-                    //header and other values
-                    select: function (start, end, jsEvent, view) {
-                        
-                        //$("#date").val(start.format());
-                        //alert(start);
-                        //alert(start.format()+ ":"+end.format());
-                        $("#date").val(start.format()+ ":"+end.format());
-                        getProjects("project", userid);
-                        getActivities("activity");
-                        $('#createEventModal').modal();
-                        
-                    },
-                    eventDrop: function(event, delta, revertFunc) {
+                //alert(mywhen);
+                },
+                //header and other values
+                select: function (start, end, jsEvent, view) {
                     
-                        var start= moment(event.start).format();
-                        
-                        console.log(event.id+":"+start);
-                        $.ajax({
-                            url  : "updateByDrop",
-                            async: false,
-                            data: { 'id':event.id, 'date':start
-                                    },
-                            type: "POST",
-                            success: function(json) {
-                                
-                            }
-                        });     
+                    //$("#date").val(start.format());
+                    //alert(start);
+                    //alert(start.format()+ ":"+end.format());
+                    $("#date").val(start.format()+ ":"+end.format());
+                    getProjects("project", userid);
+                    getActivities("activity");
+                    $('#createEventModal').modal();
                     
-                    },
-                    header: {
-                            left: 'prev,next',
-                            center: 'title',
-                            right: ''
-                        },
+                },
+                eventDrop: function(event, delta, revertFunc) {
                 
-                    });
-            }
-            else {
-                 $('#calendar').fullCalendar({
-                    editable: true,
-                    selectable: true,
-                    droppable: true,
-                    hiddenDays: [], // hide Tuesdays and Thursdays
-                    events: "<?php echo base_url();?>timesheet/loadData?id=" + userid,
+                    var start= moment(event.start).format();
+                    
+                    console.log(event.id+":"+start);
+                    $.ajax({
+                        url  : "updateByDrop",
+                        async: false,
+                        data: { 'id':event.id, 'date':start
+                                },
+                        type: "POST",
+                        success: function(json) {
+                            
+                        }
+                    });     
                 
-                    eventClick: function(event, jsEvent, view) {
-                        //console.log(jsEvent );
-                        end = moment(event.end).format();
-                        start = moment(event.start).format();
-                    
-                        $('#eventID').val(event.id);
-                        $("#date").val(start);
-                        getProjects("eproject", userid);
-                        getActivities("eactivity");
-                        getTimesheetById(event.id);
-                        $('#calendarModal').modal();
-                        
-                    //alert(mywhen);
+                },
+                header: {
+                        left: 'prev,next',
+                        center: 'title',
+                        right: ''
                     },
-                    //header and other values
-                    select: function (start, end, jsEvent, view) {
-                        
-                        $("#date").val(new Date(start).toISOString().slice(0, 10));
-                        //alert(start);
-                        //alert(end);
-                        getProjects("project", userid);
-                        getActivities("activity");
-                        $('#createEventModal').modal();
-                        
-                    },
-                    eventDrop: function(event, delta, revertFunc) {
-                    
-                        var start= moment(event.start).format();
-                        var end = moment(event.end).format();
-                        var txt = start + ":" + end;
-                        $('#eventID').val(event.id);
-                        $("#date").val(start);
-                        console.log(event.id+":"+start);               
-                    
-                    },
-                    header: {
-                            left: 'prev,next',
-                            center: 'title',
-                            right: ''
-                        },
-                
-                    });
-            }
+            
+            });
         }
+            
 </script>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/timesheet/js/script.js"></script>
