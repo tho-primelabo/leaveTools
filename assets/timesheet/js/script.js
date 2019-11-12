@@ -21,7 +21,7 @@ $(document).ready(function(){
            
            $("#calendarModal").modal('hide');
            var eventID = $('#eventID').val();
-           
+          
            $.ajax({
                url  : "delete",
                data: { id : eventID },
@@ -52,23 +52,33 @@ $(document).ready(function(){
                      },
                type: "POST",
                success: function(json) {
-                   //console.log(json);
+                   var dateArr = date.split(":");
+                  
                    json = JSON.parse(json);
-                   var id = json.id;
+                   //console.log(json.id[0]);
                    var uid = json.uid;
-                   $("#calendar").fullCalendar('renderEvent',
-                   {
-                       id: id,                       
-                       uid: uid,
-                       date:date,
-                       title: project_id,
-                       activity_id: activity_id
-                   },
-                   true);
-                   location.reload();
-                  // console.louid: json.uid(json);
-                   //doReload();
-               }
+                   var dateS = date.split(":")[0];
+                   var dateE = date.split(":")[1];
+                   var i = 0;
+                   while (dateS != dateE) {
+                        //console.log(dateS);
+                        var id = json.id[i].id;
+                        $("#calendar").fullCalendar('renderEvent',
+                            {
+                                id: id,                       
+                                uid: uid,
+                                date:dateS,
+                                title: project_id,
+                                //rendering: 'background',
+                                activity_id: activity_id
+                            },
+                            true);
+                         dateS = moment(dateS).add(1, 'd').toDate();
+                         dateS = moment(dateS).format("YYYY-MM-DD");
+                         //console.log(dateS.format('Y-m-d'));
+                        i++;
+                        }
+                }
            });
            
        }

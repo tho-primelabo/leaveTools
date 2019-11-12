@@ -55,6 +55,7 @@ class Timesheet_model extends CI_Model {
 		//print_r($startDate);
 		$endDate = date('Y-m-d', strtotime($dateArr[1] . " 0 days"));
 		$date = $startDate;
+		$id_array = array();       
 		//print_r($endDate); echo '<br/>';
 		$i = 1;
 		do {
@@ -72,6 +73,11 @@ class Timesheet_model extends CI_Model {
 			$insert_id = $this->db->insert_id();
 			$date = date('Y-m-d', strtotime($dateArr[0] . " + $i days"));
 			$i++;
+
+			// array id return
+			$id_array[] = array(
+                "id" => $insert_id
+            );
 		} while ($date != $endDate);
 		// while ($date != $endDate) {
 			
@@ -86,7 +92,7 @@ class Timesheet_model extends CI_Model {
 		//print_r($this->session->userdata); die();
 		
 
-		return  $insert_id;
+		return  $id_array;
 	
 		//return $this->db->insert('events');
 	}
