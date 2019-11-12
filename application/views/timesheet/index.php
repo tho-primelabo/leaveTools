@@ -13,7 +13,7 @@
         <div class = "span10">
             <h2><?php echo lang('timesheet_title'); ?></h2>
             <div class = "span2">
-                 <input type = "checkbox" id = "weekend" class ="span6">Weekend </input>
+                 <input type = "checkbox" id = "weekend" checked class ="span6">Weekend </input>
             </div>
         </div>
         <div class="row-fluid">
