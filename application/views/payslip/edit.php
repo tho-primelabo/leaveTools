@@ -7,7 +7,7 @@
     </div>
     <div class="row-fluid">
     <div class="span12">
-        <?php echo lang('payslip_edit_description'); ?>
+        <!--<?php echo lang('payslip_edit_description'); ?>-->
     </div>
 </div> 
 </div>
@@ -100,7 +100,7 @@ if (isset($_GET['source'])) {
        
         <div class="column">
             <div id="form_convert">
-                <div class="title" style="text-align: center"><?php echo lang('payslip_description')?> (VND)</div>
+                <div class="title" style="text-align: center"><?php echo lang('payslip_edit_description')?> (VND)</div>
                 <table class="datalist">
                     <tbody>
                         <tr class="rownote">
@@ -130,13 +130,13 @@ if (isset($_GET['source'])) {
                         <tr style="background-color: #E6E6E6;">
                             <th><?php echo lang('payslip_youself_dependant')?></th>
                             <td>
-                                <span id="lblGiamTruCaNhan"><?=number_format(LMS_TAX_PERSON)?></span>
+                                <span id="lblGiamTruCaNhan"></span>
                             </td>
                         </tr>
                         <tr style="background-color: #CCCCCC;">
                             <th><?php echo lang('payslip_number_dependant_tax')?></th>
                             <td>
-                                <span id="lblGiamTruPhuThuoc"></span>
+                                <span id="lblGiamTruPhuThuoc"><?=number_format(LMS_TAX_PERSON)?></span>
                             </td>
                         </tr>
                         <tr class="rownote" style="background-color: #E7E7E7">
@@ -183,9 +183,11 @@ if (isset($_GET['source'])) {
                     </span>
                         <div class="style-btn clearfix">
                             <input id="back" class="form-control btn-primary bg-orange" type="button"  value="<?php echo lang('payslip_button_back')?>">
+                        
                         <!--<a href="<?php echo base_url(); ?>payslip" class="btn btn-primary">
                             <i class="mdi mdi-arrow-left"></i>&nbsp;<?php echo lang('payslip_button_back');?>
                         </a>-->
+                        
                         </div>
                 </div>
                 
@@ -259,7 +261,7 @@ if (isset($_GET['source'])) {
                 $('#lblSocialInsurance').html(accounting.formatNumber(json.social_insurance));
                 $('#lblHealthInsurance').html(accounting.formatNumber(json.health_insurance));
                 $('#lblThatNghiep').html(accounting.formatNumber(json.unEmployment_insurance));
-                $('#lblGiamTruPhuThuoc').html(accounting.formatNumber(json.peson_tax_payer));
+                $('#lblGiamTruCaNhan').html(accounting.formatNumber(json.peson_tax_payer));
                 $('#lblTaxableIncome').html(accounting.formatNumber(json.taxable_incom));
                 $('#lblIncomeTax').html(accounting.formatNumber(json.personal_income_tax));
                 $('#lblNetSalary').html(accounting.formatNumber(json.salary_net));
@@ -286,8 +288,9 @@ if (isset($_GET['source'])) {
     }
     $('#back').on('click', function() {
         // Load data for the table's content from an Ajax source
+
         $.ajax({
-            url: "<?php echo base_url();?>payslip/",
+            url: "<?php echo base_url();?>payslip/back",
             type: 'POST',
             data: {
                 date: '<?php echo $date ?>'
@@ -296,12 +299,14 @@ if (isset($_GET['source'])) {
             dataType : 'json',
             beforeSend: function() {
                 // setting a timeout
-               $('#frmModalAjaxWait').modal('show');
+            //    $('#frmModalAjaxWait').modal('show');
             },
-            complete: function() {
-                $('#frmModalAjaxWait').modal('hide');
-               
+            complete: function(responseJSON) {
+                // $('#frmModalAjaxWait').modal('hide');
+                //console.log(responseJSON);
+               window.location.href = '/payslip/index';
             },
+           
         })
    
     });

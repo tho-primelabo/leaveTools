@@ -418,12 +418,25 @@ $route['booking/delete'] = 'booking/delete';
 //_______________________________________________
 //payslip requests
 $route['payslip'] = 'payslip/index';
+$route['payslip/back'] = 'payslip/back';
 //$route['payslip/create'] = 'payslip/edit/$1';
 $route['payslip/edit/(:num)'] = 'payslip/edit/$1';
 $route['payslip/bydate/(:any)'] = 'payslip/bydate/$1';
 $route['payslip/filterdate/(:any)/(:any)'] = 'payslip/filterdate/$1/$2';
 $route['payslip/bulkCreate'] = 'payslip/bulkCreate';
 $route['payslip/detail/(:num)/(:any)/(:any)'] = 'payslip/detail/$1/$2/$3';
+$route['payslip/mail(:num)/(:any)'] = 'payslip/mail/$1/$2';
+
+//_______________________________________________
+//payslip requests
+$route['timesheet'] = 'timesheet/index';
+$route['project/loadData'] = 'project/loadData';
+$route['timesheet/loadData'] = 'timesheet/loadData';
+$route['timesheet/update'] = 'timesheet/update';
+$route['timesheet/insert'] = 'timesheet/insert';
+$route['timesheet/delete'] = 'timesheet/delete';
+$route['timesheet/getActivities'] = 'activity/getActivities';
+$route['timesheet/getProjects'] = 'project/getProjects';
 
 //_______________________________________________
 //cusomter requests

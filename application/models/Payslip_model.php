@@ -60,7 +60,17 @@ class Payslip_model extends CI_Model {
         //echo json_encode($query);die();
         return $query->row_array();
     }
-
+     public function getRowPayslipHistoryByDate($id = 0, $date) {
+        /*
+        $query = $this->db->get_where('salary', array('employee_id' => $id,
+                                                      "DATE_FORMAT(date, '%Y-%m')="=> "DATE_FORMAT($date, '%Y-%m')"));*/
+        $this->db->where('employee_id', $id);
+        $this->db->where( "DATE_FORMAT(date, '%Y-%m')= DATE_FORMAT('$date', '%Y-%m')");
+        //$this->db->group_by('employee_id');
+        $query = $this->db->get('salary_history');
+        //echo json_encode($query);die();
+        return $query;
+    }
       public function getResultPayslipByDate($id = 0, $date) {
         /*
         $query = $this->db->get_where('salary', array('employee_id' => $id,
@@ -117,7 +127,7 @@ class Payslip_model extends CI_Model {
     }
     public function getSalaryIDByUserIdnCurDate($id, $curDate) {
         $salary = $this->getRowPayslipByDate($id, $curDate);
-        return $salary['salary_id'];
+        return $salary;//['salary_id'];
     }
 
      public function getAllSalByUserIdNFromDateToDate($id, $fromDate = 0, $toDate = 0) {
@@ -269,7 +279,11 @@ class Payslip_model extends CI_Model {
 			'salary_other'=> $salary_other);
            // print_r($data); echo $data ;die();
         $date = $this->getDateByUserIdnCurDate($userid, $curDate);
-        //echo $date; die();
+        $salary = $this->getSalaryIDByUserIdnCurDate($userid, $curDate);
+        //echo date('h:i:s');
+        $salary['date'] = $salary['date'].' '.date('h:i:s');
+        $this->db->insert('salary_history', $salary);
+       // print_r($salary['date']); die();
         if (isset($date)) {
 
             //$this->db->where('date', $date);
@@ -278,7 +292,7 @@ class Payslip_model extends CI_Model {
             
             $query = $this->db->update('salary', $data);
             //print_r($this->db->last_query());die();
-            return $this->getSalaryIDByUserIdnCurDate($userid, $curDate);
+            return $salary['salary_id'];
         }
         else {
             $this->db->insert('salary', $data);

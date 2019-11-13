@@ -13,7 +13,7 @@ if (!defined('BASEPATH')) {exit('No direct script access allowed');}
  * This class serve default and cutom pages.
  * Please note that a page can be the implementation of a custom report (see Controller Report)
  */
-class Booking extends CI_Controller
+class Activity extends CI_Controller
 {
 
     /**
@@ -24,7 +24,7 @@ class Booking extends CI_Controller
     {
         parent::__construct();
         setUserContext($this);
-        $this->load->model('booking_model');
+        $this->load->model('activity_model');
         $this->load->model('rooms_model');
 
     }
@@ -46,12 +46,39 @@ class Booking extends CI_Controller
 
     public function loadData()
     {
-        $events = $this->booking_model->loadData($this->input->get('roomid'));
-        //$res = '';
-        //foreach($events as $key=>$event){
-        //$res[] = $event;
-        //}
-        echo json_encode($events);die();
+        $projects = $this->activity_model->loadData($this->input->get('id'));
+        $data_events = array();
+
+        foreach($projects->result() as $r) {
+
+            $data_events[] = array(
+                "id" => $r->id,
+                "title" => $r->name,               
+                "end" => $r->end_date,
+                "start" => $r->start_date
+            );
+        }
+
+     echo json_encode($data_events);
+     exit();
+    }
+    public function getActivities()
+    {
+        $activity = $this->activity_model->getAll();
+        //print_r($projects);die();
+        $data_events = array();
+
+        foreach($activity->result() as $r) {
+
+            $data_events[] = array(
+                "id" => $r->id,
+                "code" => $r->code
+            );
+        }
+
+     echo json_encode($data_events);
+     exit();
+       
     }
     public function insert()
     {
