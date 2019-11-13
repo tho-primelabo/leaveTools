@@ -24,11 +24,13 @@
 </ul>
 
 <br/>
-<p>If you are an human resource or administrator, you could now:</p>
-<ul>
-    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
-    
-</ul>
+<?php if ($is_admin == true || $is_hr == true) {?>
+    <p>If you are an human resource or administrator, you could now:</p>
+    <ul>
+        <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+        
+    </ul>
+ <?php }?>
 <!--<h4>Pour les responsables RH</h4>
 
 <p>Le <a href="https://fr.jorani.org/" target="_blank">site officiel de Jorani</a> contient la documentation complète et en Français du système, par exemple :</p>
