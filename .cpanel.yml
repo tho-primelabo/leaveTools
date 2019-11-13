@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/gpmax132/leavetools.gpmaxx.com/
+    - export DEPLOYPATH=/home2/shbtrave/leavetools.shbtravel.vn/
     - /bin/cp -r ./application $DEPLOYPATH
     - /bin/cp -r ./assets $DEPLOYPATH
     - /bin/cp -r ./docker $DEPLOYPATH

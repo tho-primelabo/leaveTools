@@ -9,12 +9,12 @@
 ?>
 
 <div class="row-fluid">
-<h2><?php echo lang('payslip_title');?> &nbsp;</h2>
+<h2><?php echo lang('payslip_title'); ?> &nbsp;</h2>
 <div class="row-fluid">
     <div class="span12">
         <?php echo lang('payslip_description'); ?>
     </div>
-</div> 
+</div>
 <br/>
 <!--<?php echo $this->session->flashdata('dateSession');?>-->
 
@@ -33,12 +33,12 @@
 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="users" width="100%">
     <thead>
         <tr>
-            <th><?php echo lang('payslip_index_thead_id');?></th>
-            <th><?php echo lang('payslip_field_firstname');?></th>
-            <th><?php echo lang('payslip_field_lastname');?></th>
-            <th><?php echo lang('payslip_gross_salary');?></th>
-            <th><?php echo lang('payslip_net_salary');?></th>
-            <th><?php echo lang('payslip_number_dependant');?></th>
+            <th><?php echo lang('payslip_index_thead_id'); ?></th>
+            <th><?php echo lang('payslip_field_firstname'); ?></th>
+            <th><?php echo lang('payslip_field_lastname'); ?></th>
+            <th><?php echo lang('payslip_gross_salary'); ?></th>
+            <th><?php echo lang('payslip_net_salary'); ?></th>
+            <th><?php echo lang('payslip_number_dependant'); ?></th>
         </tr>
     </thead>
         <tbody>
@@ -51,7 +51,7 @@
 
 <div class="row-fluid">
     <div class="span12">
-      <a href="<?php echo base_url();?>payslip/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export');?></a>
+      <a href="<?php echo base_url(); ?>payslip/export" class="btn btn-primary"><i class="mdi mdi-download"></i>&nbsp;<?php echo lang('payslip_index_button_export'); ?></a>
       &nbsp;
       <!--<a href="<?php echo base_url();?>payslip/bulkCreate/<?php echo date('Y-m-d')?>" class="btn btn-primary"><i class="mdi mdi-currency-usd"></i>&nbsp;<?php echo lang('payslip_index_button_payslip');?></a>-->
     <button id="bulkCreate" class="btn btn-primary"title="<?php echo lang('payslip_index_button_hint_payslip');?>"><i class="mdi mdi-currency-usd"></i><?php echo lang('payslip_index_button_payslip');?></button>
@@ -65,10 +65,10 @@
 <div class="row-fluid"><div class="span12">&nbsp;</div></div>
  <div class="modal hide" id="frmModalAjaxWait" data-backdrop="static" data-keyboard="false">
     <div class="modal-header">
-        <h1><?php echo lang('global_msg_wait');?></h1>
+        <h1><?php echo lang('global_msg_wait'); ?></h1>
     </div>
     <div class="modal-body">
-        <img src="<?php echo base_url();?>assets/images/loading.gif"  align="middle">
+        <img src="<?php echo base_url(); ?>assets/images/loading.gif"  align="middle">
     </div>
 </div>
 
