@@ -161,6 +161,7 @@
                url  : "getProjects",
                type: "POST",
                data: { id : id },
+               async: false,
                success: function(json) {
                    //console.log(json);
                     projects = JSON.parse(json);

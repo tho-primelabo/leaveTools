@@ -17,10 +17,11 @@
     <?php } ?>
 </ul>
 <br />
-<p>Nếu bạn là quản lý nhân sự hoặc quản trị viên, ngay bây giờ bạn có thể:</p>
-<ul>
-    <li>Xem hoặc <a href="<?php echo base_url();?>payslip">tính bảng lương </a> của mọi người.</li>
-    
-</ul>
-
+<?php if ($is_hr == true || $is_admin == true) {?>
+    <p>Nếu bạn là quản lý nhân sự hoặc quản trị viên, ngay bây giờ bạn có thể:</p>
+    <ul>
+        <li>Xem hoặc <a href="<?php echo base_url();?>payslip">tính bảng lương </a> của mọi người.</li>
+        
+    </ul>
+ <?php } ?>
 

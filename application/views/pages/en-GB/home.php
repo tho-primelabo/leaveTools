@@ -20,8 +20,10 @@
     <?php } ?>
 </ul>
 <br/>
-<p>If you are an human resource or administrator, you could now:</p>
-<ul>
-    <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
-    
-</ul>
+<?php if ($is_hr == true || $is_admin == true) {?>
+    <p>If you are an human resource or administrator, you could now:</p>
+    <ul>
+        <li>See or calculate your <a href="<?php echo base_url();?>payslip">payslip</a>.</li>
+        
+    </ul>
+ <?php } ?>
