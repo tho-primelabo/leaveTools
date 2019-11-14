@@ -133,7 +133,7 @@ if (isset($_GET['source'])) {
 <hr />
 
 <div class="row">
-    <div class="span4">
+    <div class="span5">
         <input type="hidden" name="entity" id="entity" value="<?php echo $users_item['organization']; ?>" />
         <div class="control-group">
             <label class="control-label" for="txtEntity"><?php echo lang('users_edit_field_entity');?></label>
@@ -154,8 +154,8 @@ if (isset($_GET['source'])) {
             </div>
         </div>
     </div>
-      <div class="span4">
-       <label class="control-label" for="grossSalary"><?php echo lang('users_create_number_dependant');?></label>
+    <div class="span3">
+       <label class="control-label" for="noDependant"><?php echo lang('users_create_number_dependant');?></label>
         <div class="controls">
             <input type="number" id="number_dependant" name="number_dependant" value="<?php echo $users_item['number_dependant']; ?>" required />
         </div>
@@ -178,7 +178,7 @@ if (isset($_GET['source'])) {
 </div>
 
 <div class="row">
-    <div class="span4">
+    <div class="span5">
         <input type="hidden" name="datehired" id="datehired"  value="<?php
             $date = new DateTime($users_item['datehired']);
             echo $date->format('Y-m-d');?>"/>
@@ -187,7 +187,7 @@ if (isset($_GET['source'])) {
             <div class="controls ">
                 <input type="text" id="viz_datehired" name="viz_datehired" value="<?php
                     echo $date->format(lang('global_date_format'));?>" />
-                <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+                <span class="add-on"><i class="icon-calendar" id="cal"></i></span>
             </div>
         </div>
     </div>
@@ -201,7 +201,7 @@ if (isset($_GET['source'])) {
         </div>
     </div>
 
-    <div class="span4">
+    <div class="span3">
         &nbsp;
     </div>
 </div>
@@ -409,5 +409,8 @@ if (isset($_GET['source'])) {
 
         //Init all tooltips
         $('[data-toggle="tooltip"]').tooltip({ placement: 'top'});
+    });
+    $("#cal").click(function(){
+         $("#viz_datehired").trigger("select");
     });
 </script>

@@ -10,11 +10,16 @@
 <?php echo $flash_partial_view;?>
 <div class="row-fluid">
     <div class="span12">
-        <div class = "span10">
-            <h2><?php echo lang('timesheet_title'); ?></h2>
-            <div class = "span2">
-                 <input type = "checkbox" id = "weekend" checked class ="span6">Weekend </input>
+        <div class = "span12">
+            <div class="row-fluid">
+                <div class="span6">
+                    <h2><?php echo lang('timesheet_title'); ?></h2>
+                </div>
+                <div class="float-right">
+                    <input type = "checkbox" id = "weekend" checked class ="span1">Weekend </input>
+                </div>
             </div>
+            
         </div>
         <div class="row-fluid">
             <div class="span12">
@@ -33,9 +38,12 @@
 
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add Timesheet</h4>
+            <div class = "row-fluid">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add Timesheet</h4>
+                    <label></label>
+                </div>
             </div>
             <div class="modal-body">
                 <div class="control-group">
