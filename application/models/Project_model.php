@@ -54,7 +54,7 @@ class Project_model extends CI_Model {
 			'uid'   => $uid,
 			'roomid'=> $roomId,
             'end'   => $end);
-		$this->db->insert('events', $data);
+		$this->db->insert('project', $data);
 		$insert_id = $this->db->insert_id();
 
 		return  $insert_id;
@@ -70,12 +70,12 @@ class Project_model extends CI_Model {
         );
 		//	print_r($this->db->where('id', $this->input->post('id'))); die;
 		$this->db->where('id', $this->input->post('id'));
-        return $this->db->update('events', $data);
+        return $this->db->update('project', $data);
 	}
 	 public function delete(){
 		 $id = $this->input->post('id');
 		 print_r($id);
-		return $this->db->delete('events', array('id' => $id));
+		return $this->db->delete('project', array('id' => $id));
 	}
 	public function getUidById() {
 		$id = $this->input->post('id');
@@ -89,4 +89,15 @@ class Project_model extends CI_Model {
         }
       
 	}
+	public function import($data) {
+ 
+        $res = $this->db->insert_batch('project',$data);
+        if($res){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
+ 
+    }
+ 
 }

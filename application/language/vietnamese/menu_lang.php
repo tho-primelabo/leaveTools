@@ -20,6 +20,7 @@ $lang['menu_leaves_request_button'] = 'New request';
 $lang['menu_admin_title'] = 'Quản trị hệ thống';
 $lang['menu_admin_list_users'] = 'Danh sách người sử dụng';
 $lang['menu_admin_add_user'] = 'Tạo User';
+$lang['menu_admin_list_projects'] = 'Danh sách các dự án';
 $lang['menu_admin_settings_divider'] = 'Cài đặt';
 $lang['menu_admin_settings'] = 'Cài đặt';
 $lang['menu_admin_diagnostic'] = 'Diagnostic';

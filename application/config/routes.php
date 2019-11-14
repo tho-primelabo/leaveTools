@@ -439,6 +439,11 @@ $route['timesheet/getActivities'] = 'activity/getActivities';
 $route['timesheet/getProjects'] = 'project/getProjects';
 
 //_______________________________________________
+//payslip requests
+$route['project'] = 'project/index';
+$route['project/import'] = 'project/import';
+
+//_______________________________________________
 //cusomter requests
 $route['customer'] = 'customers/index';
 $route['test'] = 'test/index';

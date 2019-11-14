@@ -43,6 +43,7 @@ $this->lang->load('menu', $language);
             <ul class="dropdown-menu">
               <li><a href="<?php echo base_url(); ?>users"><?php echo lang('menu_admin_list_users'); ?></a></li>
               <li><a href="<?php echo base_url(); ?>users/create"><?php echo lang('menu_admin_add_user'); ?></a></li>
+              <li><a href="<?php echo base_url(); ?>project/index"><?php echo lang('menu_admin_list_projects'); ?></a></li>
               <li class="divider"></li>
               <li class="nav-header"><?php echo lang('menu_hr_leaves_type_divider'); ?></li>
               <li><a href="<?php echo base_url(); ?>leavetypes"><?php echo lang('menu_hr_list_leaves_type'); ?></a></li>

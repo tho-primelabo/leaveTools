@@ -19,6 +19,7 @@ $lang['menu_leaves_request_button'] = 'New request';
 $lang['menu_admin_title'] = 'Admin';
 $lang['menu_admin_list_users'] = 'List of users';
 $lang['menu_admin_add_user'] = 'Create user';
+$lang['menu_admin_list_projects'] = 'List of projects';
 $lang['menu_admin_settings_divider'] = 'Settings';
 $lang['menu_admin_settings'] = 'Settings';
 $lang['menu_admin_diagnostic'] = 'Diagnostic';
