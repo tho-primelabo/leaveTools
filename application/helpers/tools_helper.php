@@ -17,7 +17,8 @@ if (!defined('BASEPATH')) {
  * @param CI_Controller $controller reference to CI Controller object
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function setUserContext(CI_Controller $controller) {
+function setUserContext(CI_Controller $controller)
+{
     //Memorize the last displayed page except for Ajax queries
     if (filter_input(INPUT_SERVER, 'HTTP_X_REQUESTED_WITH') !== 'XMLHttpRequest') {
         $controller->session->set_userdata('last_page', current_url());
@@ -32,7 +33,7 @@ function setUserContext(CI_Controller $controller) {
         }
     }
     $controller->fullname = $controller->session->userdata('firstname') . ' ' .
-            $controller->session->userdata('lastname');
+    $controller->session->userdata('lastname');
     $controller->is_manager = $controller->session->userdata('is_manager');
     $controller->is_admin = $controller->session->userdata('is_admin');
     $controller->is_hr = $controller->session->userdata('is_hr');
@@ -48,7 +49,8 @@ function setUserContext(CI_Controller $controller) {
  * @return array data to be passed to the view
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function getUserContext(CI_Controller $controller) {
+function getUserContext(CI_Controller $controller)
+{
     $data['fullname'] = $controller->fullname;
     $data['is_manager'] = $controller->is_manager;
     $data['is_admin'] = $controller->is_admin;
@@ -56,10 +58,10 @@ function getUserContext(CI_Controller $controller) {
     $data['user_id'] = $controller->user_id;
     $data['language'] = $controller->session->userdata('language');
     $data['language_code'] = $controller->session->userdata('language_code');
-    if ($controller->is_manager === TRUE) {
+    if ($controller->is_manager === true) {
         $controller->load->model('leaves_model');
         $data['requested_leaves_count'] = $controller->leaves_model->countLeavesRequestedToManager($controller->user_id);
-        if ($controller->config->item('disable_overtime') == FALSE) {
+        if ($controller->config->item('disable_overtime') == false) {
             $controller->load->model('overtime_model');
             $data['requested_extra_count'] = $controller->overtime_model->countExtraRequestedToManager($controller->user_id);
         } else {
@@ -77,8 +79,9 @@ function getUserContext(CI_Controller $controller) {
  * @see setUserContext and getUserContext
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function getCIUserContext() {
-    $controller = & get_instance();
+function getCIUserContext()
+{
+    $controller = &get_instance();
     setUserContext($controller);
     return getUserContext($controller);
 }
@@ -89,7 +92,8 @@ function getCIUserContext() {
  * @return string value where problematic characters have been removed
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function sanitize($value) {
+function sanitize($value)
+{
     $value = trim($value);
     $value = str_replace('\\', '', $value);
     $value = strtr($value, array_flip(get_html_translation_table(HTML_ENTITIES)));
@@ -107,15 +111,16 @@ function sanitize($value) {
  * @param string $cc (optional) Copied to recipients
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function sendMailByWrapper(CI_Controller $controller, $subject, $message, $to, $cc = NULL) {
+function sendMailByWrapper(CI_Controller $controller, $subject, $message, $to, $cc = null)
+{
     $controller->load->library('email');
-    if ($controller->config->item('subject_prefix') !== NULL) {
+    if ($controller->config->item('subject_prefix') !== null) {
         $controller->email->subject($controller->config->item('subject_prefix') . ' ' . $subject);
     } else {
         $controller->email->subject('[Jorani] ' . $subject);
     }
     $controller->email->set_encoding('quoted-printable');
-    if (($controller->config->item('from_mail') !== NULL) && ($controller->config->item('from_name') !== NULL)) {
+    if (($controller->config->item('from_mail') !== null) && ($controller->config->item('from_name') !== null)) {
         $controller->email->from($controller->config->item('from_mail'), $controller->config->item('from_name'));
     } else {
         $controller->email->from('do.not@reply.me', 'LMS');
@@ -133,10 +138,11 @@ function sendMailByWrapper(CI_Controller $controller, $subject, $message, $to, $
  * @param $spreadsheet reference to the spreadsheet to be exported
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function writeSpreadsheet(&$spreadsheet) {
-    $CI = & get_instance();
+function writeSpreadsheet(&$spreadsheet)
+{
+    $CI = &get_instance();
     $format = 'xlsx';
-    $objWriter = NULL;
+    $objWriter = null;
     if (in_array($CI->config->item('spreadsheet_format'), array('ods', 'xlsx'))) {
         $format = $CI->config->item('spreadsheet_format');
     }
@@ -168,7 +174,8 @@ function writeSpreadsheet(&$spreadsheet) {
  * @return string Excel representation of the column index
  * @author Benjamin BALET <benjamin.balet@gmail.com>
  */
-function columnName($number) {
+function columnName($number)
+{
     if ($number < 27) {
         return substr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", $number - 1, 1);
     } else {
@@ -186,19 +193,58 @@ if (!function_exists('cal_days_in_month')) {
      * @param int $year year number
      * @return int number of days in the month or 0 if error
      */
-    function cal_days_in_month($calendar, $month, $year) {
-        if (checkdate($month, 31, $year))
+    function cal_days_in_month($calendar, $month, $year)
+    {
+        if (checkdate($month, 31, $year)) {
             return 31;
-        if (checkdate($month, 30, $year))
+        }
+
+        if (checkdate($month, 30, $year)) {
             return 30;
-        if (checkdate($month, 29, $year))
+        }
+
+        if (checkdate($month, 29, $year)) {
             return 29;
-        if (checkdate($month, 28, $year))
+        }
+
+        if (checkdate($month, 28, $year)) {
             return 28;
+        }
+
         return 0; // error
     }
 
 }
 
-if (!defined('CAL_GREGORIAN'))
+if (!defined('CAL_GREGORIAN')) {
     define('CAL_GREGORIAN', 1);
+}
+
+/**
+ * send_ajax_and_exit
+ *
+ * @param  mixed $output
+ * @param  mixed $content_type
+ * @param  mixed $filename
+ *
+ * @return void
+ */
+function send_ajax_and_exit($output = [], $content_type = 'application/json')
+{
+    $handlers = ob_list_handlers();
+    for ($cnt = 0; $cnt < sizeof($handlers); ++$cnt) {
+        ob_end_clean();
+    }
+
+    header('Pragma: public');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+    header('Cache-Control: private', false);
+    if (in_array($content_type, ['application/json', 'text/plain'])) {
+        header('Content-Type: ' . $content_type);
+    }
+
+    $result = json_encode($output);
+    echo $result;
+    exit();
+}
