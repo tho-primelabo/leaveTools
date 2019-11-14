@@ -174,28 +174,34 @@ if ($language_code != 'en') {
             return true;
     }
 
+    $("#cal1").click(function(){
+         $("#viz_startdate").trigger("select");
+    });
+    $("#cal2").click(function(){
+         $("#viz_enddate").trigger("select");
+    });
     $(function () {
 		
         //Selectize the leave type combo
         $('#type').select2();
 
 		
-<?php if ($this->config->item('disallow_requests_without_credit') == TRUE) { ?>
-            var durationField = document.getElementById("duration");
-            durationField.setAttribute("min", "0");
-            durationField.addEventListener('keypress', function (e) {
-                var key = !isNaN(e.charCode) ? e.charCode : e.keyCode;
-                if (!keyAllowed(key))
-                    e.preventDefault();
-            }, false);
+        <?php if ($this->config->item('disallow_requests_without_credit') == TRUE) { ?>
+                    var durationField = document.getElementById("duration");
+                    durationField.setAttribute("min", "0");
+                    durationField.addEventListener('keypress', function (e) {
+                        var key = !isNaN(e.charCode) ? e.charCode : e.keyCode;
+                        if (!keyAllowed(key))
+                            e.preventDefault();
+                    }, false);
 
-            // Disable pasting of non-numbers
-            durationField.addEventListener('paste', function (e) {
-                var pasteData = e.clipboardData.getData('text/plain');
-                if (pasteData.match(/[^0-9]/))
-                    e.preventDefault();
-            }, false);
-<?php } ?>
+                    // Disable pasting of non-numbers
+                    durationField.addEventListener('paste', function (e) {
+                        var pasteData = e.clipboardData.getData('text/plain');
+                        if (pasteData.match(/[^0-9]/))
+                            e.preventDefault();
+                    }, false);
+        <?php } ?>
     });
 
 <?php if ($this->config->item('csrf_protection') == TRUE) { ?>

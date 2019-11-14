@@ -202,13 +202,13 @@ echo form_open('users/create', $attributes); ?>
 </div>
 
 <div class="row">
-    <div class="span4">
+    <div class="span5">
         <input type="hidden" name="datehired" id="datehired" />
         <div class="control-group input-append date">
             <label class="control-label" for="viz_datehired"><?php echo lang('users_create_field_hired');?></label>
             <div class="controls ">
                 <input type="text" id="viz_datehired" name="viz_datehired" />
-                <span class="add-on"><i class="icon-calendar" id="cal1"></i></span>
+                <span class="add-on"><i class="icon-calendar" id="cal"></i></span>
             </div>
         </div>
     </div>
@@ -222,13 +222,13 @@ echo form_open('users/create', $attributes); ?>
         </div>
     </div>
 
-    <div class="span4">
+    <div class="span3">
         &nbsp;
     </div>
 </div>
 
 <div class="row">
-    <div class="span4">
+    <div class="span5">
         <div class="control-group">
             <label class="control-label" for="language"><?php echo lang('users_create_field_language');?></label>
             <div class="controls">
@@ -263,7 +263,7 @@ echo form_open('users/create', $attributes); ?>
         </div>
     </div>
 
-    <div class="span4">
+    <div class="span3">
         <?php if ($this->config->item('ldap_basedn_db')) {?>
         <div class="control-group">
             <label class="control-label" for="ldap_path"><?php echo lang('users_create_field_ldap_path');?></label>
@@ -594,6 +594,9 @@ echo form_open('users/create', $attributes); ?>
 
         //Init all tooltips
         $('[data-toggle="tooltip"]').tooltip({ placement: 'top'});
+    });
+    $("#cal").click(function(){
+         $("#viz_datehired").trigger("select");
     });
 
 </script>
