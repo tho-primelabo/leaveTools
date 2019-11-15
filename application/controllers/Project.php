@@ -27,6 +27,8 @@ class Project extends CI_Controller
         $this->lang->load('project', $this->language);
         $this->load->model('project_model');
         $this->load->model('rooms_model');
+        $this->load->helper('form'); 
+        $this->load->helper('download');
 
     }
 
@@ -122,57 +124,55 @@ class Project extends CI_Controller
     }
 
     public function import()  {
-        echo 'tst';die();
-        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        //echo $_FILES["file"]["name"];die();
+        $this->auth->checkIfOperationIsAllowed('booking');
         if(isset($_FILES["file"]["name"]))
         {
-        $path = $_FILES["file"]["tmp_name"];
-        $object = PHPExcel_IOFactory::load($path);
-        foreach($object->getWorksheetIterator() as $worksheet)
-        {
-            $highestRow = $worksheet->getHighestRow();
-            $highestColumn = $worksheet->getHighestColumn();
-            for($row=2; $row<=$highestRow; $row++)
-            {
-            $project_code = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
-            $name = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-            $city = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-            $location = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
-            $manager_id = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-            $start_date = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-            $end_date = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
-            $other = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
-            $data[] = array(
-            'project_code'  => $project_code,
-            'name'   => $name,
-            'location'    => $location,
-            'PostalCode'  => $manager_id,
-            'start_date'   => $start_date,
-            'end_date'   => $end_date,
-            'other_details'   => $other
-            );
+            $path = $_FILES["file"]["tmp_name"];
+            require_once APPPATH . "/third_party/PHPExcel.php";
+            $object = PHPExcel_IOFactory::load($path);
+            //echo $path;die();
+            $allDataInSheet = $object->getActiveSheet()->toArray(null, true, true, true, true, true, true);
+            $flag = true;
+            $i=0;
+            foreach ($allDataInSheet as $value) {
+                if($flag){
+                     $flag =false;
+                    continue;
+                }
+                $inserdata[$i]['project_code'] = $value['A'];
+                $inserdata[$i]['name'] = $value['B'];
+                $inserdata[$i]['location'] = $value['C'];
+                $inserdata[$i]['manager_id'] = $value['D'];
+                $inserdata[$i]['start_date'] = $value['E'];
+                $inserdata[$i]['end_date'] = $value['F'];
+                $inserdata[$i]['other_details'] = $value['G'];
+                $i++;
             }
-        }
-        $this->project_model->import($data);
-        echo 'Data Imported successfully';
+            
+            
+            $this->project_model->import($inserdata);
+            //print_r($inserdata);
+            echo 'Data Imported successfully';
         } 
+        $this->index();
  }
 
 
     public function uploadData(){
-        
+        $this->load->library('excel');
         $this->auth->checkIfOperationIsAllowed('list_contracts');
         if ($this->input->post('submit')) {
                   
                   $path = 'uploads/';
-                  echo $path;die();
-                  require_once APPPATH . "/third_party/PHPExcel.php";
+                  //echo $path;die();
+                  //require_once APPPATH . "/third_party/PHPExcel.php";
                   $config['upload_path'] = $path;
                   $config['allowed_types'] = 'xlsx|xls';
                   $config['remove_spaces'] = TRUE;
-                  $this->load->library('upload', $config);
+                  $this->load->library('upload');
                   $this->upload->initialize($config);            
-                  if (!$this->upload->do_upload('uploadFile')) {
+                  if (!$this->upload->do_upload('file')) {
                       $error = array('error' => $this->upload->display_errors());
                   } else {
                       $data = array('upload_data' => $this->upload->data());
@@ -270,4 +270,19 @@ class Project extends CI_Controller
         //redirect('booking');
     }
 
+    public function download($fileName = NULL) {   
+        if ($fileName) {
+         $file = realpath ( "download" ) . "\\" . $fileName;
+         // check file exists    
+         if (file_exists ( $file )) {
+          // get file content
+          $data = file_get_contents ( $file );
+          //force download
+          force_download ( $fileName, $data );
+         } else {
+          // Redirect to base url
+          redirect ( 'project/index');
+         }
+        }
+       }
 }
