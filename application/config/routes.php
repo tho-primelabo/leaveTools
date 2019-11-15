@@ -442,6 +442,7 @@ $route['timesheet/getProjects'] = 'project/getProjects';
 //payslip requests
 $route['project'] = 'project/index';
 $route['project/import'] = 'project/import';
+$route['download/(:any)'] = "/project/download/$1";
 
 //_______________________________________________
 //cusomter requests

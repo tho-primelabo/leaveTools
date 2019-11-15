@@ -10,19 +10,27 @@
 
 <h2><?php echo lang('project_index_title');?> &nbsp;</h2>
 
+
 <div class="row-fluid">
+
     <div class="span12">
-        <form method="post" id="import_form" enctype="multipart/form-data">
-            <div class="span2">
-                <p>
-                    <input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
-            </div>     
-            <div class="span2">  
-                <input type="submit" name="import" value="Import" class="btn btn-info" />
+
+        <?php echo form_open_multipart('project/import'); ?>
+        
+            <div class="list-group">
+            
+            <input type="file" name="file" id="file" required accept=".xls, .xlsx" /></p>
+            
             </div>
-        </form>
-    </div>
-    <div class="table-responsive" id="customer_data">
+
+            <button type="submit" class="btn btn-primary">Import</button>
+
+        <?php echo form_close(); ?>
+        <div class="col-md-12">
+                
+                <a href="<?=base_url ()?>project/download/projects.xlsx" class="mdi mdi-file-excel-box">sample</a>
+            </div>
+        <div class="table-responsive" id="customer_data">
 </div>
 
 <script type="text/javascript">
@@ -39,10 +47,12 @@
 
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui.custom.min.css">
 <script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
 <?php //Prevent HTTP-404 when localization isn't needed
 if ($language_code != 'en') { ?>
 <script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
 <?php } ?>
+
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/moment-with-locales.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="<?php echo base_url();?>assets/js/js.state-2.2.0.min.js"></script>
 <script type="text/javascript">
@@ -59,7 +69,7 @@ $(document).ready(function() {
     {
         $.ajax({
             url:"<?php echo base_url(); ?>project/fetch",
-            method:"POST",
+            method:"GET",
             success:function(data){
                 $('#customer_data').html(data);
             }
@@ -67,7 +77,7 @@ $(document).ready(function() {
     }$('#import_form').on('submit', function(event){
             event.preventDefault();
             $.ajax({
-                url:"<?php echo base_url(); ?>project/import",
+                url:"import",
                 method:"POST",
                 data:new FormData(this),
                 contentType:false,
