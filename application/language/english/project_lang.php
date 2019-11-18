@@ -8,3 +8,15 @@
  */
 
 $lang['project_index_title'] = 'List of project';
+$lang['project_description'] = 'Fillter by month and year';
+$lang['project_edit_description'] = 'Detail of tax';
+$lang['project_index_thead_id'] = 'ID';
+$lang['project_create_title'] = 'Create a new project';
+$lang['project_field_project_code'] = 'Project code';
+$lang['project_field_name'] = 'Name';
+$lang['project_filed_location'] = 'Location';
+$lang['project_field_manager_id'] = 'Manager ID';
+$lang['project_field_start_date'] = 'Start Date';
+$lang['project_field_end_date'] = 'End Date';
+$lang['project_field_other'] = 'Other';
+

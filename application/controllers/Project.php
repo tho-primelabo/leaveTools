@@ -34,6 +34,7 @@ class Project extends CI_Controller
 
     public function index()
     {
+        $this->auth->checkIfOperationIsAllowed('list_projects');
         setUserContext($this);
         $data = getUserContext($this);
         $data['rooms'] = $this->rooms_model->getRooms();
@@ -49,21 +50,26 @@ class Project extends CI_Controller
 
     public function loadData()
     {
-        $projects = $this->project_model->loadData($this->input->get('id'));
-        $data_events = array();
+        //$projects = $this->project_model->loadData($this->input->get('id'));
+        $projects = $this->project_model->getAll();
+        $dataArray = array();
 
-        foreach($projects->result() as $r) {
+        foreach($projects->result() as $element) {
+            $sub_array = array();
+            
+            $sub_array[] = $element->id;
+            $sub_array[] = $element->project_code;
+            $sub_array[] = $element->name;
+            $sub_array[] = $element->location;
+            $sub_array[] = $element->manager_id;
+            $sub_array[] = $element->start_date;
+            $sub_array[] = $element->end_date;
+            $sub_array[] = $element->other_details;
 
-            $data_events[] = array(
-                "id" => $r->id,
-                "title" => $r->name,               
-                "end" => $r->end_date,
-                "start" => $r->start_date
-            );
+            $dataArray[] = $sub_array;
         }
 
-     echo json_encode($data_events);
-     exit();
+        return send_ajax_and_exit(["data" => $dataArray]);
     }
     public function getProjects()
     {
@@ -86,7 +92,7 @@ class Project extends CI_Controller
     }
 
     public function fetch() {
-        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->auth->checkIfOperationIsAllowed('list_projects');
         //echo 'test';die();
         $data = $this->project_model->getAll();
         //echo json_encode($data->result());die();
@@ -125,7 +131,7 @@ class Project extends CI_Controller
 
     public function import()  {
         //echo $_FILES["file"]["name"];die();
-        $this->auth->checkIfOperationIsAllowed('booking');
+        $this->auth->checkIfOperationIsAllowed('list_projects');
         if(isset($_FILES["file"]["name"]))
         {
             $path = $_FILES["file"]["tmp_name"];

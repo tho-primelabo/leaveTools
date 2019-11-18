@@ -73,7 +73,7 @@ class Payslip extends CI_Controller
 
     public function index()
     {
-        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->auth->checkIfOperationIsAllowed('list_payslips');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
         $date = $this->input->post('date');
@@ -106,7 +106,7 @@ class Payslip extends CI_Controller
     }
     public function bydate($date)
     {
-        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->auth->checkIfOperationIsAllowed('list_payslips');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
         $curmonth = (int) date('m');
@@ -129,7 +129,7 @@ class Payslip extends CI_Controller
     }
     public function edit($id, $date = 0)
     {
-        $this->auth->checkIfOperationIsAllowed('edit_user');
+        $this->auth->checkIfOperationIsAllowed('list_payslips');
         $data = getUserContext($this);
         //echo $date;die();
         if ($date == 0) {
@@ -175,7 +175,7 @@ class Payslip extends CI_Controller
     }
     public function create($date = 0)
     {
-        $this->auth->checkIfOperationIsAllowed('create_user');
+        $this->auth->checkIfOperationIsAllowed('list_payslips');
         $data = getUserContext($this);
         $this->load->helper('form');
         $this->load->library('form_validation');
@@ -250,7 +250,7 @@ class Payslip extends CI_Controller
     }
     public function detail($uid)
     {
-        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->auth->checkIfOperationIsAllowed('list_payslips');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
         $data['userid'] = $uid;
@@ -280,7 +280,7 @@ class Payslip extends CI_Controller
     }
     public function filterDate()
     {
-        $this->auth->checkIfOperationIsAllowed('list_contracts');
+        $this->auth->checkIfOperationIsAllowed('list_payslips');
         $this->lang->load('datatable', $this->language);
         $data = getUserContext($this);
 

@@ -31,6 +31,25 @@
                 <a href="<?=base_url ()?>project/download/projects.xlsx" class="mdi mdi-file-excel-box">sample</a>
             </div>
         <div class="table-responsive" id="customer_data">
+        <br/>
+        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="projects" width="100%">
+        <thead>
+            <tr>
+                <th><?php echo lang('project_index_thead_id'); ?></th>
+                <th><?php echo lang('project_field_project_code'); ?></th>
+                <th><?php echo lang('project_field_name'); ?></th>
+                <th><?php echo lang('project_filed_location'); ?></th>
+                <th><?php echo lang('project_field_manager_id'); ?></th>
+                <th><?php echo lang('project_field_start_date'); ?></th>
+                 <th><?php echo lang('project_field_end_date'); ?></th>
+                <th><?php echo lang('project_field_other'); ?></th>
+                
+            </tr>
+        </thead>
+            <tbody>
+            </tbody>
+        </table>
+
 </div>
 
 <script type="text/javascript">
@@ -46,25 +65,38 @@
 </script>
 
 <link rel="stylesheet" href="<?php echo base_url();?>assets/css/flick/jquery-ui.custom.min.css">
-<script src="<?php echo base_url();?>assets/js/jquery-ui.custom.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
-<?php //Prevent HTTP-404 when localization isn't needed
-if ($language_code != 'en') { ?>
-<script src="<?php echo base_url();?>assets/js/i18n/jquery.ui.datepicker-<?php echo $language_code;?>.js"></script>
-<?php } ?>
+<link href="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/css/jquery.dataTables.min.css" rel="stylesheet">
 
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/moment-with-locales.min.js" type="text/javascript"></script>
-<script type="text/javascript" src="<?php echo base_url();?>assets/js/js.state-2.2.0.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/datatable/DataTables-1.10.11/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
-
-var entity = -1; //Id of the selected entity
-var entityName = ''; //Label of the selected entity
-var includeChildren = true;
 
 
 $(document).ready(function() {
     
-    load_data();
+    //load_data();
+    var table;
+    table = $('#projects').DataTable({
+        
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            url: "<?php echo base_url();?>project/loadData/",
+            "type": "POST",
+            // "data": function ( data ) {
+            //     //data.userid = 12;
+            //     data.date = $('#monthYear').val();
+            // },
+             beforeSend: function() {
+                // setting a timeout
+               $('#frmModalAjaxWait').modal('show');
+            },            
+            complete: function() {
+                $('#frmModalAjaxWait').modal('hide');
+                //dateBack = new Date(dateS);
+                
+                //$('#txtMonthYear').val(dateS);
+            },
+        },
+    });
     function load_data()
     {
         $.ajax({
@@ -85,8 +117,9 @@ $(document).ready(function() {
                 processData:false,
                 success:function(data){
                     $('#file').val('');
-                    load_data();
-                    alert(data);
+                    //load_data();
+                    table.ajax.reload();
+                    //alert(data);
                 }
             })
         });
