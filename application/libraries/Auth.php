@@ -83,7 +83,8 @@ class Auth {
                 else
                     return false;
                 break;
-
+            case 'list_projects' :
+            case 'list_payslips' :
             case 'list_users' :
             case 'create_user' :
             case 'delete_user' :
