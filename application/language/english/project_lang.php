@@ -19,4 +19,9 @@ $lang['project_field_manager_id'] = 'Manager ID';
 $lang['project_field_start_date'] = 'Start Date';
 $lang['project_field_end_date'] = 'End Date';
 $lang['project_field_other'] = 'Other';
-
+$lang['project_index_popup_delete_title'] = 'Delete Project';
+$lang['project_index_popup_delete_button_yes'] = 'Yes';
+$lang['project_index_popup_delete_button_no'] = 'No';
+$lang['project_index_popup_delete_question'] = 'Do you want to proceed?';
+$lang['project_index_popup_update_title'] = 'Update project';
+$lang['project_import'] = 'Data Imported successfully!';

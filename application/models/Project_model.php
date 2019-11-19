@@ -72,9 +72,9 @@ class Project_model extends CI_Model {
 		$this->db->where('id', $this->input->post('id'));
         return $this->db->update('project', $data);
 	}
-	 public function delete(){
-		 $id = $this->input->post('id');
-		 print_r($id);
+	 public function delete($id){
+		//$id = $this->input->post('id');
+		 //print_r($id);
 		return $this->db->delete('project', array('id' => $id));
 	}
 	public function getUidById() {
