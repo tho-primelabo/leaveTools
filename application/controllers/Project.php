@@ -65,6 +65,9 @@ class Project extends CI_Controller
             $sub_array[] = $element->start_date;
             $sub_array[] = $element->end_date;
             $sub_array[] = $element->other_details;
+            $data = json_encode($sub_array);
+            $sub_array[] = "<a href='javascript:editDialog($data);'class='btn btn-primary mr-1' title='edit'><i class='mdi mdi-pencil nolink'></i></a>&nbsp;".
+                 "<a href='javascript:deleteDialog($element->id);' class='btn btn-gray confirm-delete'  title='delete'><i class='mdi mdi-delete nolink'></i></a>";
 
             $dataArray[] = $sub_array;
         }
@@ -159,7 +162,7 @@ class Project extends CI_Controller
             
             $this->project_model->import($inserdata);
             //print_r($inserdata);
-            echo 'Data Imported successfully';
+            echo lang('project_import');
         } 
         $this->index();
  }
@@ -260,19 +263,22 @@ class Project extends CI_Controller
             echo json_encode($data);
         }
     }
-    public function delete()
+    public function delete($id)
     {
 
         $this->auth->checkIfOperationIsAllowed('delete_booking');
-        $uid = $this->booking_model->getUidById();
-        $uidSession = $this->session->userdata('id');
-        //echo $uid;echo ' '.$uidSession;die();
-        if ($uid == $uidSession) {
-            $data = $this->booking_model->delete();
+        return $this->project_model->delete($id);
+        //$this->loadData();
+        
+        // $uid = $this->booking_model->getUidById();
+        // $uidSession = $this->session->userdata('id');
+        // //echo $uid;echo ' '.$uidSession;die();
+        // if ($uid == $uidSession) {
+        //     $data = $this->booking_model->delete();
 
-            $this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
-            echo json_encode($data);
-        }
+        //     $this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
+        //     echo json_encode($data);
+        // }
         //redirect('booking');
     }
 

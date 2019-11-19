@@ -443,6 +443,7 @@ $route['timesheet/getProjects'] = 'project/getProjects';
 $route['project'] = 'project/index';
 $route['project/import'] = 'project/import';
 $route['download/(:any)'] = "/project/download/$1";
+$route['delete/(:number)'] = "/project/delete/$1";
 
 //_______________________________________________
 //cusomter requests
