@@ -24,4 +24,5 @@ $lang['project_index_popup_delete_button_yes'] = 'Yes';
 $lang['project_index_popup_delete_button_no'] = 'No';
 $lang['project_index_popup_delete_question'] = 'Do you want to proceed?';
 $lang['project_index_popup_update_title'] = 'Update project';
+$lang['project_index_thead_add'] = 'Add new project';
 $lang['project_import'] = 'Data Imported successfully!';

@@ -42,18 +42,15 @@ class Project_model extends CI_Model {
         return $query;
 	}
 	public function insert(){
-		$title = $this->input->post('title');
-		$start = $this->input->post('start');
-		$end = $this->input->post('end');
-		$uid = $this->session->userdata('id');
-		$roomId = $this->input->post('roomid');
-		//print_r($this->session->userdata); die();
 		$data = array(
-            'title' => $title,
-            'start' => $start,
-			'uid'   => $uid,
-			'roomid'=> $roomId,
-            'end'   => $end);
+            'project_code' => $this->input->post('project_code'),
+            'name' => $this->input->post('name'),
+            'location' => $this->input->post('location'),
+			'manager_id' =>$this->input->post('manager_id'),
+			'start_date' =>$this->input->post('start_date'),
+			'end_date' =>$this->input->post('end_date'),
+			'other_details' =>$this->input->post('other')
+		);
 		$this->db->insert('project', $data);
 		$insert_id = $this->db->insert_id();
 
@@ -63,10 +60,13 @@ class Project_model extends CI_Model {
 	}
 	 public function update(){
 		$data = array(
-            'title' => $this->input->post('title'),
-            'start' => $this->input->post('start'),
-            'end' => $this->input->post('end'),
-			'roomid' =>$this->input->post('roomid')
+            'project_code' => $this->input->post('project_code'),
+            'name' => $this->input->post('name'),
+            'location' => $this->input->post('location'),
+			'manager_id' =>$this->input->post('manager_id'),
+			'start_date' =>$this->input->post('start_date'),
+			'end_date' =>$this->input->post('end_date'),
+			'other_details' =>$this->input->post('other')
         );
 		//	print_r($this->db->where('id', $this->input->post('id'))); die;
 		$this->db->where('id', $this->input->post('id'));

@@ -235,33 +235,28 @@ class Project extends CI_Controller
       
     public function insert()
     {
-        // $this->auth->checkIfOperationIsAllowed('create_booking');
-        $eventid = $this->booking_model->insert();
-        $uid = $this->session->userdata('id');
-         $events = array(
-            'id' => $eventid,
-            'uid'=>$uid
-         );
-        if ($events) {
-            echo json_encode($events);
-        }
-        //return $events;
-
-        //print_r(json_encode($res));
-        //redirect('booking');
+        $this->auth->checkIfOperationIsAllowed('create_booking');
+        $this->project_model->insert();
+        echo 'inserted successful !';//lang('project_import');
+    
     }
     public function update()
     {
-        $this->auth->checkIfOperationIsAllowed('update_booking');
-        $uid = $this->booking_model->getUidById();
-        $uidSession = $this->session->userdata('id');
-        //print_r($uid);
-        if ($uid == $uidSession) {
-            $data = $this->booking_model->update();
-
-            $this->session->set_flashdata('msg', lang('contract_edit_msg_success'));
-            echo json_encode($data);
+        $id  = $this->input->post('id');
+        //print_r("id:".strlen($id));
+        if(strlen($id) > 0) {
+            $this->auth->checkIfOperationIsAllowed('update_booking');
+             $data = $this->project_model->update();
+             echo 'updated successful !';//lang('project_import');
         }
+        else {
+           $this->insert();
+        }
+
+        //$this->session->set_flashdata('msg', lang('contract_edit_msg_success'));
+        //echo json_encode($data);
+       
+       
     }
     public function delete($id)
     {

@@ -26,4 +26,5 @@ $lang['project_index_popup_delete_question'] = 'Bạn có muốn tiếp tục?';
 $lang['project_index_popup_update_title'] = 'Sửa thông tin dự án';
 $lang['project_index_popup_update_save'] = 'Chấp nhận';
 $lang['project_index_popup_update_close'] = 'Đóng';
+$lang['project_index_thead_add'] = 'Thêm dự án mới';
 $lang['project_import'] = 'Dữ liệu nhập khẩu thành công!';
