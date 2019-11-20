@@ -161,7 +161,7 @@ $(document).ready(function() {
                 url: "<?php echo base_url();?>payslip/",
                 type: 'POST',
                 data: {
-                    date: '2019-10-1'
+                    date: $('#salarydate').val()
                 
                 },
                 dataType : 'json',
