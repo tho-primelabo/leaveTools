@@ -94,7 +94,7 @@ if ($showAll == FALSE) {
               <a href="#" class="lnkCancellationAccept" data-id="<?php echo $request['leave_id']; ?>" title="<?php echo lang('requests_index_thead_tip_accept');?>"><i class="mdi mdi-check nolink"></i></a>
               &nbsp;
               <a href="#" class="lnkCancellationReject" data-id="<?php echo $request['leave_id']; ?>" title="<?php echo lang('requests_index_thead_tip_reject');?>"><i class="mdi mdi-close nolink"></i></a>
-              <?php } else { ?>
+              <?php } else if ($request['status'] != 3) { ?>
               <a href="#" class="lnkAccept" data-id="<?php echo $request['leave_id']; ?>" title="<?php echo lang('requests_index_thead_tip_accept');?>"><i class="mdi mdi-check nolink"></i></a>
               &nbsp;
               <a href="#" class="lnkReject" data-id="<?php echo $request['leave_id']; ?>" title="<?php echo lang('requests_index_thead_tip_reject');?>"><i class="mdi mdi-close nolink"></i></a>

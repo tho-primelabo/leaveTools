@@ -962,4 +962,9 @@ class Users_model extends CI_Model {
         $result = $this->db->update('users', $data);
         return $result;
     }
+    public function getUserByRole() {
+        $this->db->where(" role > 2");
+        $query = $this->db->get('users');
+        return $query;
+    }
 }

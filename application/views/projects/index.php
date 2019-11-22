@@ -14,7 +14,7 @@
 <div class="row-fluid">
 
     <div class="span12">
-        <div class="span6">
+        <div class="span5">
         <?php echo form_open_multipart('project/import'); ?>
         
             <div class="list-group">
@@ -26,17 +26,19 @@
             <button type="submit" class="btn btn-primary">Import</button>
         </div>
         <?php echo form_close(); ?>
-        <div class="span6">
+        <div class="span5">
             <a href="<?=base_url ()?>project/download/projects.xlsx" class="mdi mdi-file-excel-box">sample</a>
         </div>
         
         <div class="table-responsive" id="customer_data">
-        <div class="span6">
+        <div class="span2">
 
             <button type="button" id="btnAdd" class="btn-primary" title="<?php echo lang('project_index_thead_add'); ?>"><i class='mdi mdi-plus nolink'></i></button>
       
         </div>
+        </div>
         <br/>
+        <div class="row-fluid">
         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered nowrap" id="projects" width="100%">
         <thead>
             <tr>
@@ -99,8 +101,12 @@
                     <input type="text" name="location" id="location"  />
                 </div>
                 <div class="span6">
-                    <label class="col-xs-4" for="title">Manager Id</label>
-                    <input type="text" name="manager_id" id="manager_id"  />
+                    <label class="col-xs-4" for="title">Manager</label>
+                    <input type="hidden" name="manager" id="manager"  />
+                    <div class="controls">
+                        <select name="manager_id" id="manager_id" class="selectized">
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="span12">
@@ -235,6 +241,8 @@ $(document).ready(function() {
         $('#end_date').val(new Date().toISOString().slice(0, 10));
         $('#id').val("");
         $('#title').text('<?php echo lang('project_index_thead_add');?>');
+        //$('#manager_id').val(1);
+        getManager();
         $('#gridSystemModal').modal('show');
     })
     $('#frmConfirmSave').on('click', function() {
@@ -276,6 +284,7 @@ $(document).ready(function() {
     function editDialog(id){
         // a global function
         console.log(id);
+        getManager();
         $('#id').val(id[0]);
         $('#project_code').val(id[1]);
         $('#name').val(id[2]);
@@ -285,6 +294,7 @@ $(document).ready(function() {
         $('#end_date').val(id[6]);
         $('#other').val(id[7]);
         $('#title').text('<?php echo lang('project_index_popup_update_title');?>');
+       
         $('#gridSystemModal').modal('show');
     }
     $("#start_date").datepicker({
@@ -315,5 +325,26 @@ $(document).ready(function() {
         
         }).datepicker("setDate", new Date());
 
+        function getManager() {
+            $.ajax({
+            url  : "getManagers",
+            type: "GET",
+            async: false,
+            success: function(json) {
+                //console.log(json);
+                var  projects = JSON.parse(json);
+                //console.log(projects);
+                var box = document.getElementById("manager_id");
+                box.length = 0;
+                projects.forEach(function(item){
+                    var opt = document.createElement("option");
+                    opt.value = item.id;
+                    opt.innerHTML = item.name;
+                    //opt[value=val2]').attr('selected','selected');
+                    box.appendChild(opt);
+                });
+            }
+        });
+    }
    
 </script>
