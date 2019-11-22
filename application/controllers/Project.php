@@ -26,6 +26,7 @@ class Project extends CI_Controller
         setUserContext($this);
         $this->lang->load('project', $this->language);
         $this->load->model('project_model');
+        $this->load->model('users_model');
         $this->load->model('rooms_model');
         $this->load->helper('form'); 
         $this->load->helper('download');
@@ -86,6 +87,25 @@ class Project extends CI_Controller
                 "id" => $r->id,
                 "name" => $r->name,               
                 "project_code" => $r->project_code
+            );
+        }
+
+     echo json_encode($data_events);
+     exit();
+       
+    }
+    public function getManagers()
+    {
+        $projects = $this->users_model->getUserByRole();
+        //print_r($projects);die();
+        $data_events = array();
+
+        foreach($projects->result() as $r) {
+
+            $data_events[] = array(
+                "id" => $r->id,
+                "name" => $r->firstname   
+               
             );
         }
 
@@ -263,18 +283,12 @@ class Project extends CI_Controller
 
         $this->auth->checkIfOperationIsAllowed('delete_booking');
         return $this->project_model->delete($id);
-        //$this->loadData();
-        
-        // $uid = $this->booking_model->getUidById();
-        // $uidSession = $this->session->userdata('id');
-        // //echo $uid;echo ' '.$uidSession;die();
-        // if ($uid == $uidSession) {
-        //     $data = $this->booking_model->delete();
+    }
+    public function getManager()
+    {
 
-        //     $this->session->set_flashdata('msg', lang('contract_delete_msg_success'));
-        //     echo json_encode($data);
-        // }
-        //redirect('booking');
+        $this->auth->checkIfOperationIsAllowed('delete_booking');
+        return $this->users_model->getUserByRole();
     }
 
     public function download($fileName = NULL) {   
